@@ -9,8 +9,9 @@ use crate::backend::{Backend, HasBindCollector};
 use crate::query_builder::bind_collector::RawBytesBindCollector;
 use crate::query_builder::BindCollector;
 
+#[doc(inline)]
 #[cfg(feature = "postgres_backend")]
-pub use crate::pg::serialize::*;
+pub use crate::pg::serialize::WriteTuple;
 
 /// A specialized result type representing the result of serializing
 /// a value for the database.
@@ -233,6 +234,37 @@ where
 ///     }
 /// }
 /// ```
+///
+/// Only backends that use the [`RawBytesBindCollector`] as [`BindCollector`]
+/// support serializing temporary values. For these it is required to call
+/// [`Output::reborrow`] to shorten the lifetime of the `Output` type correspondenly.
+///
+/// ```
+/// # use diesel::backend::Backend;
+/// # use diesel::expression::AsExpression;
+/// # use diesel::sql_types::*;
+/// # use diesel::serialize::{self, ToSql, Output};
+/// # use std::io::Write;
+/// #
+/// #[repr(i32)]
+/// #[derive(Debug, Clone, Copy, AsExpression)]
+/// #[diesel(sql_type = Integer)]
+/// pub enum MyEnum {
+///     A = 1,
+///     B = 2,
+/// }
+///
+/// # #[cfg(feature = "postgres")]
+/// impl ToSql<Integer, diesel::pg::Pg> for MyEnum
+/// where
+///     i32: ToSql<Integer, diesel::pg::Pg>,
+/// {
+///     fn to_sql<'b>(&'b self, out: &mut Output<'b, '_, diesel::pg::Pg>) -> serialize::Result {
+///         let v = *self as i32;
+///         <i32 as ToSql<Integer, diesel::pg::Pg>>::to_sql(&v, out.reborrow())
+///     }
+/// }
+/// ````
 pub trait ToSql<A, DB: Backend>: fmt::Debug {
     /// See the trait documentation.
     fn to_sql<'b>(&'b self, out: &mut Output<'b, '_, DB>) -> Result;
