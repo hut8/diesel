@@ -191,13 +191,13 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="ident">SqliteValue</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">row</span>: <span class="ident">Ref</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">PrivateSqliteRow</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">col_idx</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">row</span>: <span class="ident">Ref</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">PrivateSqliteRow</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">col_idx</span>: <span class="ident">i32</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">row</span> {
-            <span class="ident">PrivateSqliteRow::Direct</span>(<span class="ident">stmt</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">stmt</span>.<span class="ident">column_value</span>(<span class="ident">col_idx</span>)<span class="question-mark">?</span>,
-            <span class="ident">PrivateSqliteRow::Duplicated</span> { <span class="ident">values</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">PrivateSqliteRow::Direct</span>(<span class="ident">stmt</span>) =&gt; <span class="ident">stmt</span>.<span class="ident">column_value</span>(<span class="ident">col_idx</span>)<span class="question-mark">?</span>,
+            <span class="ident">PrivateSqliteRow::Duplicated</span> { <span class="ident">values</span>, .. } =&gt; {
                 <span class="ident">values</span>.<span class="ident">get</span>(<span class="ident">col_idx</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">as_ref</span>())<span class="question-mark">?</span>.<span class="ident">value</span>
             }
-            <span class="ident">PrivateSqliteRow::TemporaryEmpty</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">PrivateSqliteRow::TemporaryEmpty</span> =&gt; {
                 <span class="comment">// This cannot happen as this is only a temproray state</span>
                 <span class="comment">// used inside of `StatementIterator::next()`</span>
                 <span class="macro">unreachable!</span>(
@@ -217,7 +217,7 @@
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_string</span><span class="op">&lt;</span><span class="lifetime">&#39;c</span>, <span class="ident">R</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;c</span> <span class="self">self</span>, <span class="ident">f</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;c</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">R</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_string</span><span class="op">&lt;</span><span class="lifetime">&#39;c</span>, <span class="ident">R</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;c</span> <span class="self">self</span>, <span class="ident">f</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;c</span> <span class="ident">str</span>) -&gt; <span class="ident">R</span>) -&gt; <span class="ident">R</span> {
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">ffi::sqlite3_value_text</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">as_ptr</span>());
             <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">ffi::sqlite3_value_bytes</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">as_ptr</span>());
@@ -229,15 +229,15 @@
         <span class="ident">f</span>(<span class="ident">s</span>)
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_text</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_text</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
         <span class="self">self</span>.<span class="ident">parse_string</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>)
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_blob</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_blob</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">ffi::sqlite3_value_blob</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">as_ptr</span>());
             <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">ffi::sqlite3_value_bytes</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">as_ptr</span>());
-            <span class="kw">if</span> <span class="ident">len</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">len</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="comment">// rusts std-lib has an debug_assert that prevents creating</span>
                 <span class="comment">// slices without elements from a pointer</span>
                 <span class="kw-2">&amp;</span>[]
@@ -247,28 +247,28 @@
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_integer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_integer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">i32</span> {
         <span class="kw">unsafe</span> { <span class="ident">ffi::sqlite3_value_int</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">as_ptr</span>()) }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_long</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i64</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_long</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">i64</span> {
         <span class="kw">unsafe</span> { <span class="ident">ffi::sqlite3_value_int64</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">as_ptr</span>()) }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_double</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f64</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_double</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">f64</span> {
         <span class="kw">unsafe</span> { <span class="ident">ffi::sqlite3_value_double</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">as_ptr</span>()) }
     }
 
     <span class="doccomment">/// Get the type of the value as returned by sqlite</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">value_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SqliteType</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">value_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SqliteType</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">tpe</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ffi::sqlite3_value_type</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">as_ptr</span>()) };
         <span class="kw">match</span> <span class="ident">tpe</span> {
-            <span class="ident">ffi::SQLITE_TEXT</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">SqliteType::Text</span>),
-            <span class="ident">ffi::SQLITE_INTEGER</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">SqliteType::Long</span>),
-            <span class="ident">ffi::SQLITE_FLOAT</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">SqliteType::Double</span>),
-            <span class="ident">ffi::SQLITE_BLOB</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">SqliteType::Binary</span>),
-            <span class="ident">ffi::SQLITE_NULL</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(
+            <span class="ident">ffi::SQLITE_TEXT</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">SqliteType::Text</span>),
+            <span class="ident">ffi::SQLITE_INTEGER</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">SqliteType::Long</span>),
+            <span class="ident">ffi::SQLITE_FLOAT</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">SqliteType::Double</span>),
+            <span class="ident">ffi::SQLITE_BLOB</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">SqliteType::Binary</span>),
+            <span class="ident">ffi::SQLITE_NULL</span> =&gt; <span class="prelude-val">None</span>,
+            <span class="kw">_</span> =&gt; <span class="macro">unreachable!</span>(
                 <span class="string">&quot;Sqlite&#39;s documentation state that this case ({}) is not reachable. \
                  If you ever see this error message please open an issue at \
                  https://github.com/diesel-rs/diesel.&quot;</span>
@@ -278,9 +278,9 @@
 }
 
 <span class="kw">impl</span> <span class="ident">OwnedSqliteValue</span> {
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">copy_from_ptr</span>(<span class="ident">ptr</span>: <span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">ffi::sqlite3_value</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">OwnedSqliteValue</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">copy_from_ptr</span>(<span class="ident">ptr</span>: <span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">ffi::sqlite3_value</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">OwnedSqliteValue</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">tpe</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ffi::sqlite3_value_type</span>(<span class="ident">ptr</span>.<span class="ident">as_ptr</span>()) };
-        <span class="kw">if</span> <span class="ident">ffi::SQLITE_NULL</span> <span class="op">=</span><span class="op">=</span> <span class="ident">tpe</span> {
+        <span class="kw">if</span> <span class="ident">ffi::SQLITE_NULL</span> <span class="op">==</span> <span class="ident">tpe</span> {
             <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ffi::sqlite3_value_dup</span>(<span class="ident">ptr</span>.<span class="ident">as_ptr</span>()) };
@@ -289,7 +289,7 @@
         })
     }
 
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">duplicate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OwnedSqliteValue</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">duplicate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">OwnedSqliteValue</span> {
         <span class="comment">// self.value is a `NonNull` ptr so this cannot be null</span>
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ffi::sqlite3_value_dup</span>(<span class="self">self</span>.<span class="ident">value</span>.<span class="ident">as_ptr</span>()) };
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">NonNull::new</span>(<span class="ident">value</span>).<span class="ident">expect</span>(

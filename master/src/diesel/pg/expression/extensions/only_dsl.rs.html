@@ -54,7 +54,7 @@
 <span class="doccomment">/// tables.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">OnlyDsl</span>: <span class="ident">AsQuery</span> <span class="op">+</span> <span class="ident">Sized</span> {
     <span class="doccomment">/// See the trait-level docs.</span>
-    <span class="kw">fn</span> <span class="ident">only</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="kw">crate</span>::dsl::SelectFromOnly</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">only</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="kw">crate</span>::dsl::SelectFromOnly</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident">SelectStatement::simple</span>(<span class="ident">Only</span> { <span class="ident">query</span>: <span class="self">self</span> })
     }
 }

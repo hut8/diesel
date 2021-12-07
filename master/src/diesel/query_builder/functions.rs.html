@@ -665,7 +665,7 @@
 <span class="doccomment">/// # #[cfg(not(feature = &quot;postgres&quot;))]</span>
 <span class="doccomment">/// # fn main() {}</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IntoUpdateTarget</span><span class="op">&gt;</span>(<span class="ident">source</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UpdateStatement</span><span class="op">&lt;</span><span class="ident">T::Table</span>, <span class="ident">T::WhereClause</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IntoUpdateTarget</span><span class="op">&gt;</span>(<span class="ident">source</span>: <span class="ident">T</span>) -&gt; <span class="ident">UpdateStatement</span><span class="op">&lt;</span><span class="ident">T::Table</span>, <span class="ident">T::WhereClause</span><span class="op">&gt;</span> {
     <span class="ident">UpdateStatement::new</span>(<span class="ident">source</span>.<span class="ident">into_update_target</span>())
 }
 
@@ -717,7 +717,7 @@
 <span class="doccomment">/// # Ok(())</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">delete</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IntoUpdateTarget</span><span class="op">&gt;</span>(<span class="ident">source</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DeleteStatement</span><span class="op">&lt;</span><span class="ident">T::Table</span>, <span class="ident">T::WhereClause</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">delete</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IntoUpdateTarget</span><span class="op">&gt;</span>(<span class="ident">source</span>: <span class="ident">T</span>) -&gt; <span class="ident">DeleteStatement</span><span class="op">&lt;</span><span class="ident">T::Table</span>, <span class="ident">T::WhereClause</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">target</span> <span class="op">=</span> <span class="ident">source</span>.<span class="ident">into_update_target</span>();
     <span class="ident">DeleteStatement::new</span>(<span class="ident">target</span>.<span class="ident">table</span>, <span class="ident">target</span>.<span class="ident">where_clause</span>)
 }
@@ -990,7 +990,7 @@
 <span class="doccomment">/// # #[cfg(not(feature = &quot;postgres&quot;))]</span>
 <span class="doccomment">/// # fn main() {}</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">insert_into</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">target</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IncompleteInsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Insert</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">insert_into</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">target</span>: <span class="ident">T</span>) -&gt; <span class="ident">IncompleteInsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Insert</span><span class="op">&gt;</span> {
     <span class="ident">IncompleteInsertStatement::new</span>(<span class="ident">target</span>, <span class="ident">Insert</span>)
 }
 
@@ -1041,14 +1041,14 @@
 <span class="doccomment">/// #     Ok(())</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">insert_or_ignore_into</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">target</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IncompleteInsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">InsertOrIgnore</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">insert_or_ignore_into</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">target</span>: <span class="ident">T</span>) -&gt; <span class="ident">IncompleteInsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">InsertOrIgnore</span><span class="op">&gt;</span> {
     <span class="ident">IncompleteInsertStatement::new</span>(<span class="ident">target</span>, <span class="ident">InsertOrIgnore</span>)
 }
 
 <span class="doccomment">/// Creates a bare select statement, with no from clause. Primarily used for</span>
 <span class="doccomment">/// testing diesel itself, but likely useful for third party crates as well. The</span>
 <span class="doccomment">/// given expressions must be selectable from anywhere.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">select</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">expression</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="kw">crate</span>::dsl::BareSelect</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">select</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">expression</span>: <span class="ident">T</span>) -&gt; <span class="ident"><span class="kw">crate</span>::dsl::BareSelect</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Expression</span>,
     <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::query_builder::select_statement::NoFromClause</span><span class="op">&gt;</span>: <span class="ident">SelectDsl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
@@ -1091,7 +1091,7 @@
 <span class="doccomment">/// assert_eq!(Ok(vec![&quot;Jim&quot;.into(), &quot;Tess&quot;.into()]), names);</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// # #[cfg(feature = &quot;postgres&quot;)] fn main() {}</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replace_into</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">target</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IncompleteInsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Replace</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replace_into</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">target</span>: <span class="ident">T</span>) -&gt; <span class="ident">IncompleteInsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Replace</span><span class="op">&gt;</span> {
     <span class="ident">IncompleteInsertStatement::new</span>(<span class="ident">target</span>, <span class="ident">Replace</span>)
 }
 
@@ -1177,7 +1177,7 @@
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// [`SqlQuery::bind()`]: crate::query_builder::SqlQuery::bind()</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sql_query</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">query</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SqlQuery</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sql_query</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">query</span>: <span class="ident">T</span>) -&gt; <span class="ident">SqlQuery</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="ident">SqlQuery::new</span>((), <span class="ident">query</span>.<span class="ident">into</span>())
 }
 </code></pre></div>

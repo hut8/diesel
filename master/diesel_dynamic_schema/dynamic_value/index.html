@@ -35,7 +35,7 @@ specified number of fields from the database.</p>
 }
 
 <span class="kw">impl</span> <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Any</span>, <span class="ident">diesel::pg::Pg</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MyDynamicValue</span> {
-   <span class="kw">fn</span> <span class="ident">from_sql</span>(<span class="ident">value</span>: <span class="ident">diesel::pg::PgValue</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+   <span class="kw">fn</span> <span class="ident">from_sql</span>(<span class="ident">value</span>: <span class="ident">diesel::pg::PgValue</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
        <span class="kw">use</span> <span class="ident">diesel::pg::Pg</span>;
        <span class="kw">use</span> <span class="ident">std::num::NonZeroU32</span>;
 
@@ -44,26 +44,26 @@ specified number of fields from the database.</p>
        <span class="kw">const</span> <span class="ident">INTEGER_OID</span>: <span class="ident">NonZeroU32</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">NonZeroU32::new_unchecked</span>(<span class="number">23</span>) };
 
        <span class="kw">match</span> <span class="ident">value</span>.<span class="ident">get_oid</span>() {
-           <span class="ident">VARCHAR_OID</span> <span class="op">|</span> <span class="ident">TEXT_OID</span> <span class="op">=</span><span class="op">&gt;</span> {
+           <span class="ident">VARCHAR_OID</span> <span class="op">|</span> <span class="ident">TEXT_OID</span> =&gt; {
                <span class="op">&lt;</span><span class="ident">String</span> <span class="kw">as</span> <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">diesel::sql_types::Text</span>, <span class="ident">Pg</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::from_sql</span>(<span class="ident">value</span>)
                    .<span class="ident">map</span>(<span class="ident">MyDynamicValue::String</span>)
            }
-           <span class="ident">INTEGER_OID</span> <span class="op">=</span><span class="op">&gt;</span> <span class="op">&lt;</span><span class="ident">i32</span> <span class="kw">as</span> <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">diesel::sql_types::Integer</span>, <span class="ident">Pg</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::from_sql</span>(<span class="ident">value</span>)
+           <span class="ident">INTEGER_OID</span> =&gt; <span class="op">&lt;</span><span class="ident">i32</span> <span class="kw">as</span> <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">diesel::sql_types::Integer</span>, <span class="ident">Pg</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::from_sql</span>(<span class="ident">value</span>)
                .<span class="ident">map</span>(<span class="ident">MyDynamicValue::Integer</span>),
-           <span class="ident">e</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Unknown type: {}&quot;</span>, <span class="ident">e</span>).<span class="ident">into</span>()),
+           <span class="ident">e</span> =&gt; <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Unknown type: {}&quot;</span>, <span class="ident">e</span>).<span class="ident">into</span>()),
        }
    }
 }</code></pre></div>
 </div></details><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
-<div class="item-table"><div class="item-left module-item"><a class="struct" href="struct.Any.html" title="diesel_dynamic_schema::dynamic_value::Any struct">Any</a></div><div class="item-right docblock-short"><p>A marker type used to indicate that
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Any.html" title="diesel_dynamic_schema::dynamic_value::Any struct">Any</a></div><div class="item-right docblock-short"><p>A marker type used to indicate that
 the provided <code>FromSql</code> impl does handle
 any passed database value, independently
 from the actual value kind</p>
-</div><div class="item-left module-item"><a class="struct" href="struct.DynamicRow.html" title="diesel_dynamic_schema::dynamic_value::DynamicRow struct">DynamicRow</a></div><div class="item-right docblock-short"><p>A dynamically sized container that allows to receive
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.DynamicRow.html" title="diesel_dynamic_schema::dynamic_value::DynamicRow struct">DynamicRow</a></div><div class="item-right docblock-short"><p>A dynamically sized container that allows to receive
 a not at compile time known number of columns from the database</p>
-</div><div class="item-left module-item"><a class="struct" href="struct.NamedField.html" title="diesel_dynamic_schema::dynamic_value::NamedField struct">NamedField</a></div><div class="item-right docblock-short"><p>A helper struct used as field type in <code>DynamicRow</code>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.NamedField.html" title="diesel_dynamic_schema::dynamic_value::NamedField struct">NamedField</a></div><div class="item-right docblock-short"><p>A helper struct used as field type in <code>DynamicRow</code>
 to also return the name of the field along with the
 value</p>
-</div></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="diesel_dynamic_schema" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+</div></div></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="diesel_dynamic_schema" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
     <script src="../../main.js"></script>
 </body></html>

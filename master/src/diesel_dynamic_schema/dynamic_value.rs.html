@@ -669,7 +669,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="ident">FromIterator</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DynamicRow</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from_iter</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">iter</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
+    <span class="kw">fn</span> <span class="ident">from_iter</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">iter</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">I</span><span class="op">&gt;</span>,
     {
@@ -683,17 +683,17 @@
     <span class="doccomment">/// Get the field value at the provided row index</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns `None` if the index is outside the bounds of the row</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">I</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">I</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">values</span>.<span class="ident">get</span>(<span class="ident">index</span>)
     }
 
     <span class="doccomment">/// Get the number of fields in the current row</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">values</span>.<span class="ident">len</span>()
     }
 
     <span class="doccomment">/// Check if the current row is empty</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">values</span>.<span class="ident">is_empty</span>()
     }
 
@@ -701,7 +701,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function is mostly useful for third party backends adding</span>
     <span class="doccomment">/// support for `diesel_dynamic_schema`</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_row</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">Row</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_row</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">Row</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">DB</span>: <span class="ident">Backend</span>,
         <span class="ident">I</span>: <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Any</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
@@ -724,10 +724,10 @@
     <span class="doccomment">/// Returns `None` if the field with the specified name is not found.</span>
     <span class="doccomment">/// If there are multiple fields with the same name, the behaviour</span>
     <span class="doccomment">/// of this function is unspecified.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_by_name</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">name</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">I</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_by_name</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">name</span>: <span class="ident">S</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">I</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">values</span>
             .<span class="ident">iter</span>()
-            .<span class="ident">find</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">name</span>.<span class="ident">as_ref</span>())
+            .<span class="ident">find</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">name</span>.<span class="ident">as_ref</span>())
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">f</span>.<span class="ident">value</span>)
     }
 }
@@ -738,7 +738,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function is mostly useful for third party backends adding</span>
     <span class="doccomment">/// support for `diesel_dynamic_schema`</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_nullable_row</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">Row</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_nullable_row</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">Row</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">DB</span>: <span class="ident">Backend</span>,
         <span class="ident">I</span>: <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Any</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
@@ -748,9 +748,9 @@
                 <span class="kw">let</span> <span class="ident">field</span> <span class="op">=</span> <span class="ident">Row::get</span>(<span class="ident">row</span>, <span class="ident">i</span>).<span class="ident">expect</span>(<span class="string">&quot;We checked the field count above&quot;</span>);
 
                 <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">I::from_nullable_sql</span>(<span class="ident">field</span>.<span class="ident">value</span>()) {
-                    <span class="prelude-val">Ok</span>(<span class="ident">o</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">o</span>),
-                    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">is</span>::<span class="op">&lt;</span><span class="ident">diesel::result::UnexpectedNullError</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-                    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+                    <span class="prelude-val">Ok</span>(<span class="ident">o</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">o</span>),
+                    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">is</span>::<span class="op">&lt;</span><span class="ident">diesel::result::UnexpectedNullError</span><span class="op">&gt;</span>() =&gt; <span class="prelude-val">None</span>,
+                    <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
                 };
 
                 <span class="prelude-val">Ok</span>(<span class="ident">NamedField</span> {
@@ -771,7 +771,7 @@
 <span class="kw">where</span>
     <span class="ident">I</span>: <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Any</span>, <span class="ident">diesel::pg::Pg</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">diesel::pg::Pg</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">diesel::pg::Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident"><span class="self">Self</span>::from_row</span>(<span class="ident">row</span>)
     }
 }
@@ -781,7 +781,7 @@
 <span class="kw">where</span>
     <span class="ident">I</span>: <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Any</span>, <span class="ident">diesel::mysql::Mysql</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">diesel::mysql::Mysql</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">diesel::mysql::Mysql</span><span class="op">&gt;</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident"><span class="self">Self</span>::from_row</span>(<span class="ident">row</span>)
     }
 }
@@ -791,7 +791,7 @@
 <span class="kw">where</span>
     <span class="ident">I</span>: <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Any</span>, <span class="ident">diesel::sqlite::Sqlite</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">diesel::sqlite::Sqlite</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">diesel::sqlite::Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident"><span class="self">Self</span>::from_row</span>(<span class="ident">row</span>)
     }
 }
@@ -801,15 +801,15 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">I</span>: <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Any</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> (<span class="number">0</span>..<span class="ident">row</span>.<span class="ident">field_count</span>())
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> {
                 <span class="kw">let</span> <span class="ident">field</span> <span class="op">=</span> <span class="ident">Row::get</span>(<span class="ident">row</span>, <span class="ident">i</span>).<span class="ident">expect</span>(<span class="string">&quot;We checked the field count above&quot;</span>);
 
                 <span class="kw">match</span> <span class="ident">I::from_nullable_sql</span>(<span class="ident">field</span>.<span class="ident">value</span>()) {
-                    <span class="prelude-val">Ok</span>(<span class="ident">o</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">o</span>)),
-                    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">is</span>::<span class="op">&lt;</span><span class="ident">diesel::result::UnexpectedNullError</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
-                    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+                    <span class="prelude-val">Ok</span>(<span class="ident">o</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">o</span>)),
+                    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">is</span>::<span class="op">&lt;</span><span class="ident">diesel::result::UnexpectedNullError</span><span class="op">&gt;</span>() =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
+                    <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">e</span>),
                 }
             })
             .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
@@ -823,7 +823,7 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">I</span>: <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Any</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> (<span class="number">0</span>..<span class="ident">row</span>.<span class="ident">field_count</span>())
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> {
                 <span class="kw">let</span> <span class="ident">field</span> <span class="op">=</span> <span class="ident">Row::get</span>(<span class="ident">row</span>, <span class="ident">i</span>).<span class="ident">expect</span>(<span class="string">&quot;We checked the field count above&quot;</span>);
@@ -848,7 +848,7 @@
 <span class="kw">where</span>
     <span class="ident">I</span>: <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Any</span>, <span class="ident">diesel::pg::Pg</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">diesel::pg::Pg</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">diesel::pg::Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident"><span class="self">Self</span>::from_nullable_row</span>(<span class="ident">row</span>)
     }
 }
@@ -858,7 +858,7 @@
 <span class="kw">where</span>
     <span class="ident">I</span>: <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Any</span>, <span class="ident">diesel::mysql::Mysql</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">diesel::mysql::Mysql</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">diesel::mysql::Mysql</span><span class="op">&gt;</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident"><span class="self">Self</span>::from_nullable_row</span>(<span class="ident">row</span>)
     }
 }
@@ -868,7 +868,7 @@
 <span class="kw">where</span>
     <span class="ident">I</span>: <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Any</span>, <span class="ident">diesel::sqlite::Sqlite</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">diesel::sqlite::Sqlite</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">build</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">NamedRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">diesel::sqlite::Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident"><span class="self">Self</span>::from_nullable_row</span>(<span class="ident">row</span>)
     }
 }
@@ -876,7 +876,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="ident">Index</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DynamicRow</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">I</span>;
 
-    <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">values</span>[<span class="ident">index</span>]
     }
 }
@@ -884,10 +884,10 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span><span class="op">&gt;</span> <span class="ident">Index</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DynamicRow</span><span class="op">&lt;</span><span class="ident">NamedField</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">I</span>;
 
-    <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">field_name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">field_name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">values</span>
             .<span class="ident">iter</span>()
-            .<span class="ident">find</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">field_name</span>)
+            .<span class="ident">find</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">field_name</span>)
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">f</span>.<span class="ident">value</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Field not found&quot;</span>)
     }
@@ -896,7 +896,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span><span class="op">&gt;</span> <span class="ident">Index</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">String</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DynamicRow</span><span class="op">&lt;</span><span class="ident">NamedField</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">I</span>;
 
-    <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">field_name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">field_name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">String</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">index</span>(<span class="ident">field_name</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="ident">str</span>)
     }
 }
@@ -904,7 +904,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="ident">Index</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DynamicRow</span><span class="op">&lt;</span><span class="ident">NamedField</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">I</span>;
 
-    <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">field_name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">field_name</span>: <span class="ident">String</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="ident">field_name</span>)
     }
 }
@@ -913,7 +913,7 @@
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">V</span>;
     <span class="kw">type</span> <span class="ident">IntoIter</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">IntoIterator</span><span class="op">&gt;</span><span class="ident">::IntoIter</span>;
 
-    <span class="kw">fn</span> <span class="ident">into_iter</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::IntoIter</span> {
+    <span class="kw">fn</span> <span class="ident">into_iter</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::IntoIter</span> {
         <span class="self">self</span>.<span class="ident">values</span>.<span class="ident">into_iter</span>()
     }
 }
@@ -922,7 +922,7 @@
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">V</span>;
     <span class="kw">type</span> <span class="ident">IntoIter</span> <span class="op">=</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">IntoIterator</span><span class="op">&gt;</span><span class="ident">::IntoIter</span>;
 
-    <span class="kw">fn</span> <span class="ident">into_iter</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::IntoIter</span> {
+    <span class="kw">fn</span> <span class="ident">into_iter</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::IntoIter</span> {
         <span class="self">self</span>.<span class="ident">values</span>.<span class="ident">iter</span>()
     }
 }

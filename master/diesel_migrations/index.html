@@ -15,18 +15,18 @@ you use the timestamp of creation for the version.</p>
 and executed with code, for example right after establishing a database connection.
 For more information, consult the <a href="macro.embed_migrations.html" title="embed_migrations!"><code>embed_migrations!</code></a> macro.</p>
 </div></details><h2 id="macros" class="section-header"><a href="#macros">Macros</a></h2>
-<div class="item-table"><div class="item-left module-item"><a class="macro" href="macro.embed_migrations.html" title="diesel_migrations::embed_migrations macro">embed_migrations</a></div><div class="item-right docblock-short"><p>This macro will read your migrations at compile time, and create a constant value containing
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.embed_migrations.html" title="diesel_migrations::embed_migrations macro">embed_migrations</a></div><div class="item-right docblock-short"><p>This macro will read your migrations at compile time, and create a constant value containing
 an embedded list of all your migrations as available at compile time.
 This is useful if you would like to use Diesel’s migration infrastructure, but want to ship a single executable
 file (such as for embedded applications). It can also be used to apply migrations to an in
 memory database (Diesel does this for its own test suite).</p>
-</div></div><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
-<div class="item-table"><div class="item-left module-item"><a class="struct" href="struct.EmbeddedMigrations.html" title="diesel_migrations::EmbeddedMigrations struct">EmbeddedMigrations</a></div><div class="item-right docblock-short"><p>A migration source that embeds migrations into the final binary</p>
-</div><div class="item-left module-item"><a class="struct" href="struct.FileBasedMigrations.html" title="diesel_migrations::FileBasedMigrations struct">FileBasedMigrations</a></div><div class="item-right docblock-short"><p>A migration source based on a migration directory in the file system</p>
-</div><div class="item-left module-item"><a class="struct" href="struct.HarnessWithOutput.html" title="diesel_migrations::HarnessWithOutput struct">HarnessWithOutput</a></div><div class="item-right docblock-short"><p>A migration harness that writes messages
+</div></div></div><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.EmbeddedMigrations.html" title="diesel_migrations::EmbeddedMigrations struct">EmbeddedMigrations</a></div><div class="item-right docblock-short"><p>A migration source that embeds migrations into the final binary</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.FileBasedMigrations.html" title="diesel_migrations::FileBasedMigrations struct">FileBasedMigrations</a></div><div class="item-right docblock-short"><p>A migration source based on a migration directory in the file system</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.HarnessWithOutput.html" title="diesel_migrations::HarnessWithOutput struct">HarnessWithOutput</a></div><div class="item-right docblock-short"><p>A migration harness that writes messages
 into some output for each applied/reverted migration</p>
-</div></div><h2 id="traits" class="section-header"><a href="#traits">Traits</a></h2>
-<div class="item-table"><div class="item-left module-item"><a class="trait" href="trait.MigrationHarness.html" title="diesel_migrations::MigrationHarness trait">MigrationHarness</a></div><div class="item-right docblock-short"><p>A migration harness is an entity which applies migration to an existing database</p>
-</div></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="diesel_migrations" data-search-index-js="../search-index.js" data-search-js="../search.js"></div>
+</div></div></div><h2 id="traits" class="section-header"><a href="#traits">Traits</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.MigrationHarness.html" title="diesel_migrations::MigrationHarness trait">MigrationHarness</a></div><div class="item-right docblock-short"><p>A migration harness is an entity which applies migration to an existing database</p>
+</div></div></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="diesel_migrations" data-search-index-js="../search-index.js" data-search-js="../search.js"></div>
     <script src="../main.js"></script>
 </body></html>

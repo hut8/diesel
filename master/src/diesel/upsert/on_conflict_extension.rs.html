@@ -466,7 +466,7 @@
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">on_conflict_do_nothing</span>(
         <span class="self">self</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">OnConflictValues</span><span class="op">&lt;</span><span class="ident">U::ValueClause</span>, <span class="ident">NoConflictTarget</span>, <span class="ident">DoNothing</span><span class="op">&gt;</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span>
+    ) -&gt; <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">OnConflictValues</span><span class="op">&lt;</span><span class="ident">U::ValueClause</span>, <span class="ident">NoConflictTarget</span>, <span class="ident">DoNothing</span><span class="op">&gt;</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span>
     {
         <span class="self">self</span>.<span class="ident">replace_values</span>(<span class="op">|</span><span class="ident">values</span><span class="op">|</span> <span class="ident">OnConflictValues::do_nothing</span>(<span class="ident">values</span>.<span class="ident">into_value_clause</span>()))
     }
@@ -582,7 +582,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">on_conflict</span><span class="op">&lt;</span><span class="ident">Target</span><span class="op">&gt;</span>(
         <span class="self">self</span>,
         <span class="ident">target</span>: <span class="ident">Target</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IncompleteOnConflict</span><span class="op">&lt;</span><span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U::ValueClause</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span>, <span class="ident">ConflictTarget</span><span class="op">&lt;</span><span class="ident">Target</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    ) -&gt; <span class="ident">IncompleteOnConflict</span><span class="op">&lt;</span><span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U::ValueClause</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span>, <span class="ident">ConflictTarget</span><span class="op">&lt;</span><span class="ident">Target</span><span class="op">&gt;</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">ConflictTarget</span><span class="op">&lt;</span><span class="ident">Target</span><span class="op">&gt;</span>: <span class="ident">OnConflictTarget</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     {
@@ -600,7 +600,7 @@
     <span class="ident">T</span>: <span class="ident">DecoratableTarget</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>,
 {
     <span class="kw">type</span> <span class="ident">FilterOutput</span> <span class="op">=</span> <span class="ident">IncompleteOnConflict</span><span class="op">&lt;</span><span class="ident">Stmt</span>, <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">DecoratableTarget</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::FilterOutput</span><span class="op">&gt;</span>;
-    <span class="kw">fn</span> <span class="ident">filter_target</span>(<span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::FilterOutput</span> {
+    <span class="kw">fn</span> <span class="ident">filter_target</span>(<span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">P</span>) -&gt; <span class="ident"><span class="self">Self</span>::FilterOutput</span> {
         <span class="ident">IncompleteOnConflict</span> {
             <span class="ident">stmt</span>: <span class="self">self</span>.<span class="ident">stmt</span>,
             <span class="ident">target</span>: <span class="self">self</span>.<span class="ident">target</span>.<span class="ident">filter_target</span>(<span class="ident">predicate</span>),
@@ -624,7 +624,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`on_conflict_do_nothing`]: crate::query_builder::InsertStatement::on_conflict_do_nothing()</span>
     <span class="doccomment">/// [`on_conflict`]: crate::query_builder::InsertStatement::on_conflict()</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">do_nothing</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">OnConflictValues</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">Target</span>, <span class="ident">DoNothing</span><span class="op">&gt;</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">do_nothing</span>(<span class="self">self</span>) -&gt; <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">OnConflictValues</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">Target</span>, <span class="ident">DoNothing</span><span class="op">&gt;</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">target</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">target</span>;
         <span class="self">self</span>.<span class="ident">stmt</span>
             .<span class="ident">replace_values</span>(<span class="op">|</span><span class="ident">values</span><span class="op">|</span> <span class="ident">OnConflictValues::new</span>(<span class="ident">values</span>, <span class="ident">target</span>, <span class="ident">DoNothing</span>))
@@ -747,7 +747,7 @@
     <span class="doccomment">/// # #[cfg(feature = &quot;mysql&quot;)]</span>
     <span class="doccomment">/// # fn main() {}</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">do_update</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IncompleteDoUpdate</span><span class="op">&lt;</span><span class="ident">Stmt</span>, <span class="ident">Target</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">do_update</span>(<span class="self">self</span>) -&gt; <span class="ident">IncompleteDoUpdate</span><span class="op">&lt;</span><span class="ident">Stmt</span>, <span class="ident">Target</span><span class="op">&gt;</span> {
         <span class="ident">IncompleteDoUpdate</span> {
             <span class="ident">stmt</span>: <span class="self">self</span>.<span class="ident">stmt</span>,
             <span class="ident">target</span>: <span class="self">self</span>.<span class="ident">target</span>,
@@ -769,7 +769,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set</span><span class="op">&lt;</span><span class="ident">Changes</span><span class="op">&gt;</span>(
         <span class="self">self</span>,
         <span class="ident">changes</span>: <span class="ident">Changes</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">OnConflictValues</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">Target</span>, <span class="ident">DoUpdate</span><span class="op">&lt;</span><span class="ident">Changes::Changeset</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span>
+    ) -&gt; <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">OnConflictValues</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">Target</span>, <span class="ident">DoUpdate</span><span class="op">&lt;</span><span class="ident">Changes::Changeset</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">QuerySource</span>,
         <span class="ident">Changes</span>: <span class="ident">AsChangeset</span><span class="op">&lt;</span><span class="ident">Target</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,

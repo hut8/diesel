@@ -106,7 +106,7 @@
     <span class="comment">// This method is part of our public API</span>
     <span class="comment">// we won&#39;t change it to just appease clippy</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::wrong_self_convention</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">as_changeset</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Changeset</span>;
+    <span class="kw">fn</span> <span class="ident">as_changeset</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Changeset</span>;
 }
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">inline</span>)]</span>
@@ -116,7 +116,7 @@
     <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">T::Target</span>;
     <span class="kw">type</span> <span class="ident">Changeset</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T::Changeset</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">as_changeset</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Changeset</span> {
+    <span class="kw">fn</span> <span class="ident">as_changeset</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Changeset</span> {
         <span class="self">self</span>.<span class="ident">map</span>(<span class="ident">AsChangeset::as_changeset</span>)
     }
 }
@@ -129,7 +129,7 @@
     <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">Left::Table</span>;
     <span class="kw">type</span> <span class="ident">Changeset</span> <span class="op">=</span> <span class="ident">Assign</span><span class="op">&lt;</span><span class="ident">Left</span>, <span class="ident">Right</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">as_changeset</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Changeset</span> {
+    <span class="kw">fn</span> <span class="ident">as_changeset</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Changeset</span> {
         <span class="ident">Assign</span> {
             <span class="ident">_column</span>: <span class="self">self</span>.<span class="ident">left</span>,
             <span class="ident">expr</span>: <span class="self">self</span>.<span class="ident">right</span>,
@@ -145,7 +145,7 @@
 
     <span class="kw">type</span> <span class="ident">Changeset</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">Eq</span><span class="op">&lt;</span><span class="ident">Left</span>, <span class="ident">Right</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">AsChangeset</span><span class="op">&gt;</span><span class="ident">::Changeset</span>;
 
-    <span class="kw">fn</span> <span class="ident">as_changeset</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Changeset</span> {
+    <span class="kw">fn</span> <span class="ident">as_changeset</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Changeset</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_changeset</span>()
     }
 }
@@ -162,7 +162,7 @@
     <span class="ident">T</span>: <span class="ident">Column</span>,
     <span class="ident">U</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_identifier</span>(<span class="ident">T::NAME</span>)<span class="question-mark">?</span>;
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot; = &quot;</span>);
         <span class="ident">QueryFragment::walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">expr</span>, <span class="ident">out</span>)

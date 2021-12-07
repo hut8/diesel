@@ -85,7 +85,7 @@
 <span class="comment">// for the specific limits</span>
 
 <span class="kw">impl</span> <span class="ident">Arbitrary</span> <span class="kw">for</span> <span class="ident">PgDate</span> {
-    <span class="kw">fn</span> <span class="ident">arbitrary</span>(<span class="ident">g</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Gen</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">arbitrary</span>(<span class="ident">g</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Gen</span>) -&gt; <span class="self">Self</span> {
         <span class="kw">const</span> <span class="ident">MIN_DAY</span>: <span class="ident">i32</span> <span class="op">=</span> (<span class="op">-</span><span class="number">4713</span> <span class="op">*</span> <span class="number">365</span>) <span class="op">-</span> (<span class="number">2000</span> <span class="op">*</span> <span class="number">365</span>);
         <span class="kw">const</span> <span class="ident">MAX_DAY</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">5874897</span> <span class="op">*</span> <span class="number">365</span> <span class="op">-</span> (<span class="number">2000</span> <span class="op">*</span> <span class="number">365</span>);
 
@@ -104,7 +104,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Arbitrary</span> <span class="kw">for</span> <span class="ident">PgTime</span> {
-    <span class="kw">fn</span> <span class="ident">arbitrary</span>(<span class="ident">g</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Gen</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">arbitrary</span>(<span class="ident">g</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Gen</span>) -&gt; <span class="self">Self</span> {
         <span class="comment">// 24:00:00 in microseconds</span>
         <span class="kw">const</span> <span class="ident">MAX_TIME</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">24</span> <span class="op">*</span> <span class="number">60</span> <span class="op">*</span> <span class="number">60</span> <span class="op">*</span> <span class="number">1_000_000</span>;
 
@@ -125,7 +125,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Arbitrary</span> <span class="kw">for</span> <span class="ident">PgTimestamp</span> {
-    <span class="kw">fn</span> <span class="ident">arbitrary</span>(<span class="ident">g</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Gen</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">arbitrary</span>(<span class="ident">g</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Gen</span>) -&gt; <span class="self">Self</span> {
         <span class="kw">const</span> <span class="ident">MIN_TIMESTAMP</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="op">-</span><span class="number">4713</span> <span class="op">*</span> <span class="number">365</span> <span class="op">*</span> <span class="number">24</span> <span class="op">*</span> <span class="number">60</span> <span class="op">*</span> <span class="number">60</span> <span class="op">*</span> <span class="number">100_000</span>;
         <span class="kw">const</span> <span class="ident">MAX_TIMESTAMP</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="number">294276</span> <span class="op">*</span> <span class="number">365</span> <span class="op">*</span> <span class="number">24</span> <span class="op">*</span> <span class="number">60</span> <span class="op">*</span> <span class="number">60</span> <span class="op">*</span> <span class="number">100_000</span>;
 
@@ -144,7 +144,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Arbitrary</span> <span class="kw">for</span> <span class="ident">PgInterval</span> {
-    <span class="kw">fn</span> <span class="ident">arbitrary</span>(<span class="ident">g</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Gen</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">arbitrary</span>(<span class="ident">g</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Gen</span>) -&gt; <span class="self">Self</span> {
         <span class="ident">PgInterval</span> {
             <span class="ident">microseconds</span>: <span class="ident">i64::arbitrary</span>(<span class="ident">g</span>),
             <span class="ident">days</span>: <span class="ident">i32::arbitrary</span>(<span class="ident">g</span>),

@@ -9,10 +9,10 @@ Typically these types will come from <a href="../diesel/sql_types/index.html"><c
 given, and a module with a helper type representing the return type of your
 function. For example, this invocation:</p>
 
-<div class='information'><div class='tooltip ignore'>ⓘ</div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore"><code><span class="macro">sql_function!</span>(<span class="kw">fn</span> <span class="ident">lower</span>(<span class="ident">x</span>: <span class="ident">Text</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Text</span>);</code></pre></div>
+<div class='information'><div class='tooltip ignore'>ⓘ</div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore"><code><span class="macro">sql_function!</span>(<span class="kw">fn</span> <span class="ident">lower</span>(<span class="ident">x</span>: <span class="ident">Text</span>) -&gt; <span class="ident">Text</span>);</code></pre></div>
 <p>will generate this code:</p>
 
-<div class='information'><div class='tooltip ignore'>ⓘ</div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore"><code><span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lower</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">X</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">lower::HelperType</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> {
+<div class='information'><div class='tooltip ignore'>ⓘ</div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore"><code><span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lower</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">X</span>) -&gt; <span class="ident">lower::HelperType</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> {
     ...
 }
 
@@ -30,7 +30,7 @@ structure:</p>
 
     <span class="macro">sql_function!</span> {
         <span class="doccomment">/// Represents the Pg `LENGTH` function used with `tsvector`s.</span>
-        <span class="kw">fn</span> <span class="ident">length</span>(<span class="ident">x</span>: <span class="ident">TsVector</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Integer</span>;
+        <span class="kw">fn</span> <span class="ident">length</span>(<span class="ident">x</span>: <span class="ident">TsVector</span>) -&gt; <span class="ident">Integer</span>;
     }
 }
 
@@ -45,20 +45,20 @@ structure:</p>
 }</code></pre></div>
 <p>Most attributes given to this macro will be put on the generated function
 (including doc comments).</p>
-<h1 id="adding-doc-comments" class="section-header"><a href="#adding-doc-comments">Adding Doc Comments</a></h1>
+<h2 id="adding-doc-comments" class="section-header"><a href="#adding-doc-comments">Adding Doc Comments</a></h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">diesel::sql_types::Text</span>;
 
 <span class="macro">sql_function!</span> {
     <span class="doccomment">/// Represents the `canon_crate_name` SQL function, created in</span>
     <span class="doccomment">/// migration ....</span>
-    <span class="kw">fn</span> <span class="ident">canon_crate_name</span>(<span class="ident">a</span>: <span class="ident">Text</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Text</span>;
+    <span class="kw">fn</span> <span class="ident">canon_crate_name</span>(<span class="ident">a</span>: <span class="ident">Text</span>) -&gt; <span class="ident">Text</span>;
 }
 
 <span class="kw">let</span> <span class="ident">target_name</span> <span class="op">=</span> <span class="string">&quot;diesel&quot;</span>;
 <span class="ident">crates</span>.<span class="ident">filter</span>(<span class="ident">canon_crate_name</span>(<span class="ident">name</span>).<span class="ident">eq</span>(<span class="ident">canon_crate_name</span>(<span class="ident">target_name</span>)));
 <span class="comment">// This will generate the following SQL</span>
 <span class="comment">// SELECT * FROM crates WHERE canon_crate_name(crates.name) = canon_crate_name($1)</span></code></pre></div>
-<h1 id="special-attributes" class="section-header"><a href="#special-attributes">Special Attributes</a></h1>
+<h2 id="special-attributes" class="section-header"><a href="#special-attributes">Special Attributes</a></h2>
 <p>There are a handful of special attributes that Diesel will recognize. They
 are:</p>
 <ul>
@@ -84,18 +84,18 @@ of all of this:</p>
 <span class="macro">sql_function!</span> {
     <span class="attribute">#[<span class="ident">aggregate</span>]</span>
     <span class="attribute">#[<span class="ident">sql_name</span> <span class="op">=</span> <span class="string">&quot;SUM&quot;</span>]</span>
-    <span class="kw">fn</span> <span class="ident">sum</span><span class="op">&lt;</span><span class="ident">ST</span>: <span class="ident">Foldable</span><span class="op">&gt;</span>(<span class="ident">expr</span>: <span class="ident">ST</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ST::Sum</span>;
+    <span class="kw">fn</span> <span class="ident">sum</span><span class="op">&lt;</span><span class="ident">ST</span>: <span class="ident">Foldable</span><span class="op">&gt;</span>(<span class="ident">expr</span>: <span class="ident">ST</span>) -&gt; <span class="ident">ST::Sum</span>;
 }
 
 <span class="ident">crates</span>.<span class="ident">select</span>(<span class="ident">sum</span>(<span class="ident">id</span>));</code></pre></div>
-<h1 id="sql-functions-without-arguments" class="section-header"><a href="#sql-functions-without-arguments">SQL Functions without Arguments</a></h1>
+<h2 id="sql-functions-without-arguments" class="section-header"><a href="#sql-functions-without-arguments">SQL Functions without Arguments</a></h2>
 <p>A common example is ordering a query using the <code>RANDOM()</code> sql function,
 which can be implemented using <code>sql_function!</code> like this:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">sql_function!</span>(<span class="kw">fn</span> <span class="ident">random</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Text</span>);
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">sql_function!</span>(<span class="kw">fn</span> <span class="ident">random</span>() -&gt; <span class="ident">Text</span>);
 
 <span class="ident">crates</span>.<span class="ident">order</span>(<span class="ident">random</span>());</code></pre></div>
-<h1 id="use-with-sqlite" class="section-header"><a href="#use-with-sqlite">Use with SQLite</a></h1>
+<h2 id="use-with-sqlite" class="section-header"><a href="#use-with-sqlite">Use with SQLite</a></h2>
 <p>On most backends, the implementation of the function is defined in a
 migration using <code>CREATE FUNCTION</code>. On SQLite, the function is implemented in
 Rust instead. You must call <code>register_impl</code> or
@@ -106,7 +106,7 @@ and the function is not generic. Generic functions and variadic functions
 are not supported on SQLite.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">diesel::sql_types</span>::{<span class="ident">Integer</span>, <span class="ident">Double</span>};
-<span class="macro">sql_function!</span>(<span class="kw">fn</span> <span class="ident">add_mul</span>(<span class="ident">x</span>: <span class="ident">Integer</span>, <span class="ident">y</span>: <span class="ident">Integer</span>, <span class="ident">z</span>: <span class="ident">Double</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Double</span>);
+<span class="macro">sql_function!</span>(<span class="kw">fn</span> <span class="ident">add_mul</span>(<span class="ident">x</span>: <span class="ident">Integer</span>, <span class="ident">y</span>: <span class="ident">Integer</span>, <span class="ident">z</span>: <span class="ident">Double</span>) -&gt; <span class="ident">Double</span>);
 
 <span class="kw">let</span> <span class="ident">connection</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SqliteConnection::establish</span>(<span class="string">&quot;:memory:&quot;</span>)<span class="question-mark">?</span>;
 
@@ -117,12 +117,12 @@ are not supported on SQLite.</p>
 <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">select</span>(<span class="ident">add_mul</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">1.5</span>))
     .<span class="ident">get_result</span>::<span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>(<span class="ident">connection</span>)<span class="question-mark">?</span>;
 <span class="macro">assert_eq!</span>(<span class="number">4.5</span>, <span class="ident">result</span>);</code></pre></div>
-<h2 id="panics" class="section-header"><a href="#panics">Panics</a></h2>
+<h3 id="panics" class="section-header"><a href="#panics">Panics</a></h3>
 <p>If an implementation of the custom function panics and unwinding is enabled, the panic is
 caught and the function returns to libsqlite with an error. It cannot propagate the panics due
 to the FFI bounary.</p>
 <p>This is is the same for <a href="#custom-aggregate-functions">custom aggregate functions</a>.</p>
-<h2 id="custom-aggregate-functions" class="section-header"><a href="#custom-aggregate-functions">Custom Aggregate Functions</a></h2>
+<h3 id="custom-aggregate-functions" class="section-header"><a href="#custom-aggregate-functions">Custom Aggregate Functions</a></h3>
 <p>Custom aggregate functions can be created in SQLite by adding an <code>#[aggregate]</code>
 attribute inside of <code>sql_function</code>. <code>register_impl</code> needs to be called on
 the generated function with a type implementing the
@@ -134,7 +134,7 @@ trait as a type parameter as shown in the examples below.</p>
 
 <span class="macro">sql_function!</span> {
     <span class="attribute">#[<span class="ident">aggregate</span>]</span>
-    <span class="kw">fn</span> <span class="ident">my_sum</span>(<span class="ident">x</span>: <span class="ident">Integer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Integer</span>;
+    <span class="kw">fn</span> <span class="ident">my_sum</span>(<span class="ident">x</span>: <span class="ident">Integer</span>) -&gt; <span class="ident">Integer</span>;
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
@@ -147,12 +147,12 @@ trait as a type parameter as shown in the examples below.</p>
         <span class="self">self</span>.<span class="ident">sum</span> <span class="op">+</span><span class="op">=</span> <span class="ident">expr</span>;
     }
 
-    <span class="kw">fn</span> <span class="ident">finalize</span>(<span class="ident">aggregator</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">finalize</span>(<span class="ident">aggregator</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="ident">aggregator</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">sum</span>).<span class="ident">unwrap_or_default</span>()
     }
 }
 
-<span class="kw">fn</span> <span class="ident">run</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">dyn</span> (<span class="ident">::std::error::Error</span>)<span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">run</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">dyn</span> (<span class="ident">::std::error::Error</span>)<span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">connection</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SqliteConnection::establish</span>(<span class="string">&quot;:memory:&quot;</span>)<span class="question-mark">?</span>;
 
     <span class="ident">my_sum::register_impl</span>::<span class="op">&lt;</span><span class="ident">MySum</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="ident">connection</span>)<span class="question-mark">?</span>;
@@ -171,7 +171,7 @@ trait as a type parameter as shown in the examples below.</p>
 
 <span class="macro">sql_function!</span> {
     <span class="attribute">#[<span class="ident">aggregate</span>]</span>
-    <span class="kw">fn</span> <span class="ident">range_max</span>(<span class="ident">x0</span>: <span class="ident">Float</span>, <span class="ident">x1</span>: <span class="ident">Float</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Nullable</span><span class="op">&lt;</span><span class="ident">Float</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">range_max</span>(<span class="ident">x0</span>: <span class="ident">Float</span>, <span class="ident">x1</span>: <span class="ident">Float</span>) -&gt; <span class="ident">Nullable</span><span class="op">&lt;</span><span class="ident">Float</span><span class="op">&gt;</span>;
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
@@ -184,12 +184,12 @@ trait as a type parameter as shown in the examples below.</p>
         <span class="comment">// Compare self.max_value to x0 and x1</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">finalize</span>(<span class="ident">aggregator</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">finalize</span>(<span class="ident">aggregator</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="ident">aggregator</span><span class="question-mark">?</span>.<span class="ident">max_value</span>
     }
 }
 
-<span class="kw">fn</span> <span class="ident">run</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">dyn</span> (<span class="ident">::std::error::Error</span>)<span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">run</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">dyn</span> (<span class="ident">::std::error::Error</span>)<span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">connection</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SqliteConnection::establish</span>(<span class="string">&quot;:memory:&quot;</span>)<span class="question-mark">?</span>;
 
     <span class="ident">range_max::register_impl</span>::<span class="op">&lt;</span><span class="ident">RangeMax</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="ident">connection</span>)<span class="question-mark">?</span>;

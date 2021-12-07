@@ -4,7 +4,7 @@ You can narrow this scope by calling <a href="query_builder/struct.UpdateStateme
 which will result in <code>UPDATE your_table SET ... WHERE args_to_filter</code>.</p>
 <p>Passing a type which implements <code>Identifiable</code> is the same as passing
 <code>some_table.find(some_struct.id())</code>.</p>
-<h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
+<h2 id="examples" class="section-header"><a href="#examples">Examples</a></h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let</span> <span class="ident">updated_row</span> <span class="op">=</span> <span class="ident">diesel::update</span>(<span class="ident">users</span>.<span class="ident">filter</span>(<span class="ident">id</span>.<span class="ident">eq</span>(<span class="number">1</span>)))
     .<span class="ident">set</span>(<span class="ident">name</span>.<span class="ident">eq</span>(<span class="string">&quot;James&quot;</span>))
     .<span class="ident">get_result</span>(<span class="ident">connection</span>);

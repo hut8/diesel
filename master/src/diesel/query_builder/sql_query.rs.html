@@ -341,7 +341,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Inner</span><span class="op">&gt;</span> <span class="ident">SqlQuery</span><span class="op">&lt;</span><span class="ident">Inner</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">Inner</span>, <span class="ident">query</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">Inner</span>, <span class="ident">query</span>: <span class="ident">String</span>) -&gt; <span class="self">Self</span> {
         <span class="ident">SqlQuery</span> { <span class="ident">inner</span>, <span class="ident">query</span> }
     }
 
@@ -394,7 +394,7 @@
     <span class="doccomment">/// assert_eq!(Ok(expected_users), users);</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind</span><span class="op">&lt;</span><span class="ident">ST</span>, <span class="ident">Value</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="ident">Value</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UncheckedBind</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Value</span>, <span class="ident">ST</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind</span><span class="op">&lt;</span><span class="ident">ST</span>, <span class="ident">Value</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="ident">Value</span>) -&gt; <span class="ident">UncheckedBind</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Value</span>, <span class="ident">ST</span><span class="op">&gt;</span> {
         <span class="ident">UncheckedBind::new</span>(<span class="self">self</span>, <span class="ident">value</span>)
     }
 
@@ -403,12 +403,12 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This allows doing things you otherwise couldn&#39;t do, e.g. `bind`ing in a</span>
     <span class="doccomment">/// loop.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_boxed</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BoxedSqlQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">DB</span>, <span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_boxed</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span>(<span class="self">self</span>) -&gt; <span class="ident">BoxedSqlQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">DB</span>, <span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident">BoxedSqlQuery::new</span>(<span class="self">self</span>)
     }
 
     <span class="doccomment">/// Appends a piece of SQL code at the end.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sql</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">sql</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sql</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">sql</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">query</span> <span class="op">+</span><span class="op">=</span> <span class="ident">sql</span>.<span class="ident">as_ref</span>();
         <span class="self">self</span>
     }
@@ -419,7 +419,7 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">Inner</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">unsafe_to_cache_prepared</span>();
         <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">query</span>);
@@ -450,7 +450,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Query</span>, <span class="ident">Value</span>, <span class="ident">ST</span><span class="op">&gt;</span> <span class="ident">UncheckedBind</span><span class="op">&lt;</span><span class="ident">Query</span>, <span class="ident">Value</span>, <span class="ident">ST</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">query</span>: <span class="ident">Query</span>, <span class="ident">value</span>: <span class="ident">Value</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">query</span>: <span class="ident">Query</span>, <span class="ident">value</span>: <span class="ident">Value</span>) -&gt; <span class="self">Self</span> {
         <span class="ident">UncheckedBind</span> {
             <span class="ident">query</span>,
             <span class="ident">value</span>,
@@ -458,11 +458,11 @@
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind</span><span class="op">&lt;</span><span class="ident">ST2</span>, <span class="ident">Value2</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="ident">Value2</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UncheckedBind</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Value2</span>, <span class="ident">ST2</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind</span><span class="op">&lt;</span><span class="ident">ST2</span>, <span class="ident">Value2</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="ident">Value2</span>) -&gt; <span class="ident">UncheckedBind</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Value2</span>, <span class="ident">ST2</span><span class="op">&gt;</span> {
         <span class="ident">UncheckedBind::new</span>(<span class="self">self</span>, <span class="ident">value</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_boxed</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BoxedSqlQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">DB</span>, <span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_boxed</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span>(<span class="self">self</span>) -&gt; <span class="ident">BoxedSqlQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">DB</span>, <span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident">BoxedSqlQuery::new</span>(<span class="self">self</span>)
     }
 
@@ -525,7 +525,7 @@
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// [`SqlQuery::bind()`]: query_builder::SqlQuery::bind()</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sql</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">sql</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SqlQuery</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sql</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">sql</span>: <span class="ident">T</span>) -&gt; <span class="ident">SqlQuery</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident">SqlQuery::new</span>(<span class="self">self</span>, <span class="ident">sql</span>.<span class="ident">into</span>())
     }
 }
@@ -546,7 +546,7 @@
     <span class="ident">Query</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">Value</span>: <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">ST</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="ident">out</span>.<span class="ident">push_bind_param_value_only</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">value</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
@@ -567,11 +567,11 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BoxedSqlQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">DB</span>: <span class="ident">Backend</span>, <span class="ident">Query</span><span class="op">&gt;</span> {
     <span class="ident">query</span>: <span class="ident">Query</span>,
     <span class="ident">sql</span>: <span class="ident">String</span>,
-    <span class="ident">binds</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Fn</span>(<span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;f</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">binds</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Fn</span>(<span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;f</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">DB</span>: <span class="ident">Backend</span>, <span class="ident">Query</span><span class="op">&gt;</span> <span class="ident">BoxedSqlQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span>, <span class="ident">DB</span>, <span class="ident">Query</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">query</span>: <span class="ident">Query</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">query</span>: <span class="ident">Query</span>) -&gt; <span class="self">Self</span> {
         <span class="ident">BoxedSqlQuery</span> {
             <span class="ident">query</span>,
             <span class="ident">sql</span>: <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(),
@@ -582,7 +582,7 @@
     <span class="doccomment">/// See [`SqlQuery::bind`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`SqlQuery::bind`]: SqlQuery::bind()</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind</span><span class="op">&lt;</span><span class="ident">BindSt</span>, <span class="ident">Value</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">b</span>: <span class="ident">Value</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind</span><span class="op">&lt;</span><span class="ident">BindSt</span>, <span class="ident">Value</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">b</span>: <span class="ident">Value</span>) -&gt; <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="ident">DB</span>: <span class="ident">HasSqlType</span><span class="op">&lt;</span><span class="ident">BindSt</span><span class="op">&gt;</span>,
         <span class="ident">Value</span>: <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">BindSt</span>, <span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;f</span>,
@@ -595,7 +595,7 @@
     <span class="doccomment">/// See [`SqlQuery::sql`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`SqlQuery::sql`]: SqlQuery::sql()</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sql</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">sql</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sql</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">sql</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">sql</span> <span class="op">+</span><span class="op">=</span> <span class="ident">sql</span>.<span class="ident">as_ref</span>();
         <span class="self">self</span>
     }
@@ -606,7 +606,7 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">Query</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">unsafe_to_cache_prepared</span>();
         <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">sql</span>);

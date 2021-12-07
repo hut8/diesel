@@ -17,7 +17,7 @@ from the name of the corresponding column, you can annotate the field with
 <p>By default, any <code>Option</code> fields on the struct are skipped if their value is
 <code>None</code>. If you would like to assign <code>NULL</code> to the field instead, you can
 annotate your struct with <code>#[changeset_options(treat_none_as_null = &quot;true&quot;)]</code>.</p>
-<h1 id="attributes" class="section-header"><a href="#attributes">Attributes</a></h1><h2 id="optional-container-attributes" class="section-header"><a href="#optional-container-attributes">Optional container attributes</a></h2>
+<h2 id="attributes" class="section-header"><a href="#attributes">Attributes</a></h2><h3 id="optional-container-attributes" class="section-header"><a href="#optional-container-attributes">Optional container attributes</a></h3>
 <ul>
 <li><code>#[changeset_options(treat_none_as_null = &quot;true&quot;)]</code>, specifies that
 the derive should threat <code>None</code> values as <code>NULL</code>. By default
@@ -28,7 +28,7 @@ current type is a changeset. The path is relative to the current module.
 If this attribute is not used, the type name converted to
 <code>snake_case</code> with an added <code>s</code> is used as table name.</li>
 </ul>
-<h2 id="optional-field-attributes" class="section-header"><a href="#optional-field-attributes">Optional field attributes</a></h2>
+<h3 id="optional-field-attributes" class="section-header"><a href="#optional-field-attributes">Optional field attributes</a></h3>
 <ul>
 <li><code>#[column_name = &quot;some_column_name&quot;]</code>, overrides the column name
 of the current field to <code>some_column_name</code>. By default the field

@@ -8,7 +8,7 @@
 </code></pre><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Implement required traits for the associations API</p>
 <p>This derive implement support for diesels associations api. Check the
 module level documentation of the <code>diesel::associations</code> module for details.</p>
-<h1 id="attributes" class="section-header"><a href="#attributes">Attributes</a></h1><h1 id="required-container-attributes" class="section-header"><a href="#required-container-attributes">Required container attributes</a></h1>
+<h2 id="attributes" class="section-header"><a href="#attributes">Attributes</a></h2><h2 id="required-container-attributes" class="section-header"><a href="#required-container-attributes">Required container attributes</a></h2>
 <ul>
 <li><code>#[belongs_to(User)]</code>, to specify a child-to-parent relation ship
 between the current type and the specified parent type (<code>User</code>).
@@ -20,14 +20,14 @@ is not specified explicitly, the remote lower case type name with an
 appended <code>_id</code> is used as foreign key name. (<code>user_id</code> in this example
 case)</li>
 </ul>
-<h1 id="optional-container-attributes" class="section-header"><a href="#optional-container-attributes">Optional container attributes</a></h1>
+<h2 id="optional-container-attributes" class="section-header"><a href="#optional-container-attributes">Optional container attributes</a></h2>
 <ul>
 <li><code>#[table_name = &quot;path::to::table&quot;]</code> specifies a path to the table this
 type belongs to. The path is relative to the current module.
 If this attribute is not used, the type name converted to
 <code>snake_case</code> with an added <code>s</code> is used as table name.</li>
 </ul>
-<h1 id="optional-field-attributes" class="section-header"><a href="#optional-field-attributes">Optional field attributes</a></h1>
+<h2 id="optional-field-attributes" class="section-header"><a href="#optional-field-attributes">Optional field attributes</a></h2>
 <ul>
 <li><code>#[column_name = &quot;some_column_name&quot;]</code>, overrides the column the current
 field maps to to <code>some_column_name</code>. By default the field name is used

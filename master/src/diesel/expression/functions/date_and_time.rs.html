@@ -119,7 +119,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">now</span> {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;CURRENT_TIMESTAMP&quot;</span>);
         <span class="prelude-val">Ok</span>(())
     }
@@ -145,13 +145,13 @@
     <span class="doccomment">/// let today: chrono::NaiveDate = diesel::select(date(now)).first(&amp;connection).unwrap();</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">date</span>(<span class="ident">expr</span>: <span class="ident">Timestamp</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Date</span>;
+    <span class="kw">fn</span> <span class="ident">date</span>(<span class="ident">expr</span>: <span class="ident">Timestamp</span>) -&gt; <span class="ident">Date</span>;
 }
 
 <span class="kw">impl</span> <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Nullable</span><span class="op">&lt;</span><span class="ident">Timestamp</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">now</span> {
     <span class="kw">type</span> <span class="ident">Expression</span> <span class="op">=</span> <span class="ident">Coerce</span><span class="op">&lt;</span><span class="ident">now</span>, <span class="ident">Nullable</span><span class="op">&lt;</span><span class="ident">Timestamp</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">as_expression</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Expression</span> {
+    <span class="kw">fn</span> <span class="ident">as_expression</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Expression</span> {
         <span class="ident">Coerce::new</span>(<span class="self">self</span>)
     }
 }
@@ -160,7 +160,7 @@
 <span class="kw">impl</span> <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Timestamptz</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">now</span> {
     <span class="kw">type</span> <span class="ident">Expression</span> <span class="op">=</span> <span class="ident">Coerce</span><span class="op">&lt;</span><span class="ident">now</span>, <span class="ident">Timestamptz</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">as_expression</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Expression</span> {
+    <span class="kw">fn</span> <span class="ident">as_expression</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Expression</span> {
         <span class="ident">Coerce::new</span>(<span class="self">self</span>)
     }
 }
@@ -169,7 +169,7 @@
 <span class="kw">impl</span> <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Nullable</span><span class="op">&lt;</span><span class="ident">Timestamptz</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">now</span> {
     <span class="kw">type</span> <span class="ident">Expression</span> <span class="op">=</span> <span class="ident">Coerce</span><span class="op">&lt;</span><span class="ident">now</span>, <span class="ident">Nullable</span><span class="op">&lt;</span><span class="ident">Timestamptz</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">as_expression</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Expression</span> {
+    <span class="kw">fn</span> <span class="ident">as_expression</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Expression</span> {
         <span class="ident">Coerce::new</span>(<span class="self">self</span>)
     }
 }
@@ -184,7 +184,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">today</span> {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;CURRENT_DATE&quot;</span>);
         <span class="prelude-val">Ok</span>(())
     }
@@ -198,7 +198,7 @@
 <span class="kw">impl</span> <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Nullable</span><span class="op">&lt;</span><span class="ident">Date</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">today</span> {
     <span class="kw">type</span> <span class="ident">Expression</span> <span class="op">=</span> <span class="ident">Coerce</span><span class="op">&lt;</span><span class="ident">today</span>, <span class="ident">Nullable</span><span class="op">&lt;</span><span class="ident">Date</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">as_expression</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Expression</span> {
+    <span class="kw">fn</span> <span class="ident">as_expression</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Expression</span> {
         <span class="ident">Coerce::new</span>(<span class="self">self</span>)
     }
 }

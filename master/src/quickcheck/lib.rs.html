@@ -134,25 +134,25 @@ semver compatible releases.
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">quickcheck</span> {
-    (@<span class="ident">as_items</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i</span>:<span class="ident">item</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i</span>)<span class="kw-2">*</span>);
+    (@<span class="ident">as_items</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i</span>:<span class="ident">item</span>)<span class="kw-2">*</span>) =&gt; ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i</span>)<span class="kw-2">*</span>);
     {
         $(
             $(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">meta</span>]</span>)<span class="op">*</span>
-            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>:<span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_ty</span>:<span class="ident">ty</span>),<span class="kw-2">*</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ret</span>:<span class="ident">ty</span> {
+            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>:<span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_ty</span>:<span class="ident">ty</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ret</span>:<span class="ident">ty</span> {
                 $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">code</span>:<span class="ident">tt</span>)<span class="op">*</span>
             }
         )<span class="op">*</span>
-    } <span class="op">=</span><span class="op">&gt;</span> (
+    } =&gt; (
         <span class="macro-nonterminal">$</span><span class="macro">crate::quickcheck!</span> {
             @<span class="macro-nonterminal">as_items</span>
             $(
                 <span class="attribute">#[<span class="ident">test</span>]</span>
                 $(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>]</span>)<span class="op">*</span>
                 <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fn_name</span>() {
-                    <span class="kw">fn</span> <span class="ident">prop</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_name</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_ty</span>),<span class="kw-2">*</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ret</span> {
+                    <span class="kw">fn</span> <span class="ident">prop</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_name</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_ty</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ret</span> {
                         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">code</span>)<span class="op">*</span>
                     }
-                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::quickcheck</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_ty</span>),<span class="kw-2">*</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ret</span>);
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::quickcheck</span>(<span class="ident">prop</span> <span class="kw">as</span> <span class="kw">fn</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_ty</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ret</span>);
                 }
             )<span class="op">*</span>
         }
@@ -160,12 +160,12 @@ semver compatible releases.
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_logging&quot;</span>)]</span>
-<span class="kw">fn</span> <span class="ident">env_logger_init</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">log::SetLoggerError</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">env_logger_init</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">log::SetLoggerError</span><span class="op">&gt;</span> {
     <span class="ident">env_logger::try_init</span>()
 }
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_logging&quot;</span>)]</span>
 <span class="macro">macro_rules!</span> <span class="ident">info</span> {
-    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tt</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tt</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) =&gt; {
         <span class="macro">log::info!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tt</span>)<span class="kw-2">*</span>)
     };
 }
@@ -174,7 +174,7 @@ semver compatible releases.
 <span class="kw">fn</span> <span class="ident">env_logger_init</span>() {}
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_logging&quot;</span>))]</span>
 <span class="macro">macro_rules!</span> <span class="ident">info</span> {
-    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">_ignore</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">_ignore</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) =&gt; {
         ()
     };
 }

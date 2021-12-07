@@ -25,7 +25,7 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">Expr</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>,
 {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">order</span>: <span class="ident">OrderClause</span><span class="op">&lt;</span><span class="ident">Expr</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">order</span>: <span class="ident">OrderClause</span><span class="op">&lt;</span><span class="ident">Expr</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
         <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">order</span>.<span class="number">0</span>))
     }
 }
@@ -34,7 +34,7 @@
 <span class="kw">where</span>
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
 {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span>: <span class="ident">NoOrderClause</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span>: <span class="ident">NoOrderClause</span>) -&gt; <span class="self">Self</span> {
         <span class="prelude-val">None</span>
     }
 }

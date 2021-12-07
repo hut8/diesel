@@ -17,13 +17,13 @@
 <p>If your type is unsized,
 you can specify this by adding the annotation <code>#[diesel(not_sized)]</code>
 as attribute on the type. This will skip the impls for non-reference types.</p>
-<h1 id="attributes" class="section-header"><a href="#attributes">Attributes:</a></h1><h2 id="required-container-attributes" class="section-header"><a href="#required-container-attributes">Required container attributes</a></h2>
+<h2 id="attributes" class="section-header"><a href="#attributes">Attributes:</a></h2><h3 id="required-container-attributes" class="section-header"><a href="#required-container-attributes">Required container attributes</a></h3>
 <ul>
 <li><code>#[sql_type = &quot;SqlType&quot;]</code>, to specify the sql type of the
 generated implementations. If the attribute exists multiple times
 impls for each sql type are generated.</li>
 </ul>
-<h2 id="optional-container-attributes" class="section-header"><a href="#optional-container-attributes">Optional container attributes</a></h2>
+<h3 id="optional-container-attributes" class="section-header"><a href="#optional-container-attributes">Optional container attributes</a></h3>
 <ul>
 <li><code>#[diesel(not_sized)]</code>, to skip generating impls that require
 that the type is <code>Sized</code></li>

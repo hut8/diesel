@@ -157,7 +157,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">StatementIterator</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">stmt</span>: <span class="ident">StatementUse</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">stmt</span>: <span class="ident">StatementUse</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">inner</span>: <span class="ident">PrivateStatementIterator::NotStarted</span>(<span class="ident">stmt</span>),
             <span class="ident">column_names</span>: <span class="prelude-val">None</span>,
@@ -169,14 +169,14 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">StatementIterator</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">SqliteRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Item</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Item</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="ident">PrivateStatementIterator</span>::{<span class="ident">NotStarted</span>, <span class="ident">Started</span>, <span class="ident">TemporaryEmpty</span>};
 
         <span class="kw">match</span> <span class="ident">std::mem::replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">inner</span>, <span class="ident">TemporaryEmpty</span>) {
-            <span class="ident">NotStarted</span>(<span class="ident">stmt</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">stmt</span>.<span class="ident">step</span>() {
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)),
-                <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">stmt</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">NotStarted</span>(<span class="ident">stmt</span>) =&gt; <span class="kw">match</span> <span class="ident">stmt</span>.<span class="ident">step</span>() {
+                <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)),
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; <span class="prelude-val">None</span>,
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">stmt</span>)) =&gt; {
                     <span class="kw">let</span> <span class="ident">field_count</span> <span class="op">=</span> <span class="ident">stmt</span>.<span class="ident">column_count</span>() <span class="kw">as</span> <span class="ident">usize</span>;
                     <span class="self">self</span>.<span class="ident">field_count</span> <span class="op">=</span> <span class="ident">field_count</span>;
                     <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">Rc::new</span>(<span class="ident">RefCell::new</span>(<span class="ident">PrivateSqliteRow::Direct</span>(<span class="ident">stmt</span>)));
@@ -184,7 +184,7 @@
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">SqliteRow</span> { <span class="ident">inner</span>, <span class="ident">field_count</span> }))
                 }
             },
-            <span class="ident">Started</span>(<span class="kw-2">mut</span> <span class="ident">last_row</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Started</span>(<span class="kw-2">mut</span> <span class="ident">last_row</span>) =&gt; {
                 <span class="comment">// There was already at least one iteration step</span>
                 <span class="comment">// We check here if the caller already released the row value or not</span>
                 <span class="comment">// by checking if our Rc owns the data or not</span>
@@ -198,9 +198,9 @@
                         <span class="ident">std::mem::replace</span>(<span class="ident">last_row_ref</span>.<span class="ident">get_mut</span>(), <span class="ident">PrivateSqliteRow::TemporaryEmpty</span>)
                     {
                         <span class="kw">match</span> <span class="ident">stmt</span>.<span class="ident">step</span>() {
-                            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)),
-                            <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-                            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">stmt</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+                            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)),
+                            <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; <span class="prelude-val">None</span>,
+                            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">stmt</span>)) =&gt; {
                                 <span class="kw">let</span> <span class="ident">field_count</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">field_count</span>;
                                 (<span class="kw-2">*</span><span class="ident">last_row_ref</span>.<span class="ident">get_mut</span>()) <span class="op">=</span> <span class="ident">PrivateSqliteRow::Direct</span>(<span class="ident">stmt</span>);
                                 <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="ident">Started</span>(<span class="ident">last_row</span>.<span class="ident">clone</span>());
@@ -228,8 +228,8 @@
                     <span class="comment">// the statement iterator internally afterwards</span>
                     <span class="kw">let</span> <span class="ident">last_row</span> <span class="op">=</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">last_row</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">last_row</span>.<span class="ident">try_borrow_mut</span>() {
-                            <span class="prelude-val">Ok</span>(<span class="ident">o</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">o</span>,
-                            <span class="prelude-val">Err</span>(<span class="ident">_e</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                            <span class="prelude-val">Ok</span>(<span class="ident">o</span>) =&gt; <span class="ident">o</span>,
+                            <span class="prelude-val">Err</span>(<span class="ident">_e</span>) =&gt; {
                                 <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="ident">Started</span>(<span class="ident">last_row</span>.<span class="ident">clone</span>());
                                 <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident"><span class="kw">crate</span>::result::Error::DeserializationError</span>(
                                     <span class="string">&quot;Failed to reborrow row. Try to release any `SqliteField` or `SqliteValue` \
@@ -244,9 +244,9 @@
                     };
                     <span class="kw">if</span> <span class="kw">let</span> <span class="ident">PrivateSqliteRow::Direct</span>(<span class="ident">stmt</span>) <span class="op">=</span> <span class="ident">last_row</span> {
                         <span class="kw">match</span> <span class="ident">stmt</span>.<span class="ident">step</span>() {
-                            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)),
-                            <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-                            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">stmt</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+                            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)),
+                            <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; <span class="prelude-val">None</span>,
+                            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">stmt</span>)) =&gt; {
                                 <span class="kw">let</span> <span class="ident">field_count</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">field_count</span>;
                                 <span class="kw">let</span> <span class="ident">last_row</span> <span class="op">=</span>
                                     <span class="ident">Rc::new</span>(<span class="ident">RefCell::new</span>(<span class="ident">PrivateSqliteRow::Direct</span>(<span class="ident">stmt</span>)));
@@ -270,7 +270,7 @@
                     }
                 }
             }
-            <span class="ident">TemporaryEmpty</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">TemporaryEmpty</span> =&gt; <span class="prelude-val">None</span>,
         }
     }
 }

@@ -457,7 +457,7 @@
 
     <span class="doccomment">/// Quote `identifier`, and add it to the end of the query being</span>
     <span class="doccomment">/// constructed.</span>
-    <span class="kw">fn</span> <span class="ident">push_identifier</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">identifier</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">push_identifier</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">identifier</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
 
     <span class="doccomment">/// Add a placeholder for a bind parameter to the end of the query being</span>
     <span class="doccomment">/// constructed.</span>
@@ -468,7 +468,7 @@
     <span class="kw">fn</span> <span class="ident">push_bind_param_value_only</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {}
 
     <span class="doccomment">/// Returns the constructed SQL query.</span>
-    <span class="kw">fn</span> <span class="ident">finish</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span>;
+    <span class="kw">fn</span> <span class="ident">finish</span>(<span class="self">self</span>) -&gt; <span class="ident">String</span>;
 }
 
 <span class="doccomment">/// A complete SQL query with a return type.</span>
@@ -524,12 +524,12 @@
     <span class="doccomment">/// This method will contain the behavior required for all possible AST</span>
     <span class="doccomment">/// passes. See [`AstPass`] for more details.</span>
     <span class="doccomment">///</span>
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
 
     <span class="doccomment">/// Converts this `QueryFragment` to its SQL representation.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This method should only be called by implementations of `Connection`.</span>
-    <span class="kw">fn</span> <span class="ident">to_sql</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DB::QueryBuilder</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">to_sql</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DB::QueryBuilder</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">walk_ast</span>(<span class="ident">AstPass::to_sql</span>(<span class="ident">out</span>))
     }
 
@@ -543,7 +543,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DB::BindCollector</span>,
         <span class="ident">metadata_lookup</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DB::MetadataLookup</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">walk_ast</span>(<span class="ident">AstPass::collect_binds</span>(<span class="ident">out</span>, <span class="ident">metadata_lookup</span>))
     }
 
@@ -562,7 +562,7 @@
     <span class="doccomment">///   placeholder)</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This method should only be called by implementations of `Connection`.</span>
-    <span class="kw">fn</span> <span class="ident">is_safe_to_cache_prepared</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">is_safe_to_cache_prepared</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="bool-val">true</span>;
         <span class="self">self</span>.<span class="ident">walk_ast</span>(<span class="ident">AstPass::is_safe_to_cache_prepared</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">result</span>))<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">result</span>)
@@ -570,7 +570,7 @@
 
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="doccomment">/// Does walking this AST have any effect?</span>
-    <span class="kw">fn</span> <span class="ident">is_noop</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">is_noop</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="bool-val">true</span>;
         <span class="self">self</span>.<span class="ident">walk_ast</span>(<span class="ident">AstPass::is_noop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">result</span>))<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">result</span>)
@@ -582,7 +582,7 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">T</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">QueryFragment::walk_ast</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>, <span class="ident">pass</span>)
     }
 }
@@ -592,13 +592,13 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">T</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">QueryFragment::walk_ast</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>, <span class="ident">pass</span>)
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">for</span> () {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(())
     }
 }
@@ -608,10 +608,10 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">T</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">c</span>) =&gt; <span class="ident">c</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>),
+            <span class="prelude-val">None</span> =&gt; <span class="prelude-val">Ok</span>(()),
         }
     }
 }
@@ -624,7 +624,7 @@
     <span class="kw">type</span> <span class="ident">BoxedClause</span>;
 
     <span class="doccomment">/// Convert the given query node in it&#39;s boxed representation</span>
-    <span class="kw">fn</span> <span class="ident">into_boxed</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::BoxedClause</span>;
+    <span class="kw">fn</span> <span class="ident">into_boxed</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::BoxedClause</span>;
 }
 
 <span class="doccomment">/// Types that can be converted into a complete, typed SQL query.</span>
@@ -647,14 +647,14 @@
     <span class="comment">// (Also the trait is literally named `AsQuery` so</span>
     <span class="comment">// naming the method similary is fine)</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::wrong_self_convention</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">as_query</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Query</span>;
+    <span class="kw">fn</span> <span class="ident">as_query</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Query</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Query</span><span class="op">&gt;</span> <span class="ident">AsQuery</span> <span class="kw">for</span> <span class="ident">T</span> {
     <span class="kw">type</span> <span class="ident">SqlType</span> <span class="op">=</span> <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">Query</span><span class="op">&gt;</span><span class="ident">::SqlType</span>;
     <span class="kw">type</span> <span class="ident">Query</span> <span class="op">=</span> <span class="self">Self</span>;
 
-    <span class="kw">fn</span> <span class="ident">as_query</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Query</span> {
+    <span class="kw">fn</span> <span class="ident">as_query</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Query</span> {
         <span class="self">self</span>
     }
 }
@@ -707,7 +707,7 @@
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">debug_query</span><span class="op">&lt;</span><span class="ident">DB</span>, <span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">query</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DebugQuery</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">DB</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">debug_query</span><span class="op">&lt;</span><span class="ident">DB</span>, <span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">query</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) -&gt; <span class="ident">DebugQuery</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">DB</span><span class="op">&gt;</span> {
     <span class="ident">DebugQuery::new</span>(<span class="ident">query</span>)
 }
 </code></pre></div>

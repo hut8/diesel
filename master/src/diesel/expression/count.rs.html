@@ -187,7 +187,7 @@
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">aggregate</span>]</span>
-    <span class="kw">fn</span> <span class="ident">count</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">SqlType</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">expr</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BigInt</span>;
+    <span class="kw">fn</span> <span class="ident">count</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">SqlType</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">expr</span>: <span class="ident">T</span>) -&gt; <span class="ident">BigInt</span>;
 }
 
 <span class="doccomment">/// Creates a SQL `COUNT(*)` expression</span>
@@ -212,7 +212,7 @@
 <span class="doccomment">/// assert_eq!(Ok(2), users.select(count_star()).first(connection));</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">count_star</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CountStar</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">count_star</span>() -&gt; <span class="ident">CountStar</span> {
     <span class="ident">CountStar</span>
 }
 
@@ -226,7 +226,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CountStar</span> {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;COUNT(*)&quot;</span>);
         <span class="prelude-val">Ok</span>(())
     }
@@ -254,7 +254,7 @@
 <span class="doccomment">/// assert_eq!(Ok(2), unique_user_count);</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">count_distinct</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>(<span class="ident">expr</span>: <span class="ident">E</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CountDistinct</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E::Expression</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">count_distinct</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>(<span class="ident">expr</span>: <span class="ident">E</span>) -&gt; <span class="ident">CountDistinct</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E::Expression</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">SqlType</span> <span class="op">+</span> <span class="ident">SingleValue</span>,
     <span class="ident">E</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
@@ -307,7 +307,7 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">E</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;COUNT(DISTINCT &quot;</span>);
         (<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">expr</span>).<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;)&quot;</span>);

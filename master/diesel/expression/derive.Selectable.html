@@ -22,14 +22,14 @@ select clause is valid in current query.</p>
 <p>The derive enables using the <code>SelectableHelper::as_select</code> method to construct
 select clauses, in order to use LoadDsl, you might also check the
 <code>Queryable</code> trait and derive.</p>
-<h1 id="attributes" class="section-header"><a href="#attributes">Attributes</a></h1><h2 id="type-attributes" class="section-header"><a href="#type-attributes">Type attributes</a></h2>
+<h2 id="attributes" class="section-header"><a href="#attributes">Attributes</a></h2><h3 id="type-attributes" class="section-header"><a href="#type-attributes">Type attributes</a></h3>
 <ul>
 <li><code>#[table_name = &quot;path::to::table&quot;]</code>, specifies a path to the table for which the
 current type is selectable. The path is relative to the current module.
 If this attribute is not used, the type name converted to
 <code>snake_case</code> with an added <code>s</code> is used as table name.</li>
 </ul>
-<h2 id="field-attributes" class="section-header"><a href="#field-attributes">Field attributes</a></h2>
+<h3 id="field-attributes" class="section-header"><a href="#field-attributes">Field attributes</a></h3>
 <ul>
 <li><code>#[column_name = &quot;some_column&quot;]</code>, overrides the column name for
 a given field. If not set, the name of the field is used as column

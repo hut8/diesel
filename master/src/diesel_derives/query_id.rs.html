@@ -40,7 +40,7 @@
 
 <span class="kw">use</span> <span class="ident">util</span>::<span class="kw-2">*</span>;
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive</span>(<span class="kw-2">mut</span> <span class="ident">item</span>: <span class="ident">syn::DeriveInput</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">proc_macro2::TokenStream</span>, <span class="ident">Diagnostic</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive</span>(<span class="kw-2">mut</span> <span class="ident">item</span>: <span class="ident">syn::DeriveInput</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">proc_macro2::TokenStream</span>, <span class="ident">Diagnostic</span><span class="op">&gt;</span> {
     <span class="kw">for</span> <span class="ident">ty_param</span> <span class="kw">in</span> <span class="ident">item</span>.<span class="ident">generics</span>.<span class="ident">type_params_mut</span>() {
         <span class="ident">ty_param</span>.<span class="ident">bounds</span>.<span class="ident">push</span>(<span class="macro">parse_quote!</span>(<span class="ident">QueryId</span>));
     }

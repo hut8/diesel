@@ -19,7 +19,7 @@ to convert it to the actual field type. This can be used to add custom behavior 
 single field, or use types that are otherwise unsupported by Diesel.
 (Note: all types that have <code>Into&lt;T&gt;</code> automatically implement <code>TryInto&lt;T&gt;</code>,
 for cases where your conversion is not faillible.)</p>
-<h1 id="attributes" class="section-header"><a href="#attributes">Attributes</a></h1><h2 id="optional-field-attributes" class="section-header"><a href="#optional-field-attributes">Optional field attributes</a></h2>
+<h2 id="attributes" class="section-header"><a href="#attributes">Attributes</a></h2><h3 id="optional-field-attributes" class="section-header"><a href="#optional-field-attributes">Optional field attributes</a></h3>
 <ul>
 <li><code>#[diesel(deserialize_as = &quot;Type&quot;)]</code>, instead of deserializing directly
 into the field type, the implementation will deserialize into <code>Type</code>.
@@ -27,7 +27,7 @@ Then <code>Type</code> is converted via
 <a href="https://doc.rust-lang.org/stable/std/convert/trait.TryInto.html#tymethod.try_into"><code>.try_into</code></a>
 into the field type. By default this derive will deserialize directly into the field type</li>
 </ul>
-<h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
+<h2 id="examples" class="section-header"><a href="#examples">Examples</a></h2>
 <p>If we just want to map a query to our struct, we can use <code>derive</code>.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Queryable</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>)]</span>
@@ -45,7 +45,7 @@ into the field type. By default this derive will deserialize directly into the f
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">struct</span> <span class="ident">LowercaseString</span>(<span class="ident">String</span>);
 
 <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">LowercaseString</span> {
-    <span class="kw">fn</span> <span class="ident">into</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+    <span class="kw">fn</span> <span class="ident">into</span>(<span class="self">self</span>) -&gt; <span class="ident">String</span> {
         <span class="self">self</span>.<span class="number">0</span>
     }
 }
@@ -58,7 +58,7 @@ into the field type. By default this derive will deserialize directly into the f
 
     <span class="kw">type</span> <span class="ident">Row</span> <span class="op">=</span> <span class="ident">String</span>;
 
-    <span class="kw">fn</span> <span class="ident">build</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">build</span>(<span class="ident">s</span>: <span class="ident">String</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">LowercaseString</span>(<span class="ident">s</span>.<span class="ident">to_lowercase</span>()))
     }
 }
@@ -93,7 +93,7 @@ into the field type. By default this derive will deserialize directly into the f
 {
     <span class="kw">type</span> <span class="ident">Row</span> <span class="op">=</span> (<span class="ident">i32</span>, <span class="ident">String</span>);
 
-    <span class="kw">fn</span> <span class="ident">build</span>((<span class="ident">id</span>, <span class="ident">name</span>): <span class="ident"><span class="self">Self</span>::Row</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">build</span>((<span class="ident">id</span>, <span class="ident">name</span>): <span class="ident"><span class="self">Self</span>::Row</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">User</span> { <span class="ident">id</span>, <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">to_lowercase</span>() })
     }
 }

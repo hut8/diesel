@@ -263,9 +263,9 @@
 <span class="macro">macro_rules!</span> <span class="ident">tuple_impls</span> {
     ($(
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Tuple</span>:<span class="ident">tt</span> {
-            $((<span class="macro-nonterminal">$</span><span class="macro-nonterminal">idx</span>:<span class="ident">tt</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ST</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">TT</span>:<span class="ident">ident</span>,)<span class="op">+</span>
+            $((<span class="macro-nonterminal">$</span><span class="macro-nonterminal">idx</span>:<span class="ident">tt</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ST</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">TT</span>:<span class="ident">ident</span>,)<span class="op">+</span>
         }
-    )<span class="op">+</span>) <span class="op">=</span><span class="op">&gt;</span> {$(
+    )<span class="op">+</span>) =&gt; {$(
         <span class="kw">impl</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>,)<span class="op">+</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ST</span>,)<span class="op">+</span><span class="op">&gt;</span> <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Record</span><span class="op">&lt;</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ST</span>,)<span class="op">+</span>)<span class="op">&gt;</span>, <span class="ident">Pg</span><span class="op">&gt;</span> <span class="kw">for</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>,)<span class="op">+</span>)
         <span class="kw">where</span>
             $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>: <span class="ident">FromSql</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ST</span>, <span class="ident">Pg</span><span class="op">&gt;</span>,)<span class="op">+</span>
@@ -274,7 +274,7 @@
             <span class="comment">// but the only other option would be to use `mem::uninitialized`</span>
             <span class="comment">// and `ptr::write`.</span>
             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::eval_order_dependence</span>)]</span>
-            <span class="kw">fn</span> <span class="ident">from_sql</span>(<span class="ident">value</span>: <span class="ident">PgValue</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">from_sql</span>(<span class="ident">value</span>: <span class="ident">PgValue</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">as_bytes</span>();
                 <span class="kw">let</span> <span class="ident">num_elements</span> <span class="op">=</span> <span class="ident">bytes</span>.<span class="ident">read_i32</span>::<span class="op">&lt;</span><span class="ident">NetworkEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
 
@@ -294,7 +294,7 @@
                     <span class="kw">let</span> <span class="ident">oid</span> <span class="op">=</span> <span class="ident">NonZeroU32::new</span>(<span class="ident">bytes</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">NetworkEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>).<span class="ident">expect</span>(<span class="string">&quot;Oid&#39;s aren&#39;t zero&quot;</span>);
                     <span class="kw">let</span> <span class="ident">num_bytes</span> <span class="op">=</span> <span class="ident">bytes</span>.<span class="ident">read_i32</span>::<span class="op">&lt;</span><span class="ident">NetworkEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
 
-                    <span class="kw">if</span> <span class="ident">num_bytes</span> <span class="op">=</span><span class="op">=</span> <span class="op">-</span><span class="number">1</span> {
+                    <span class="kw">if</span> <span class="ident">num_bytes</span> <span class="op">==</span> <span class="op">-</span><span class="number">1</span> {
                         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T::from_nullable_sql</span>(<span class="prelude-val">None</span>)<span class="question-mark">?</span>
                     } <span class="kw">else</span> {
                         <span class="kw">let</span> (<span class="ident">elem_bytes</span>, <span class="ident">new_bytes</span>) <span class="op">=</span> <span class="ident">bytes</span>.<span class="ident">split_at</span>(<span class="ident">num_bytes</span> <span class="kw">as</span> <span class="ident">usize</span>);
@@ -320,7 +320,7 @@
         {
             <span class="kw">type</span> <span class="ident">Row</span> <span class="op">=</span> <span class="self">Self</span>;
 
-            <span class="kw">fn</span> <span class="ident">build</span>(<span class="ident">row</span>: <span class="ident"><span class="self">Self</span>::Row</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">build</span>(<span class="ident">row</span>: <span class="ident"><span class="self">Self</span>::Row</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
                 <span class="prelude-val">Ok</span>(<span class="ident">row</span>)
             }
         }
@@ -333,7 +333,7 @@
         {
             <span class="kw">type</span> <span class="ident">Expression</span> <span class="op">=</span> <span class="ident">PgTuple</span><span class="op">&lt;</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T::Expression</span>,)<span class="op">+</span>)<span class="op">&gt;</span>;
 
-            <span class="kw">fn</span> <span class="ident">as_expression</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Expression</span> {
+            <span class="kw">fn</span> <span class="ident">as_expression</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Expression</span> {
                 <span class="ident">PgTuple</span>(($(
                     <span class="self">self</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">idx</span>.<span class="ident">as_expression</span>(),
                 )<span class="op">+</span>))
@@ -345,7 +345,7 @@
             $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>: <span class="ident">ToSql</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ST</span>, <span class="ident">Pg</span><span class="op">&gt;</span>,)<span class="op">+</span>
             $(<span class="ident">Pg</span>: <span class="ident">HasSqlType</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ST</span><span class="op">&gt;</span>),<span class="op">+</span>
         {
-            <span class="kw">fn</span> <span class="ident">write_tuple</span><span class="op">&lt;</span><span class="ident">_W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="ident">_W</span>, <span class="ident">Pg</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">serialize::Result</span> {
+            <span class="kw">fn</span> <span class="ident">write_tuple</span><span class="op">&lt;</span><span class="ident">_W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="ident">_W</span>, <span class="ident">Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
                 <span class="ident">out</span>.<span class="ident">write_i32</span>::<span class="op">&lt;</span><span class="ident">NetworkEndian</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Tuple</span>)<span class="question-mark">?</span>;
 
@@ -383,7 +383,7 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Pg</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">Pg</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;(&quot;</span>);
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;)&quot;</span>);
@@ -477,7 +477,7 @@
         <span class="kw">struct</span> <span class="ident">MyStruct</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">i32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>);
 
         <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">MyType</span>, <span class="ident">Pg</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MyStruct</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-            <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">Pg</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">serialize::Result</span> {
+            <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span> {
                 <span class="ident">WriteTuple</span>::<span class="op">&lt;</span>(<span class="ident">Integer</span>, <span class="ident">Text</span>)<span class="op">&gt;</span><span class="ident">::write_tuple</span>(<span class="kw-2">&amp;</span>(<span class="self">self</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="number">1</span>), <span class="ident">out</span>)
             }
         }

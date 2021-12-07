@@ -1197,7 +1197,7 @@
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::clippy::wrong_self_convention</span>)]</span> <span class="comment">// This is named after the sql operator</span>
-    <span class="kw">fn</span> <span class="ident">is_not_distinct_from</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::IsNotDistinctFrom</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">is_not_distinct_from</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::IsNotDistinctFrom</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident"><span class="self">Self</span>::SqlType</span>: <span class="ident">SqlType</span>,
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SqlType</span><span class="op">&gt;</span>,
@@ -1225,7 +1225,7 @@
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::clippy::wrong_self_convention</span>)]</span> <span class="comment">// This is named after the sql operator</span>
-    <span class="kw">fn</span> <span class="ident">is_distinct_from</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::IsDistinctFrom</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">is_distinct_from</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::IsDistinctFrom</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident"><span class="self">Self</span>::SqlType</span>: <span class="ident">SqlType</span>,
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SqlType</span><span class="op">&gt;</span>,
@@ -1297,7 +1297,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">at_time_zone</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">timezone</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::AtTimeZone</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">at_time_zone</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">timezone</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::AtTimeZone</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">VarChar</span><span class="op">&gt;</span>,
     {
@@ -1360,7 +1360,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">overlaps_with</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::OverlapsWith</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">overlaps_with</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::OverlapsWith</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident"><span class="self">Self</span>::SqlType</span>: <span class="ident">SqlType</span>,
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SqlType</span><span class="op">&gt;</span>,
@@ -1410,7 +1410,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">contains</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::ArrayContains</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">contains</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::ArrayContains</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident"><span class="self">Self</span>::SqlType</span>: <span class="ident">SqlType</span>,
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SqlType</span><span class="op">&gt;</span>,
@@ -1462,7 +1462,7 @@
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::clippy::wrong_self_convention</span>)]</span> <span class="comment">// This is named after the sql operator</span>
-    <span class="kw">fn</span> <span class="ident">is_contained_by</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::IsContainedBy</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">is_contained_by</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::IsContainedBy</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident"><span class="self">Self</span>::SqlType</span>: <span class="ident">SqlType</span>,
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SqlType</span><span class="op">&gt;</span>,
@@ -1540,7 +1540,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">nulls_first</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::NullsFirst</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">nulls_first</span>(<span class="self">self</span>) -&gt; <span class="ident">dsl::NullsFirst</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident">NullsFirst::new</span>(<span class="self">self</span>)
     }
 
@@ -1588,7 +1588,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">nulls_last</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::NullsLast</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">nulls_last</span>(<span class="self">self</span>) -&gt; <span class="ident">dsl::NullsLast</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident">NullsLast::new</span>(<span class="self">self</span>)
     }
 }
@@ -1620,7 +1620,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">ilike</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::ILike</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">ilike</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::ILike</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Text</span><span class="op">&gt;</span>,
     {
@@ -1649,7 +1649,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">not_ilike</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::NotILike</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">not_ilike</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::NotILike</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Text</span><span class="op">&gt;</span>,
     {
@@ -1677,7 +1677,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">similar_to</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::SimilarTo</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">similar_to</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::SimilarTo</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Text</span><span class="op">&gt;</span>,
     {
@@ -1705,7 +1705,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">not_similar_to</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::NotSimilarTo</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">not_similar_to</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::NotSimilarTo</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Text</span><span class="op">&gt;</span>,
     {
@@ -1732,7 +1732,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="ident">EscapeExpressionMethods</span> <span class="kw">for</span> <span class="ident">Grouped</span><span class="op">&lt;</span><span class="ident">ILike</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">TextExpression</span> <span class="op">=</span> <span class="ident">ILike</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">escape</span>(<span class="self">self</span>, <span class="ident">character</span>: <span class="ident">char</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::Escape</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">escape</span>(<span class="self">self</span>, <span class="ident">character</span>: <span class="ident">char</span>) -&gt; <span class="ident">dsl::Escape</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident">Grouped</span>(<span class="ident"><span class="kw">crate</span>::expression::operators::Escape::new</span>(
             <span class="self">self</span>.<span class="number">0</span>,
             <span class="ident">character</span>.<span class="ident">to_string</span>().<span class="ident">into_sql</span>::<span class="op">&lt;</span><span class="ident">VarChar</span><span class="op">&gt;</span>(),
@@ -1743,7 +1743,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="ident">EscapeExpressionMethods</span> <span class="kw">for</span> <span class="ident">Grouped</span><span class="op">&lt;</span><span class="ident">NotILike</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">TextExpression</span> <span class="op">=</span> <span class="ident">NotILike</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">escape</span>(<span class="self">self</span>, <span class="ident">character</span>: <span class="ident">char</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::Escape</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">escape</span>(<span class="self">self</span>, <span class="ident">character</span>: <span class="ident">char</span>) -&gt; <span class="ident">dsl::Escape</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident">Grouped</span>(<span class="ident"><span class="kw">crate</span>::expression::operators::Escape::new</span>(
             <span class="self">self</span>.<span class="number">0</span>,
             <span class="ident">character</span>.<span class="ident">to_string</span>().<span class="ident">into_sql</span>::<span class="op">&lt;</span><span class="ident">VarChar</span><span class="op">&gt;</span>(),
@@ -1754,7 +1754,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="ident">EscapeExpressionMethods</span> <span class="kw">for</span> <span class="ident">Grouped</span><span class="op">&lt;</span><span class="ident">SimilarTo</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">TextExpression</span> <span class="op">=</span> <span class="ident">SimilarTo</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">escape</span>(<span class="self">self</span>, <span class="ident">character</span>: <span class="ident">char</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::Escape</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">escape</span>(<span class="self">self</span>, <span class="ident">character</span>: <span class="ident">char</span>) -&gt; <span class="ident">dsl::Escape</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident">Grouped</span>(<span class="ident"><span class="kw">crate</span>::expression::operators::Escape::new</span>(
             <span class="self">self</span>.<span class="number">0</span>,
             <span class="ident">character</span>.<span class="ident">to_string</span>().<span class="ident">into_sql</span>::<span class="op">&lt;</span><span class="ident">VarChar</span><span class="op">&gt;</span>(),
@@ -1765,7 +1765,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="ident">EscapeExpressionMethods</span> <span class="kw">for</span> <span class="ident">Grouped</span><span class="op">&lt;</span><span class="ident">NotSimilarTo</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">TextExpression</span> <span class="op">=</span> <span class="ident">NotSimilarTo</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">escape</span>(<span class="self">self</span>, <span class="ident">character</span>: <span class="ident">char</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::Escape</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">escape</span>(<span class="self">self</span>, <span class="ident">character</span>: <span class="ident">char</span>) -&gt; <span class="ident">dsl::Escape</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="ident">Grouped</span>(<span class="ident"><span class="kw">crate</span>::expression::operators::Escape::new</span>(
             <span class="self">self</span>.<span class="number">0</span>,
             <span class="ident">character</span>.<span class="ident">to_string</span>().<span class="ident">into_sql</span>::<span class="op">&lt;</span><span class="ident">VarChar</span><span class="op">&gt;</span>(),
@@ -1832,7 +1832,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">contains</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::RangeContains</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">contains</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::RangeContains</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident"><span class="self">Self</span>::SqlType</span>: <span class="ident">RangeHelper</span>,
         <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SqlType</span> <span class="kw">as</span> <span class="ident">RangeHelper</span><span class="op">&gt;</span><span class="ident">::Inner</span>: <span class="ident">SqlType</span> <span class="op">+</span> <span class="ident">TypedExpressionType</span>,
@@ -1915,7 +1915,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">contains</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::ContainsNet</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">contains</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::ContainsNet</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Inet</span><span class="op">&gt;</span>,
     {
@@ -1977,7 +1977,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">contains_or_eq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::ContainsNetLoose</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">contains_or_eq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::ContainsNetLoose</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Inet</span><span class="op">&gt;</span>,
     {
@@ -2040,7 +2040,7 @@
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::clippy::wrong_self_convention</span>)]</span> <span class="comment">// This is named after the sql operator</span>
-    <span class="kw">fn</span> <span class="ident">is_contained_by</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::IsContainedByNet</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">is_contained_by</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::IsContainedByNet</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Inet</span><span class="op">&gt;</span>,
     {
@@ -2098,7 +2098,7 @@
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::clippy::wrong_self_convention</span>)]</span> <span class="comment">// This is named after the sql operator</span>
-    <span class="kw">fn</span> <span class="ident">is_contained_by_or_eq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::IsContainedByNetLoose</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">is_contained_by_or_eq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::IsContainedByNetLoose</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Inet</span><span class="op">&gt;</span>,
     {
@@ -2160,7 +2160,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">overlaps_with</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::OverlapsWithNet</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">overlaps_with</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::OverlapsWithNet</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Inet</span><span class="op">&gt;</span>,
     {
@@ -2211,7 +2211,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">and</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::AndNet</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">and</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::AndNet</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Inet</span><span class="op">&gt;</span>,
     {
@@ -2262,7 +2262,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">or</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::OrNet</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">or</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::OrNet</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Inet</span><span class="op">&gt;</span>,
     {
@@ -2313,7 +2313,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">diff</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::DifferenceNet</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">diff</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::DifferenceNet</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident">Inet</span><span class="op">&gt;</span>,
     {

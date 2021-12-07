@@ -210,7 +210,7 @@
     <span class="doccomment">/// assert_eq!(Ok(expected_names), names);</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">concat</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::Concat</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">concat</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::Concat</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident"><span class="self">Self</span>::SqlType</span>: <span class="ident">SqlType</span>,
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SqlType</span><span class="op">&gt;</span>,
@@ -246,7 +246,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">like</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::Like</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">like</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::Like</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident"><span class="self">Self</span>::SqlType</span>: <span class="ident">SqlType</span>,
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SqlType</span><span class="op">&gt;</span>,
@@ -282,7 +282,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">not_like</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::NotLike</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">not_like</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::NotLike</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident"><span class="self">Self</span>::SqlType</span>: <span class="ident">SqlType</span>,
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SqlType</span><span class="op">&gt;</span>,

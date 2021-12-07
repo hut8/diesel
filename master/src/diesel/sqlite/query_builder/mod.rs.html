@@ -57,7 +57,7 @@
 
 <span class="kw">impl</span> <span class="ident">SqliteQueryBuilder</span> {
     <span class="doccomment">/// Construct a new query builder with an empty query</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="self">Self</span> {
         <span class="ident">SqliteQueryBuilder::default</span>()
     }
 }
@@ -67,7 +67,7 @@
         <span class="self">self</span>.<span class="ident">sql</span>.<span class="ident">push_str</span>(<span class="ident">sql</span>);
     }
 
-    <span class="kw">fn</span> <span class="ident">push_identifier</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">identifier</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">push_identifier</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">identifier</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">push_sql</span>(<span class="string">&quot;`&quot;</span>);
         <span class="self">self</span>.<span class="ident">push_sql</span>(<span class="kw-2">&amp;</span><span class="ident">identifier</span>.<span class="ident">replace</span>(<span class="string">&quot;`&quot;</span>, <span class="string">&quot;``&quot;</span>));
         <span class="self">self</span>.<span class="ident">push_sql</span>(<span class="string">&quot;`&quot;</span>);
@@ -78,7 +78,7 @@
         <span class="self">self</span>.<span class="ident">push_sql</span>(<span class="string">&quot;?&quot;</span>);
     }
 
-    <span class="kw">fn</span> <span class="ident">finish</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+    <span class="kw">fn</span> <span class="ident">finish</span>(<span class="self">self</span>) -&gt; <span class="ident">String</span> {
         <span class="self">self</span>.<span class="ident">sql</span>
     }
 }

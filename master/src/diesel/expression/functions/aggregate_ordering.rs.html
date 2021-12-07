@@ -81,7 +81,7 @@
     <span class="doccomment">/// assert_eq!(Ok(Some(8)), animals.select(max(legs)).first(connection));</span>
     <span class="doccomment">/// # }</span>
     <span class="attribute">#[<span class="ident">aggregate</span>]</span>
-    <span class="kw">fn</span> <span class="ident">max</span><span class="op">&lt;</span><span class="ident">ST</span>: <span class="ident">SqlOrdAggregate</span><span class="op">&gt;</span>(<span class="ident">expr</span>: <span class="ident">ST</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ST::Ret</span>;
+    <span class="kw">fn</span> <span class="ident">max</span><span class="op">&lt;</span><span class="ident">ST</span>: <span class="ident">SqlOrdAggregate</span><span class="op">&gt;</span>(<span class="ident">expr</span>: <span class="ident">ST</span>) -&gt; <span class="ident">ST::Ret</span>;
 }
 
 <span class="macro">sql_function!</span> {
@@ -100,7 +100,7 @@
     <span class="doccomment">/// assert_eq!(Ok(Some(4)), animals.select(min(legs)).first(connection));</span>
     <span class="doccomment">/// # }</span>
     <span class="attribute">#[<span class="ident">aggregate</span>]</span>
-    <span class="kw">fn</span> <span class="ident">min</span><span class="op">&lt;</span><span class="ident">ST</span>: <span class="ident">SqlOrdAggregate</span><span class="op">&gt;</span>(<span class="ident">expr</span>: <span class="ident">ST</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ST::Ret</span>;
+    <span class="kw">fn</span> <span class="ident">min</span><span class="op">&lt;</span><span class="ident">ST</span>: <span class="ident">SqlOrdAggregate</span><span class="op">&gt;</span>(<span class="ident">expr</span>: <span class="ident">ST</span>) -&gt; <span class="ident">ST::Ret</span>;
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="diesel" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>

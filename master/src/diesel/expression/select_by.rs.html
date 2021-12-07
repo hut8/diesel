@@ -114,7 +114,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SelectBy</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">DB</span><span class="op">&gt;</span>(<span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span>(<span class="ident">T</span>, <span class="ident">DB</span>)<span class="op">&gt;</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">DB</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">SelectBy</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">DB</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span>(<span class="self">self</span>.<span class="number">0</span>)
     }
 }
@@ -133,7 +133,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">DB</span><span class="op">&gt;</span> <span class="ident">SelectBy</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">DB</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="self">Self</span> {
         <span class="self">Self</span>(<span class="ident">Default::default</span>())
     }
 }
@@ -182,7 +182,7 @@
     <span class="ident">T::SelectExpression</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">T::construct_selection</span>().<span class="ident">walk_ast</span>(<span class="ident">out</span>)
     }
 }

@@ -84,7 +84,7 @@
     <span class="doccomment">/// Output type of filter_target operation</span>
     <span class="kw">type</span> <span class="ident">FilterOutput</span>;
     <span class="doccomment">/// equivalent to filter of FilterDsl but aimed at conflict targets</span>
-    <span class="kw">fn</span> <span class="ident">filter_target</span>(<span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::FilterOutput</span>;
+    <span class="kw">fn</span> <span class="ident">filter_target</span>(<span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">P</span>) -&gt; <span class="ident"><span class="self">Self</span>::FilterOutput</span>;
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -101,7 +101,7 @@
 {
     <span class="kw">type</span> <span class="ident">FilterOutput</span> <span class="op">=</span> <span class="ident">DecoratedConflictTarget</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">WhereClause</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">filter_target</span>(<span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::FilterOutput</span> {
+    <span class="kw">fn</span> <span class="ident">filter_target</span>(<span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">P</span>) -&gt; <span class="ident"><span class="self">Self</span>::FilterOutput</span> {
         <span class="ident">DecoratedConflictTarget</span> {
             <span class="ident">target</span>: <span class="self">self</span>,
             <span class="ident">where_clause</span>: <span class="ident">NoWhereClause</span>.<span class="ident">and</span>(<span class="ident">predicate</span>),
@@ -117,7 +117,7 @@
 {
     <span class="kw">type</span> <span class="ident">FilterOutput</span> <span class="op">=</span> <span class="ident">DecoratedConflictTarget</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="op">&lt;</span><span class="ident">U</span> <span class="kw">as</span> <span class="ident">WhereAnd</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Output</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">filter_target</span>(<span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::FilterOutput</span> {
+    <span class="kw">fn</span> <span class="ident">filter_target</span>(<span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">P</span>) -&gt; <span class="ident"><span class="self">Self</span>::FilterOutput</span> {
         <span class="ident">DecoratedConflictTarget</span> {
             <span class="ident">target</span>: <span class="self">self</span>.<span class="ident">target</span>,
             <span class="ident">where_clause</span>: <span class="self">self</span>.<span class="ident">where_clause</span>.<span class="ident">and</span>(<span class="ident">predicate</span>),
@@ -130,7 +130,7 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="self">Self</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span>, <span class="ident">DB::OnConflictClause</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span>, <span class="ident">DB::OnConflictClause</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::walk_ast</span>(<span class="self">self</span>, <span class="ident">pass</span>)
     }
 }

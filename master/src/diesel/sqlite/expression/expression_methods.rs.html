@@ -118,7 +118,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">is</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::Is</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">is</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::Is</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident"><span class="self">Self</span>::SqlType</span>: <span class="ident">SqlType</span>,
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SqlType</span><span class="op">&gt;</span>,
@@ -154,7 +154,7 @@
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::clippy::wrong_self_convention</span>)]</span> <span class="comment">// This is named after the sql operator</span>
-    <span class="kw">fn</span> <span class="ident">is_not</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::IsNot</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">is_not</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::IsNot</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident"><span class="self">Self</span>::SqlType</span>: <span class="ident">SqlType</span>,
         <span class="ident">T</span>: <span class="ident">AsExpression</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SqlType</span><span class="op">&gt;</span>,

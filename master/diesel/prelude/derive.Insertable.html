@@ -28,7 +28,7 @@ struct using this derive: one for an owned version and one for a borrowed versio
 Using <code>#[diesel(serialize_as)]</code> implies a conversion using <code>.into</code> which consumes the underlying value.
 Hence, once you use <code>#[diesel(serialize_as)]</code>, Diesel can no longer insert borrowed
 versions of your struct.</p>
-<h1 id="attributes" class="section-header"><a href="#attributes">Attributes</a></h1><h2 id="optional-container-attributes" class="section-header"><a href="#optional-container-attributes">Optional container attributes</a></h2>
+<h2 id="attributes" class="section-header"><a href="#attributes">Attributes</a></h2><h3 id="optional-container-attributes" class="section-header"><a href="#optional-container-attributes">Optional container attributes</a></h3>
 <ul>
 <li><code>#[table_name = &quot;path::to::table&quot;]</code>, specifies a path to the table this type
 is insertable into. The path is relative to the current module.
@@ -38,7 +38,7 @@ If this attribute is not used, the type name converted to
 <em>Note: This option may control if your query is stored in the
 prepared statement cache or not</em></li>
 </ul>
-<h2 id="optional-field-attributes" class="section-header"><a href="#optional-field-attributes">Optional field attributes</a></h2>
+<h3 id="optional-field-attributes" class="section-header"><a href="#optional-field-attributes">Optional field attributes</a></h3>
 <ul>
 <li><code>#[column_name = &quot;some_column_name&quot;]</code>, overrides the column the current
 field maps to <code>some_column_name</code>. By default the field name is used
@@ -50,7 +50,7 @@ field type, Diesel will convert the field into <code>SomeType</code> using <code
 serialize that instead. By default this derive will serialize directly using
 the actual field type.</li>
 </ul>
-<h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
+<h2 id="examples" class="section-header"><a href="#examples">Examples</a></h2>
 <p>If we want to customize the serialization during insert, we can use <code>#[diesel(serialize_as)]</code>.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">FromSqlRow</span>, <span class="ident">AsExpression</span>)]</span>
@@ -58,7 +58,7 @@ the actual field type.</li>
 <span class="kw">struct</span> <span class="ident">UppercaseString</span>(<span class="kw">pub</span> <span class="ident">String</span>);
 
 <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">UppercaseString</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">String</span> {
-    <span class="kw">fn</span> <span class="ident">into</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UppercaseString</span> {
+    <span class="kw">fn</span> <span class="ident">into</span>(<span class="self">self</span>) -&gt; <span class="ident">UppercaseString</span> {
         <span class="ident">UppercaseString</span>(<span class="self">self</span>.<span class="ident">to_uppercase</span>())
     }
 }
@@ -68,7 +68,7 @@ the actual field type.</li>
         <span class="ident">DB</span>: <span class="ident">Backend</span>,
         <span class="ident">String</span>: <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">sql_types::Text</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">serialize::Result</span> {
+    <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">to_sql</span>(<span class="ident">out</span>)
     }
 }

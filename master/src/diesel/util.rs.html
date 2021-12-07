@@ -20,7 +20,7 @@
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TupleAppend</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Output</span>;
 
-    <span class="kw">fn</span> <span class="ident">tuple_append</span>(<span class="self">self</span>, <span class="ident">right</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span>;
+    <span class="kw">fn</span> <span class="ident">tuple_append</span>(<span class="self">self</span>, <span class="ident">right</span>: <span class="ident">T</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TupleSize</span> {

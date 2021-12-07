@@ -143,7 +143,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">and</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">ST</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::And</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span>, <span class="ident">ST</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">and</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">ST</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::And</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span>, <span class="ident">ST</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident"><span class="self">Self</span>::SqlType</span>: <span class="ident">SqlType</span>,
         <span class="ident">ST</span>: <span class="ident">SqlType</span> <span class="op">+</span> <span class="ident">TypedExpressionType</span>,
@@ -191,7 +191,7 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">or</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">ST</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">dsl::Or</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span>, <span class="ident">ST</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">or</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">ST</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">T</span>) -&gt; <span class="ident">dsl::Or</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span>, <span class="ident">ST</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident"><span class="self">Self</span>::SqlType</span>: <span class="ident">SqlType</span>,
         <span class="ident">ST</span>: <span class="ident">SqlType</span> <span class="op">+</span> <span class="ident">TypedExpressionType</span>,

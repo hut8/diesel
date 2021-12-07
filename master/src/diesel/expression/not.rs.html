@@ -55,7 +55,7 @@
 <span class="doccomment">/// assert_eq!(Ok(2), users_not_with_name.first(connection));</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">not</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">expr</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">not</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">not</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">expr</span>: <span class="ident">T</span>) -&gt; <span class="ident">not</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Expression</span>,
     <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">Expression</span><span class="op">&gt;</span><span class="ident">::SqlType</span>: <span class="ident">BoolOrNullableBool</span>,

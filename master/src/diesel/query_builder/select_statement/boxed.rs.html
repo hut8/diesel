@@ -517,7 +517,7 @@
         <span class="ident">limit_offset</span>: <span class="ident">BoxedLimitOffsetClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
         <span class="ident">group_by</span>: <span class="ident">G</span>,
         <span class="ident">having</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
+    ) -&gt; <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="ident">DB</span>: <span class="ident">Backend</span>,
         <span class="ident">G</span>: <span class="ident">ValidGroupByClause</span><span class="op">&lt;</span><span class="ident">Expressions</span> <span class="op">=</span> <span class="ident">GB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>,
@@ -542,8 +542,8 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">build_query</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
-        <span class="ident">where_clause_handler</span>: <span class="kw">impl</span> <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>, <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+        <span class="ident">where_clause_handler</span>: <span class="kw">impl</span> <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>, <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+    ) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">DB</span>: <span class="ident">Backend</span>,
         <span class="ident">QS</span>: <span class="ident">QuerySource</span>,
@@ -594,7 +594,7 @@
     <span class="ident">QS::FromClause</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">BoxedLimitOffsetClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">build_query</span>(<span class="ident">out</span>, <span class="op">|</span><span class="ident">where_clause</span>, <span class="ident">out</span><span class="op">|</span> <span class="ident">where_clause</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>))
     }
 }
@@ -605,7 +605,7 @@
     <span class="ident">NoFromClause</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span>, <span class="ident">DB::EmptyFromClauseSyntax</span><span class="op">&gt;</span>,
     <span class="ident">BoxedLimitOffsetClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;SELECT &quot;</span>);
         <span class="self">self</span>.<span class="ident">distinct</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">select</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
@@ -632,7 +632,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">JoinOn</span><span class="op">&lt;</span><span class="ident">Join</span><span class="op">&lt;</span><span class="ident">QS</span>, <span class="ident">Rhs</span>, <span class="ident">Kind</span><span class="op">&gt;</span>, <span class="ident">On</span><span class="op">&gt;</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">join</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>, <span class="ident">kind</span>: <span class="ident">Kind</span>, <span class="ident">on</span>: <span class="ident">On</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">join</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>, <span class="ident">kind</span>: <span class="ident">Kind</span>, <span class="ident">on</span>: <span class="ident">On</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="ident">BoxedSelectStatement</span> {
             <span class="ident">select</span>: <span class="self">self</span>.<span class="ident">select</span>,
             <span class="ident">from</span>: <span class="ident">Join::new</span>(<span class="self">self</span>.<span class="ident">from</span>, <span class="ident">rhs</span>, <span class="ident">kind</span>).<span class="ident">on</span>(<span class="ident">on</span>),
@@ -654,7 +654,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
 
-    <span class="kw">fn</span> <span class="ident">distinct</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">distinct</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">distinct</span> <span class="op">=</span> <span class="ident">Box::new</span>(<span class="ident">DistinctClause</span>);
         <span class="self">self</span>
     }
@@ -668,7 +668,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Selection::SqlType</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">select</span>(<span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">select</span>(<span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="ident">BoxedSelectStatement</span> {
             <span class="ident">select</span>: <span class="ident">Box::new</span>(<span class="ident">selection</span>),
             <span class="ident">from</span>: <span class="self">self</span>.<span class="ident">from</span>,
@@ -692,7 +692,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
 
-    <span class="kw">fn</span> <span class="ident">filter</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">Predicate</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">filter</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">Predicate</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">where_clause</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">where_clause</span>.<span class="ident">and</span>(<span class="ident">predicate</span>);
         <span class="self">self</span>
     }
@@ -707,7 +707,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
 
-    <span class="kw">fn</span> <span class="ident">or_filter</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">Predicate</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">or_filter</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">Predicate</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">where_clause</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">where_clause</span>.<span class="ident">or</span>(<span class="ident">predicate</span>);
         <span class="self">self</span>
     }
@@ -720,7 +720,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
 
-    <span class="kw">fn</span> <span class="ident">limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">i64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">i64</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">limit_offset</span>.<span class="ident">limit</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">LimitClause</span>(<span class="ident">limit</span>.<span class="ident">into_sql</span>::<span class="op">&lt;</span><span class="ident">BigInt</span><span class="op">&gt;</span>())));
         <span class="self">self</span>
     }
@@ -733,7 +733,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
 
-    <span class="kw">fn</span> <span class="ident">offset</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">offset</span>: <span class="ident">i64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">offset</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">offset</span>: <span class="ident">i64</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">limit_offset</span>.<span class="ident">offset</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">OffsetClause</span>(<span class="ident">offset</span>.<span class="ident">into_sql</span>::<span class="op">&lt;</span><span class="ident">BigInt</span><span class="op">&gt;</span>())));
         <span class="self">self</span>
     }
@@ -746,7 +746,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
 
-    <span class="kw">fn</span> <span class="ident">order</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">order</span>: <span class="ident">Order</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">order</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">order</span>: <span class="ident">Order</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">order</span> <span class="op">=</span> <span class="ident">OrderClause</span>(<span class="ident">order</span>).<span class="ident">into</span>();
         <span class="self">self</span>
     }
@@ -759,10 +759,10 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
 
-    <span class="kw">fn</span> <span class="ident">then_order_by</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">order</span>: <span class="ident">Order</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">then_order_by</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">order</span>: <span class="ident">Order</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">order</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">order</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">old</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>((<span class="ident">old</span>, <span class="ident">order</span>))),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">order</span>)),
+            <span class="prelude-val">Some</span>(<span class="ident">old</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>((<span class="ident">old</span>, <span class="ident">order</span>))),
+            <span class="prelude-val">None</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">order</span>)),
         };
         <span class="self">self</span>
     }
@@ -775,7 +775,7 @@
     <span class="kw">type</span> <span class="ident">FromClause</span> <span class="op">=</span> <span class="ident">QS::FromClause</span>;
     <span class="kw">type</span> <span class="ident">OnClause</span> <span class="op">=</span> <span class="ident">QS::OnClause</span>;
 
-    <span class="kw">fn</span> <span class="ident">join_target</span>(<span class="ident">rhs</span>: <span class="ident">Rhs</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident"><span class="self">Self</span>::FromClause</span>, <span class="ident"><span class="self">Self</span>::OnClause</span>) {
+    <span class="kw">fn</span> <span class="ident">join_target</span>(<span class="ident">rhs</span>: <span class="ident">Rhs</span>) -&gt; (<span class="ident"><span class="self">Self</span>::FromClause</span>, <span class="ident"><span class="self">Self</span>::OnClause</span>) {
         <span class="ident">QS::join_target</span>(<span class="ident">rhs</span>)
     }
 }
@@ -793,7 +793,7 @@
 {
     <span class="kw">type</span> <span class="ident">Values</span> <span class="op">=</span> <span class="ident">InsertFromSelect</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T::AllColumns</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">values</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Values</span> {
+    <span class="kw">fn</span> <span class="ident">values</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Values</span> {
         <span class="ident">InsertFromSelect::new</span>(<span class="self">self</span>)
     }
 }
@@ -807,7 +807,7 @@
 {
     <span class="kw">type</span> <span class="ident">Values</span> <span class="op">=</span> <span class="ident">InsertFromSelect</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T::AllColumns</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">values</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Values</span> {
+    <span class="kw">fn</span> <span class="ident">values</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Values</span> {
         <span class="ident">InsertFromSelect::new</span>(<span class="self">self</span>)
     }
 }
@@ -818,7 +818,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST::Nullable</span>, <span class="ident">QS</span>, <span class="ident">DB</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">nullable</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">nullable</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="ident">BoxedSelectStatement</span> {
             <span class="ident">select</span>: <span class="self">self</span>.<span class="ident">select</span>,
             <span class="ident">from</span>: <span class="self">self</span>.<span class="ident">from</span>,
@@ -844,7 +844,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
 
-    <span class="kw">fn</span> <span class="ident">having</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">Predicate</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">having</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">Predicate</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">having</span> <span class="op">=</span> <span class="ident">Box::new</span>(<span class="ident">HavingClause</span>(<span class="ident">predicate</span>));
         <span class="self">self</span>
     }
@@ -856,42 +856,42 @@
 {
     <span class="kw">type</span> <span class="ident">Query</span> <span class="op">=</span> <span class="self">Self</span>;
 
-    <span class="kw">fn</span> <span class="ident">union</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="kw">crate</span>::dsl::Union</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Rhs</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">union</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>) -&gt; <span class="ident"><span class="kw">crate</span>::dsl::Union</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Rhs</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">Rhs</span>: <span class="ident">AsQuery</span><span class="op">&lt;</span><span class="ident">SqlType</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Query</span> <span class="kw">as</span> <span class="ident">Query</span><span class="op">&gt;</span><span class="ident">::SqlType</span><span class="op">&gt;</span>,
     {
         <span class="ident">CombinationClause::new</span>(<span class="ident">Union</span>, <span class="ident">Distinct</span>, <span class="self">self</span>, <span class="ident">rhs</span>.<span class="ident">as_query</span>())
     }
 
-    <span class="kw">fn</span> <span class="ident">union_all</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="kw">crate</span>::dsl::UnionAll</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Rhs</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">union_all</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>) -&gt; <span class="ident"><span class="kw">crate</span>::dsl::UnionAll</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Rhs</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">Rhs</span>: <span class="ident">AsQuery</span><span class="op">&lt;</span><span class="ident">SqlType</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Query</span> <span class="kw">as</span> <span class="ident">Query</span><span class="op">&gt;</span><span class="ident">::SqlType</span><span class="op">&gt;</span>,
     {
         <span class="ident">CombinationClause::new</span>(<span class="ident">Union</span>, <span class="ident">All</span>, <span class="self">self</span>, <span class="ident">rhs</span>.<span class="ident">as_query</span>())
     }
 
-    <span class="kw">fn</span> <span class="ident">intersect</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="kw">crate</span>::dsl::Intersect</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Rhs</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">intersect</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>) -&gt; <span class="ident"><span class="kw">crate</span>::dsl::Intersect</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Rhs</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">Rhs</span>: <span class="ident">AsQuery</span><span class="op">&lt;</span><span class="ident">SqlType</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Query</span> <span class="kw">as</span> <span class="ident">Query</span><span class="op">&gt;</span><span class="ident">::SqlType</span><span class="op">&gt;</span>,
     {
         <span class="ident">CombinationClause::new</span>(<span class="ident">Intersect</span>, <span class="ident">Distinct</span>, <span class="self">self</span>, <span class="ident">rhs</span>.<span class="ident">as_query</span>())
     }
 
-    <span class="kw">fn</span> <span class="ident">intersect_all</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="kw">crate</span>::dsl::IntersectAll</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Rhs</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">intersect_all</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>) -&gt; <span class="ident"><span class="kw">crate</span>::dsl::IntersectAll</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Rhs</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">Rhs</span>: <span class="ident">AsQuery</span><span class="op">&lt;</span><span class="ident">SqlType</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Query</span> <span class="kw">as</span> <span class="ident">Query</span><span class="op">&gt;</span><span class="ident">::SqlType</span><span class="op">&gt;</span>,
     {
         <span class="ident">CombinationClause::new</span>(<span class="ident">Intersect</span>, <span class="ident">All</span>, <span class="self">self</span>, <span class="ident">rhs</span>.<span class="ident">as_query</span>())
     }
 
-    <span class="kw">fn</span> <span class="ident">except</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="kw">crate</span>::dsl::Except</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Rhs</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">except</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>) -&gt; <span class="ident"><span class="kw">crate</span>::dsl::Except</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Rhs</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">Rhs</span>: <span class="ident">AsQuery</span><span class="op">&lt;</span><span class="ident">SqlType</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Query</span> <span class="kw">as</span> <span class="ident">Query</span><span class="op">&gt;</span><span class="ident">::SqlType</span><span class="op">&gt;</span>,
     {
         <span class="ident">CombinationClause::new</span>(<span class="ident">Except</span>, <span class="ident">Distinct</span>, <span class="self">self</span>, <span class="ident">rhs</span>.<span class="ident">as_query</span>())
     }
 
-    <span class="kw">fn</span> <span class="ident">except_all</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="kw">crate</span>::dsl::ExceptAll</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Rhs</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">except_all</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>) -&gt; <span class="ident"><span class="kw">crate</span>::dsl::ExceptAll</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Rhs</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">Rhs</span>: <span class="ident">AsQuery</span><span class="op">&lt;</span><span class="ident">SqlType</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Query</span> <span class="kw">as</span> <span class="ident">Query</span><span class="op">&gt;</span><span class="ident">::SqlType</span><span class="op">&gt;</span>,
     {
@@ -905,7 +905,7 @@
 
     <span class="macro">table!</span> {
         <span class="ident">users</span> {
-            <span class="ident">id</span> <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Integer</span>,
+            <span class="ident">id</span> -&gt; <span class="ident">Integer</span>,
         }
     }
 
@@ -916,7 +916,7 @@
     }
 
     <span class="macro">macro_rules!</span> <span class="ident">assert_boxed_query_send</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">backend</span>:<span class="ident">ty</span>) <span class="op">=</span><span class="op">&gt;</span> {{
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">backend</span>:<span class="ident">ty</span>) =&gt; {{
             <span class="ident">assert_send</span>(<span class="ident">users::table</span>.<span class="ident">into_boxed</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">backend</span><span class="op">&gt;</span>());
             <span class="ident">assert_send</span>(
                 <span class="ident">users::table</span>

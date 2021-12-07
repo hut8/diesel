@@ -49,7 +49,7 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::pg::query_builder::on_constraint</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Represents `excluded.column` in an `ON CONFLICT DO UPDATE` clause.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">excluded</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">excluded</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Excluded</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">excluded</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">excluded</span>: <span class="ident">T</span>) -&gt; <span class="ident">Excluded</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="ident">Excluded::new</span>(<span class="ident">excluded</span>)
 }
 </code></pre></div>

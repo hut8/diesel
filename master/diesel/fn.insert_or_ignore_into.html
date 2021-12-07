@@ -3,7 +3,7 @@
 row and continue processing any subsequent rows. This function is only
 available with MySQL and SQLite.</p>
 <p>With PostgreSQL, similar functionality is provided by <a href="query_builder/struct.InsertStatement.html#method.on_conflict_do_nothing"><code>on_conflict_do_nothing</code></a>.</p>
-<h1 id="example" class="section-header"><a href="#example">Example</a></h1>
+<h2 id="example" class="section-header"><a href="#example">Example</a></h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="ident">insert_or_ignore_into</span>(<span class="ident">users</span>)
     .<span class="ident">values</span>((<span class="ident">id</span>.<span class="ident">eq</span>(<span class="number">1</span>), <span class="ident">name</span>.<span class="ident">eq</span>(<span class="string">&quot;Jim&quot;</span>)))
     .<span class="ident">execute</span>(<span class="ident">connection</span>)<span class="question-mark">?</span>;

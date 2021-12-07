@@ -911,23 +911,23 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">__BindgenUnionField</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">::std::marker::PhantomData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>);
 <span class="kw">impl</span> <span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">__BindgenUnionField</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> { <span class="ident">__BindgenUnionField</span>(<span class="ident">::std::marker::PhantomData</span>) }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="self">Self</span> { <span class="ident">__BindgenUnionField</span>(<span class="ident">::std::marker::PhantomData</span>) }
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">as_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span> { <span class="ident">::std::mem::transmute</span>(<span class="self">self</span>) }
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">as_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">T</span> { <span class="ident">::std::mem::transmute</span>(<span class="self">self</span>) }
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">as_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span> { <span class="ident">::std::mem::transmute</span>(<span class="self">self</span>) }
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">as_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span> { <span class="ident">::std::mem::transmute</span>(<span class="self">self</span>) }
 }
 <span class="kw">impl</span> <span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">::std::default::Default</span> <span class="kw">for</span> <span class="ident">__BindgenUnionField</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> { <span class="ident"><span class="self">Self</span>::new</span>() }
+    <span class="kw">fn</span> <span class="ident">default</span>() -&gt; <span class="self">Self</span> { <span class="ident"><span class="self">Self</span>::new</span>() }
 }
 <span class="kw">impl</span> <span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">::std::clone::Clone</span> <span class="kw">for</span> <span class="ident">__BindgenUnionField</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> { <span class="ident"><span class="self">Self</span>::new</span>() }
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span> { <span class="ident"><span class="self">Self</span>::new</span>() }
 }
 <span class="kw">impl</span> <span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">::std::marker::Copy</span> <span class="kw">for</span> <span class="ident">__BindgenUnionField</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> { }
 <span class="kw">impl</span> <span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">::std::fmt::Debug</span> <span class="kw">for</span> <span class="ident">__BindgenUnionField</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">::std::fmt::Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::fmt::Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">::std::fmt::Formatter</span>) -&gt; <span class="ident">::std::fmt::Result</span> {
         <span class="ident">fmt</span>.<span class="ident">write_str</span>(<span class="string">&quot;__BindgenUnionField&quot;</span>)
     }
 }
@@ -947,7 +947,7 @@
     <span class="macro">assert_eq!</span>(<span class="ident">::std::mem::align_of</span>::<span class="op">&lt;</span><span class="ident">__sbuf</span><span class="op">&gt;</span>() , <span class="number">8usize</span>);
 }
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">__sbuf</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
 }
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
@@ -965,27 +965,27 @@
     <span class="kw">pub</span> <span class="ident">_cookie</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_void</span>,
     <span class="kw">pub</span> <span class="ident">_close</span>: <span class="ident">::std::option::Option</span><span class="op">&lt;</span><span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(<span class="ident">arg1</span>:
                                                                <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_void</span>)
-                                          <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span><span class="op">&gt;</span>,
+                                          -&gt; <span class="ident">::std::os::raw::c_int</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">_read</span>: <span class="ident">::std::option::Option</span><span class="op">&lt;</span><span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(<span class="ident">arg1</span>:
                                                               <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_void</span>,
                                                           <span class="ident">arg2</span>:
                                                               <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>,
                                                           <span class="ident">arg3</span>:
                                                               <span class="ident">::std::os::raw::c_int</span>)
-                                         <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span><span class="op">&gt;</span>,
+                                         -&gt; <span class="ident">::std::os::raw::c_int</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">_seek</span>: <span class="ident">::std::option::Option</span><span class="op">&lt;</span><span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(<span class="ident">arg1</span>:
                                                               <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_void</span>,
                                                           <span class="ident">arg2</span>: <span class="ident">fpos_t</span>,
                                                           <span class="ident">arg3</span>:
                                                               <span class="ident">::std::os::raw::c_int</span>)
-                                         <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_longlong</span><span class="op">&gt;</span>,
+                                         -&gt; <span class="ident">::std::os::raw::c_longlong</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">_write</span>: <span class="ident">::std::option::Option</span><span class="op">&lt;</span><span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(<span class="ident">arg1</span>:
                                                                <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_void</span>,
                                                            <span class="ident">arg2</span>:
                                                                <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                                                            <span class="ident">arg3</span>:
                                                                <span class="ident">::std::os::raw::c_int</span>)
-                                          <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span><span class="op">&gt;</span>,
+                                          -&gt; <span class="ident">::std::os::raw::c_int</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">_ub</span>: <span class="ident">__sbuf</span>,
     <span class="kw">pub</span> <span class="ident">_extra</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">__sFILEX</span>,
     <span class="kw">pub</span> <span class="ident">_ur</span>: <span class="ident">::std::os::raw::c_int</span>,
@@ -1001,7 +1001,7 @@
     <span class="macro">assert_eq!</span>(<span class="ident">::std::mem::align_of</span>::<span class="op">&lt;</span><span class="ident">__sFILE</span><span class="op">&gt;</span>() , <span class="number">8usize</span>);
 }
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">__sFILE</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
 }
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">FILE</span> <span class="op">=</span> <span class="ident">__sFILE</span>;
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Oid</span> <span class="op">=</span> <span class="ident">::std::os::raw::c_uint</span>;
@@ -1145,7 +1145,7 @@
     <span class="macro">assert_eq!</span>(<span class="ident">::std::mem::align_of</span>::<span class="op">&lt;</span><span class="ident">pgNotify</span><span class="op">&gt;</span>() , <span class="number">8usize</span>);
 }
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">pgNotify</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
 }
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PGnotify</span> <span class="op">=</span> <span class="ident">pgNotify</span>;
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PQnoticeReceiver</span> <span class="op">=</span>
@@ -1178,7 +1178,7 @@
     <span class="macro">assert_eq!</span>(<span class="ident">::std::mem::align_of</span>::<span class="op">&lt;</span><span class="ident">_PQprintOpt</span><span class="op">&gt;</span>() , <span class="number">8usize</span>);
 }
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">_PQprintOpt</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
 }
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PQprintOpt</span> <span class="op">=</span> <span class="ident">_PQprintOpt</span>;
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
@@ -1198,7 +1198,7 @@
     <span class="macro">assert_eq!</span>(<span class="ident">::std::mem::align_of</span>::<span class="op">&lt;</span><span class="ident">_PQconninfoOption</span><span class="op">&gt;</span>() , <span class="number">8usize</span>);
 }
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">_PQconninfoOption</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
 }
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PQconninfoOption</span> <span class="op">=</span> <span class="ident">_PQconninfoOption</span>;
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
@@ -1222,7 +1222,7 @@
                <span class="number">8usize</span>);
 }
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">_bindgen_ty_8__bindgen_ty_1</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
 }
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">bindgen_test_layout__bindgen_ty_8</span>() {
@@ -1230,7 +1230,7 @@
     <span class="macro">assert_eq!</span>(<span class="ident">::std::mem::align_of</span>::<span class="op">&lt;</span><span class="ident">_bindgen_ty_8</span><span class="op">&gt;</span>() , <span class="number">8usize</span>);
 }
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">_bindgen_ty_8</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
 }
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PQArgBlock</span> <span class="op">=</span> <span class="ident">_bindgen_ty_8</span>;
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
@@ -1250,32 +1250,32 @@
     <span class="macro">assert_eq!</span>(<span class="ident">::std::mem::align_of</span>::<span class="op">&lt;</span><span class="ident">pgresAttDesc</span><span class="op">&gt;</span>() , <span class="number">8usize</span>);
 }
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">pgresAttDesc</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span> { <span class="kw-2">*</span><span class="self">self</span> }
 }
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PGresAttDesc</span> <span class="op">=</span> <span class="ident">pgresAttDesc</span>;
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconnectStart</span>(<span class="ident">conninfo</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconnectStartParams</span>(<span class="ident">keywords</span>:
                                     <span class="kw-2">*</span><span class="kw">const</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                                 <span class="ident">values</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                                 <span class="ident">expand_dbname</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconnectPoll</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PostgresPollingStatusType</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconnectPoll</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">PostgresPollingStatusType</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconnectdb</span>(<span class="ident">conninfo</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconnectdbParams</span>(<span class="ident">keywords</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                              <span class="ident">values</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                              <span class="ident">expand_dbname</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsetdbLogin</span>(<span class="ident">pghost</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
@@ -1284,36 +1284,36 @@
                         <span class="ident">pgtty</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                         <span class="ident">dbName</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                         <span class="ident">login</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
-                        <span class="ident">pwd</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>;
+                        <span class="ident">pwd</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQfinish</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>);
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconndefaults</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PQconninfoOption</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconndefaults</span>() -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PQconninfoOption</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconninfoParse</span>(<span class="ident">conninfo</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                            <span class="ident">errmsg</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PQconninfoOption</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PQconninfoOption</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconninfo</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PQconninfoOption</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconninfo</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PQconninfoOption</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconninfoFree</span>(<span class="ident">connOptions</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PQconninfoOption</span>);
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQresetStart</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQresetStart</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQresetPoll</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PostgresPollingStatusType</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQresetPoll</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">PostgresPollingStatusType</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQreset</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>);
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQgetCancel</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGcancel</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQgetCancel</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGcancel</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQfreeCancel</span>(<span class="ident">cancel</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGcancel</span>);
@@ -1322,94 +1322,94 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQcancel</span>(<span class="ident">cancel</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGcancel</span>,
                     <span class="ident">errbuf</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>,
                     <span class="ident">errbufsize</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQrequestCancel</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQrequestCancel</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQdb</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQdb</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQuser</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQuser</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQpass</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQpass</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQhost</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQhost</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQport</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQport</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQtty</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQtty</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQoptions</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQoptions</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQstatus</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ConnStatusType</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQstatus</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">ConnStatusType</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQtransactionStatus</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PGTransactionStatusType</span>;
+     -&gt; <span class="ident">PGTransactionStatusType</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQparameterStatus</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>,
                              <span class="ident">paramName</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQprotocolVersion</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQprotocolVersion</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQserverVersion</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQserverVersion</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQerrorMessage</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQerrorMessage</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsocket</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsocket</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQbackendPID</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQbackendPID</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconnectionNeedsPassword</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconnectionUsedPassword</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQclientEncoding</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQclientEncoding</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsetClientEncoding</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                                <span class="ident">encoding</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsslInUse</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsslInUse</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsslStruct</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                        <span class="ident">struct_name</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_void</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_void</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsslAttribute</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                           <span class="ident">attribute_name</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsslAttributeNames</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw">const</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQgetssl</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_void</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQgetssl</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_void</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQinitSSL</span>(<span class="ident">do_init</span>: <span class="ident">::std::os::raw::c_int</span>);
@@ -1420,7 +1420,7 @@
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsetErrorVerbosity</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>, <span class="ident">verbosity</span>: <span class="ident">PGVerbosity</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PGVerbosity</span>;
+     -&gt; <span class="ident">PGVerbosity</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQtrace</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>, <span class="ident">debug_port</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">FILE</span>);
@@ -1431,22 +1431,22 @@
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsetNoticeReceiver</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>, <span class="ident">proc_</span>: <span class="ident">PQnoticeReceiver</span>,
                                <span class="ident">arg</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_void</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PQnoticeReceiver</span>;
+     -&gt; <span class="ident">PQnoticeReceiver</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsetNoticeProcessor</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>, <span class="ident">proc_</span>: <span class="ident">PQnoticeProcessor</span>,
                                 <span class="ident">arg</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_void</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PQnoticeProcessor</span>;
+     -&gt; <span class="ident">PQnoticeProcessor</span>;
 }
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">pgthreadlock_t</span> <span class="op">=</span>
     <span class="ident">::std::option::Option</span><span class="op">&lt;</span><span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(<span class="ident">acquire</span>:
                                                    <span class="ident">::std::os::raw::c_int</span>)<span class="op">&gt;</span>;
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQregisterThreadLock</span>(<span class="ident">newhandler</span>: <span class="ident">pgthreadlock_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">pgthreadlock_t</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQregisterThreadLock</span>(<span class="ident">newhandler</span>: <span class="ident">pgthreadlock_t</span>) -&gt; <span class="ident">pgthreadlock_t</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQexec</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>, <span class="ident">query</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQexecParams</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
@@ -1456,14 +1456,14 @@
                         <span class="ident">paramValues</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                         <span class="ident">paramLengths</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_int</span>,
                         <span class="ident">paramFormats</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_int</span>,
-                        <span class="ident">resultFormat</span>: <span class="ident">::std::os::raw::c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
+                        <span class="ident">resultFormat</span>: <span class="ident">::std::os::raw::c_int</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQprepare</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                      <span class="ident">stmtName</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                      <span class="ident">query</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                      <span class="ident">nParams</span>: <span class="ident">::std::os::raw::c_int</span>, <span class="ident">paramTypes</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Oid</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQexecPrepared</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
@@ -1473,12 +1473,12 @@
                           <span class="ident">paramLengths</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_int</span>,
                           <span class="ident">paramFormats</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_int</span>,
                           <span class="ident">resultFormat</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsendQuery</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                        <span class="ident">query</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsendQueryParams</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
@@ -1490,14 +1490,14 @@
                              <span class="ident">paramLengths</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_int</span>,
                              <span class="ident">paramFormats</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_int</span>,
                              <span class="ident">resultFormat</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsendPrepare</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                          <span class="ident">stmtName</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                          <span class="ident">query</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                          <span class="ident">nParams</span>: <span class="ident">::std::os::raw::c_int</span>,
-                         <span class="ident">paramTypes</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Oid</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+                         <span class="ident">paramTypes</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Oid</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsendQueryPrepared</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
@@ -1508,201 +1508,201 @@
                                <span class="ident">paramLengths</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_int</span>,
                                <span class="ident">paramFormats</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_int</span>,
                                <span class="ident">resultFormat</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsetSingleRowMode</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsetSingleRowMode</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQgetResult</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQgetResult</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQisBusy</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQisBusy</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconsumeInput</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQconsumeInput</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQnotifies</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGnotify</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQnotifies</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGnotify</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQputCopyData</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                          <span class="ident">buffer</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                          <span class="ident">nbytes</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQputCopyEnd</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                         <span class="ident">errormsg</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQgetCopyData</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                          <span class="ident">buffer</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>,
                          <span class="ident">async</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQgetline</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>, <span class="ident">string</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>,
-                     <span class="ident">length</span>: <span class="ident">::std::os::raw::c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+                     <span class="ident">length</span>: <span class="ident">::std::os::raw::c_int</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQputline</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>, <span class="ident">string</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQgetlineAsync</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                           <span class="ident">buffer</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>,
                           <span class="ident">bufsize</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQputnbytes</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                        <span class="ident">buffer</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                        <span class="ident">nbytes</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQendcopy</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQendcopy</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsetnonblocking</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>, <span class="ident">arg</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQisnonblocking</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQisnonblocking</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQisthreadsafe</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQisthreadsafe</span>() -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQping</span>(<span class="ident">conninfo</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PGPing</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQping</span>(<span class="ident">conninfo</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>) -&gt; <span class="ident">PGPing</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQpingParams</span>(<span class="ident">keywords</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                         <span class="ident">values</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
-                        <span class="ident">expand_dbname</span>: <span class="ident">::std::os::raw::c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PGPing</span>;
+                        <span class="ident">expand_dbname</span>: <span class="ident">::std::os::raw::c_int</span>) -&gt; <span class="ident">PGPing</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQflush</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQflush</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQfn</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>, <span class="ident">fnid</span>: <span class="ident">::std::os::raw::c_int</span>,
                 <span class="ident">result_buf</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_int</span>,
                 <span class="ident">result_len</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_int</span>,
                 <span class="ident">result_is_int</span>: <span class="ident">::std::os::raw::c_int</span>, <span class="ident">args</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PQArgBlock</span>,
-                <span class="ident">nargs</span>: <span class="ident">::std::os::raw::c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
+                <span class="ident">nargs</span>: <span class="ident">::std::os::raw::c_int</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQresultStatus</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ExecStatusType</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQresultStatus</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) -&gt; <span class="ident">ExecStatusType</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQresStatus</span>(<span class="ident">status</span>: <span class="ident">ExecStatusType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQresStatus</span>(<span class="ident">status</span>: <span class="ident">ExecStatusType</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQresultErrorMessage</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQresultErrorField</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>,
                               <span class="ident">fieldcode</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQntuples</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQntuples</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQnfields</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQnfields</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQbinaryTuples</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQbinaryTuples</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQfname</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>, <span class="ident">field_num</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQfnumber</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>,
                      <span class="ident">field_name</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQftable</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>, <span class="ident">field_num</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Oid</span>;
+     -&gt; <span class="ident">Oid</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQftablecol</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>, <span class="ident">field_num</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQfformat</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>, <span class="ident">field_num</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQftype</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>, <span class="ident">field_num</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Oid</span>;
+     -&gt; <span class="ident">Oid</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQfsize</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>, <span class="ident">field_num</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQfmod</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>, <span class="ident">field_num</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQcmdStatus</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQcmdStatus</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQoidStatus</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQoidStatus</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQoidValue</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Oid</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQoidValue</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) -&gt; <span class="ident">Oid</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQcmdTuples</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQcmdTuples</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQgetvalue</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>, <span class="ident">tup_num</span>: <span class="ident">::std::os::raw::c_int</span>,
                       <span class="ident">field_num</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQgetlength</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>, <span class="ident">tup_num</span>: <span class="ident">::std::os::raw::c_int</span>,
                        <span class="ident">field_num</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQgetisnull</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>, <span class="ident">tup_num</span>: <span class="ident">::std::os::raw::c_int</span>,
                        <span class="ident">field_num</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQnparams</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQnparams</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQparamtype</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>, <span class="ident">param_num</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Oid</span>;
+     -&gt; <span class="ident">Oid</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQdescribePrepared</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                               <span class="ident">stmt</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQdescribePortal</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                             <span class="ident">portal</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsendDescribePrepared</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                                   <span class="ident">stmt</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsendDescribePortal</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                                 <span class="ident">portal</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQclear</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>);
@@ -1712,65 +1712,65 @@
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQmakeEmptyPGresult</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>, <span class="ident">status</span>: <span class="ident">ExecStatusType</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQcopyResult</span>(<span class="ident">src</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>, <span class="ident">flags</span>: <span class="ident">::std::os::raw::c_int</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsetResultAttrs</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>,
                             <span class="ident">numAttributes</span>: <span class="ident">::std::os::raw::c_int</span>,
                             <span class="ident">attDescs</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresAttDesc</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+     -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQresultAlloc</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>, <span class="ident">nBytes</span>: <span class="ident">usize</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_void</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_void</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQsetvalue</span>(<span class="ident">res</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGresult</span>, <span class="ident">tup_num</span>: <span class="ident">::std::os::raw::c_int</span>,
                       <span class="ident">field_num</span>: <span class="ident">::std::os::raw::c_int</span>,
                       <span class="ident">value</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>,
-                      <span class="ident">len</span>: <span class="ident">::std::os::raw::c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+                      <span class="ident">len</span>: <span class="ident">::std::os::raw::c_int</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQescapeStringConn</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                               <span class="ident">to</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>,
                               <span class="ident">from</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                               <span class="ident">length</span>: <span class="ident">usize</span>,
-                              <span class="ident">error</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span>;
+                              <span class="ident">error</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_int</span>) -&gt; <span class="ident">usize</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQescapeLiteral</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                            <span class="ident">str</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>, <span class="ident">len</span>: <span class="ident">usize</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQescapeIdentifier</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                               <span class="ident">str</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>, <span class="ident">len</span>: <span class="ident">usize</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQescapeByteaConn</span>(<span class="ident">conn</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">PGconn</span>,
                              <span class="ident">from</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_uchar</span>,
                              <span class="ident">from_length</span>: <span class="ident">usize</span>, <span class="ident">to_length</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">usize</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_uchar</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_uchar</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQunescapeBytea</span>(<span class="ident">strtext</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_uchar</span>,
                            <span class="ident">retbuflen</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">usize</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_uchar</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_uchar</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQescapeString</span>(<span class="ident">to</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>,
                           <span class="ident">from</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>, <span class="ident">length</span>: <span class="ident">usize</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span>;
+     -&gt; <span class="ident">usize</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQescapeBytea</span>(<span class="ident">from</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_uchar</span>,
                          <span class="ident">from_length</span>: <span class="ident">usize</span>, <span class="ident">to_length</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">usize</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_uchar</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_uchar</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQprint</span>(<span class="ident">fout</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">FILE</span>, <span class="ident">res</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">PGresult</span>,
@@ -1790,23 +1790,23 @@
                          <span class="ident">width</span>: <span class="ident">::std::os::raw::c_int</span>);
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQlibVersion</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQlibVersion</span>() -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQmblen</span>(<span class="ident">s</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
-                   <span class="ident">encoding</span>: <span class="ident">::std::os::raw::c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+                   <span class="ident">encoding</span>: <span class="ident">::std::os::raw::c_int</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQdsplen</span>(<span class="ident">s</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
-                    <span class="ident">encoding</span>: <span class="ident">::std::os::raw::c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+                    <span class="ident">encoding</span>: <span class="ident">::std::os::raw::c_int</span>) -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQenv2encoding</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::os::raw::c_int</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQenv2encoding</span>() -&gt; <span class="ident">::std::os::raw::c_int</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PQencryptPassword</span>(<span class="ident">passwd</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>,
                              <span class="ident">user</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">::std::os::raw::c_char</span>)
-     <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
+     -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">::std::os::raw::c_char</span>;
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pq_sys" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>

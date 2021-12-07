@@ -290,7 +290,7 @@
 <span class="kw">where</span>
     <span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&lt;</span><span class="ident">EmptyFromClauseSyntax</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::backend::sql_dialect::from_clause_syntax::AnsiSqlFromClauseSyntax</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(())
     }
 }
@@ -332,7 +332,7 @@
         <span class="ident">group_by</span>: <span class="ident">G</span>,
         <span class="ident">having</span>: <span class="ident">H</span>,
         <span class="ident">locking</span>: <span class="ident">LC</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    ) -&gt; <span class="self">Self</span> {
         <span class="ident">SelectStatement</span> {
             <span class="ident">select</span>,
             <span class="ident">from</span>,
@@ -348,7 +348,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">simple</span>(<span class="ident">from</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">simple</span>(<span class="ident">from</span>: <span class="ident">F</span>) -&gt; <span class="self">Self</span> {
         <span class="ident">SelectStatement::new</span>(
             <span class="ident">DefaultSelectClause</span>,
             <span class="ident">from</span>,
@@ -399,7 +399,7 @@
     <span class="ident">H</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">LC</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;SELECT &quot;</span>);
         <span class="self">self</span>.<span class="ident">distinct</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">select</span>.<span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">from</span>, <span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
@@ -429,7 +429,7 @@
     <span class="ident">H</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">LC</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;SELECT &quot;</span>);
         <span class="self">self</span>.<span class="ident">distinct</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">select</span>.<span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="ident">NoFromClause</span>, <span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
@@ -469,11 +469,11 @@
     <span class="kw">type</span> <span class="ident">FromClause</span> <span class="op">=</span> <span class="ident">From::FromClause</span>;
     <span class="kw">type</span> <span class="ident">DefaultSelection</span> <span class="op">=</span> <span class="ident">From::DefaultSelection</span>;
 
-    <span class="kw">fn</span> <span class="ident">from_clause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::FromClause</span> {
+    <span class="kw">fn</span> <span class="ident">from_clause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::FromClause</span> {
         <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">from_clause</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">default_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::DefaultSelection</span> {
+    <span class="kw">fn</span> <span class="ident">default_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::DefaultSelection</span> {
         <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">default_selection</span>()
     }
 }
@@ -484,7 +484,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">From::Output</span>;
 
-    <span class="kw">fn</span> <span class="ident">append_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Output</span> {
+    <span class="kw">fn</span> <span class="ident">append_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">append_selection</span>(<span class="ident">selection</span>)
     }
 }

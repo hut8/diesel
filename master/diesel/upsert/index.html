@@ -11,15 +11,15 @@ requires a where clause on sqlite due to a ambiguity in their
 parser. See <a href="https://www.sqlite.org/lang_UPSERT.html">the corresponding documentation</a>
 for details.</p>
 </div></details><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
-<div class="item-table"><div class="item-left module-item"><a class="struct" href="struct.IncompleteDoUpdate.html" title="diesel::upsert::IncompleteDoUpdate struct">IncompleteDoUpdate</a></div><div class="item-right docblock-short"><p>A partially constructed <code>ON CONFLICT DO UPDATE</code> clause.</p>
-</div><div class="item-left module-item"><a class="struct" href="struct.IncompleteOnConflict.html" title="diesel::upsert::IncompleteOnConflict struct">IncompleteOnConflict</a></div><div class="item-right docblock-short"><p>A partially constructed <code>ON CONFLICT</code> clause.</p>
-</div></div><h2 id="traits" class="section-header"><a href="#traits">Traits</a></h2>
-<div class="item-table"><div class="item-left module-item"><a class="trait" href="trait.DecoratableTarget.html" title="diesel::upsert::DecoratableTarget trait">DecoratableTarget</a></div><div class="item-right docblock-short"><p>Interface to add information to conflict targets.
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.IncompleteDoUpdate.html" title="diesel::upsert::IncompleteDoUpdate struct">IncompleteDoUpdate</a></div><div class="item-right docblock-short"><p>A partially constructed <code>ON CONFLICT DO UPDATE</code> clause.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.IncompleteOnConflict.html" title="diesel::upsert::IncompleteOnConflict struct">IncompleteOnConflict</a></div><div class="item-right docblock-short"><p>A partially constructed <code>ON CONFLICT</code> clause.</p>
+</div></div></div><h2 id="traits" class="section-header"><a href="#traits">Traits</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.DecoratableTarget.html" title="diesel::upsert::DecoratableTarget trait">DecoratableTarget</a></div><div class="item-right docblock-short"><p>Interface to add information to conflict targets.
 Designed to be open for further additions to conflict targets like constraints</p>
-</div></div><h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
-<div class="item-table"><div class="item-left module-item"><a class="fn" href="fn.excluded.html" title="diesel::upsert::excluded fn">excluded</a></div><div class="item-right docblock-short"><p>Represents <code>excluded.column</code> in an <code>ON CONFLICT DO UPDATE</code> clause.</p>
-</div><div class="item-left module-item"><a class="fn" href="fn.on_constraint.html" title="diesel::upsert::on_constraint fn">on_constraint</a></div><div class="item-right docblock-short"><p>Used to specify the constraint name for an upsert statement in the form <code>ON CONFLICT ON CONSTRAINT</code>. Note that <code>constraint_name</code> must be the name of a
+</div></div></div><h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.excluded.html" title="diesel::upsert::excluded fn">excluded</a></div><div class="item-right docblock-short"><p>Represents <code>excluded.column</code> in an <code>ON CONFLICT DO UPDATE</code> clause.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.on_constraint.html" title="diesel::upsert::on_constraint fn">on_constraint</a></div><div class="item-right docblock-short"><p>Used to specify the constraint name for an upsert statement in the form <code>ON CONFLICT ON CONSTRAINT</code>. Note that <code>constraint_name</code> must be the name of a
 unique constraint, not the name of an index.</p>
-</div></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="diesel" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+</div></div></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="diesel" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
     <script src="../../main.js"></script>
 </body></html>

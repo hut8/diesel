@@ -59,50 +59,50 @@
 
 <span class="macro">sql_function!</span> {
     <span class="doccomment">/// Creates an abbreviated display format as text.</span>
-    <span class="kw">fn</span> <span class="ident">abbrev</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Text</span>;
+    <span class="kw">fn</span> <span class="ident">abbrev</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) -&gt; <span class="ident">Text</span>;
 }
 <span class="macro">sql_function!</span> {
     <span class="doccomment">/// Computes the broadcast address for the address&#39;s network.</span>
-    <span class="kw">fn</span> <span class="ident">broadcast</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Inet</span>;
+    <span class="kw">fn</span> <span class="ident">broadcast</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) -&gt; <span class="ident">Inet</span>;
 }
 <span class="macro">sql_function!</span> {
     <span class="doccomment">/// Returns the address&#39;s family: 4 for IPv4, 6 for IPv6.</span>
-    <span class="kw">fn</span> <span class="ident">family</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Integer</span>;
+    <span class="kw">fn</span> <span class="ident">family</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) -&gt; <span class="ident">Integer</span>;
 }
 <span class="macro">sql_function!</span> {
     <span class="doccomment">/// Returns the IP address as text, ignoring the netmask.</span>
-    <span class="kw">fn</span> <span class="ident">host</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Text</span>;
+    <span class="kw">fn</span> <span class="ident">host</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) -&gt; <span class="ident">Text</span>;
 }
 <span class="macro">sql_function!</span> {
     <span class="doccomment">/// Computes the host mask for the address&#39;s network.</span>
-    <span class="kw">fn</span> <span class="ident">hostmask</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Inet</span>;
+    <span class="kw">fn</span> <span class="ident">hostmask</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) -&gt; <span class="ident">Inet</span>;
 }
 <span class="macro">sql_function!</span> {
     <span class="doccomment">/// Computes the smallest network that includes both of the given networks.</span>
-    <span class="kw">fn</span> <span class="ident">inet_merge</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span>, <span class="ident">U</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">T</span>, <span class="ident">b</span>: <span class="ident">U</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cidr</span>;
+    <span class="kw">fn</span> <span class="ident">inet_merge</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span>, <span class="ident">U</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">T</span>, <span class="ident">b</span>: <span class="ident">U</span>) -&gt; <span class="ident">Cidr</span>;
 }
 <span class="macro">sql_function!</span> {
     <span class="doccomment">/// Tests whether the addresses belong to the same IP family.</span>
-    <span class="kw">fn</span> <span class="ident">inet_same_family</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span>, <span class="ident">U</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">T</span>, <span class="ident">b</span>: <span class="ident">U</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Bool</span>;
+    <span class="kw">fn</span> <span class="ident">inet_same_family</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span>, <span class="ident">U</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">T</span>, <span class="ident">b</span>: <span class="ident">U</span>) -&gt; <span class="ident">Bool</span>;
 }
 <span class="macro">sql_function!</span> {
     <span class="doccomment">/// Returns the netmask length in bits.</span>
-    <span class="kw">fn</span> <span class="ident">masklen</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Integer</span>;
+    <span class="kw">fn</span> <span class="ident">masklen</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) -&gt; <span class="ident">Integer</span>;
 }
 <span class="macro">sql_function!</span> {
     <span class="doccomment">/// Computes the network mask for the address&#39;s network.</span>
-    <span class="kw">fn</span> <span class="ident">netmask</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Inet</span>;
+    <span class="kw">fn</span> <span class="ident">netmask</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) -&gt; <span class="ident">Inet</span>;
 }
 <span class="macro">sql_function!</span> {
     <span class="doccomment">/// Returns the network part of the address, zeroing out whatever is to the right of the</span>
     <span class="doccomment">/// netmask. (This is equivalent to casting the value to cidr.)</span>
-    <span class="kw">fn</span> <span class="ident">network</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cidr</span>;
+    <span class="kw">fn</span> <span class="ident">network</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>) -&gt; <span class="ident">Cidr</span>;
 }
 <span class="macro">sql_function!</span> {
     <span class="doccomment">/// Sets the netmask length for an inet or cidr value.</span>
     <span class="doccomment">/// For inet, the address part does not changes. For cidr, address bits to the right of the new</span>
     <span class="doccomment">/// netmask are set to zero.</span>
-    <span class="kw">fn</span> <span class="ident">set_masklen</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>, <span class="ident">len</span>: <span class="ident">Integer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span>;
+    <span class="kw">fn</span> <span class="ident">set_masklen</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">InetOrCidr</span> <span class="op">+</span> <span class="ident">SingleValue</span><span class="op">&gt;</span>(<span class="ident">addr</span>: <span class="ident">T</span>, <span class="ident">len</span>: <span class="ident">Integer</span>) -&gt; <span class="ident">T</span>;
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="diesel" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>

@@ -162,7 +162,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">InnerPgTypeMetadata</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">oid</span>, <span class="ident">array_oid</span>): (<span class="ident">u32</span>, <span class="ident">u32</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">oid</span>, <span class="ident">array_oid</span>): (<span class="ident">u32</span>, <span class="ident">u32</span>)) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">oid</span>, <span class="ident">array_oid</span> }
     }
 }
@@ -175,7 +175,7 @@
 <span class="kw">impl</span> <span class="ident">FailedToLookupTypeError</span> {
     <span class="doccomment">/// Construct a new instance of this error type</span>
     <span class="doccomment">/// containing information about which type lookup failed</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">cache_key</span>: <span class="ident">PgMetadataCacheKey</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">cache_key</span>: <span class="ident">PgMetadataCacheKey</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span>(<span class="ident">Box::new</span>(<span class="ident">cache_key</span>))
     }
 }
@@ -183,7 +183,7 @@
 <span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">FailedToLookupTypeError</span> {}
 
 <span class="kw">impl</span> <span class="ident">std::fmt::Display</span> <span class="kw">for</span> <span class="ident">FailedToLookupTypeError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std::fmt::Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">schema</span>) <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">schema</span>.<span class="ident">as_ref</span>() {
             <span class="macro">write!</span>(
                 <span class="ident">f</span>,
@@ -211,7 +211,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [OIDs]: https://www.postgresql.org/docs/current/static/datatype-oid.html</span>
     <span class="doccomment">/// [PgMetadataLookup]: struct.PgMetadataLookup.html</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">type_oid</span>: <span class="ident">u32</span>, <span class="ident">array_oid</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">type_oid</span>: <span class="ident">u32</span>, <span class="ident">array_oid</span>: <span class="ident">u32</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span>(<span class="prelude-val">Ok</span>(<span class="ident">InnerPgTypeMetadata</span> {
             <span class="ident">oid</span>: <span class="ident">type_oid</span>,
             <span class="ident">array_oid</span>,
@@ -225,21 +225,21 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Otherwise refer to [PgMetadataLookup] for a way to automatically</span>
     <span class="doccomment">/// implement the corresponding lookup functionality</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_result</span>(<span class="ident">r</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>), <span class="ident">FailedToLookupTypeError</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_result</span>(<span class="ident">r</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>), <span class="ident">FailedToLookupTypeError</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span>(<span class="ident">r</span>.<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">oid</span>, <span class="ident">array_oid</span>)<span class="op">|</span> <span class="ident">InnerPgTypeMetadata</span> { <span class="ident">oid</span>, <span class="ident">array_oid</span> }))
     }
 
     <span class="doccomment">/// The [OID] of `T`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [OID]: https://www.postgresql.org/docs/current/static/datatype-oid.html</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">oid</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">oid</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">i</span>.<span class="ident">oid</span>).<span class="ident">map_err</span>(<span class="ident">Clone::clone</span>)
     }
 
     <span class="doccomment">/// The [OID] of `T[]`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [OID]: https://www.postgresql.org/docs/current/static/datatype-oid.html</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">array_oid</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">array_oid</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">i</span>.<span class="ident">array_oid</span>).<span class="ident">map_err</span>(<span class="ident">Clone::clone</span>)
     }
 }
