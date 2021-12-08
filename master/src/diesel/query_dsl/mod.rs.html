@@ -1630,7 +1630,6 @@
 <span id="1630">1630</span>
 <span id="1631">1631</span>
 <span id="1632">1632</span>
-<span id="1633">1633</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Traits that construct SELECT statements</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Traits in this module have methods that generally map to the keyword for the corresponding clause in SQL,</span>
@@ -3038,9 +3037,11 @@
         <span class="self">self</span>.<span class="ident">internal_load</span>(<span class="ident">conn</span>)<span class="question-mark">?</span>.<span class="ident">collect</span>()
     }
 
-    <span class="doccomment">/// Executes the given query, returning a [`Iterator`] with the returned rows.</span>
+    <span class="doccomment">/// Executes the given query, returning an [`Iterator`] with the returned rows.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// **You should normally prefer to use [`RunQueryDsl::load`] instead**. This method</span>
+    <span class="doccomment">/// The iterator&#39;s item is [`QueryResult&lt;U&gt;`](crate::result::QueryResult).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// You should normally prefer to use [`RunQueryDsl::load`] instead. This method</span>
     <span class="doccomment">/// is provided for situations where the result needs to be collected into a different</span>
     <span class="doccomment">/// container than a [`Vec`]</span>
     <span class="doccomment">///</span>
@@ -3136,15 +3137,12 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">load_iter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">U</span><span class="op">&gt;</span>(
-        <span class="self">self</span>,
-        <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Conn</span>,
-    ) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">load_iter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Conn</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">LoadIter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span>, <span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">U</span>: <span class="lifetime">&#39;a</span>,
         <span class="self">Self</span>: <span class="ident">LoadQuery</span><span class="op">&lt;</span><span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>,
     {
-        <span class="self">self</span>.<span class="ident">internal_load</span>(<span class="ident">conn</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">Box::new</span>(<span class="ident">i</span>) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>)
+        <span class="self">self</span>.<span class="ident">internal_load</span>(<span class="ident">conn</span>)
     }
 
     <span class="doccomment">/// Runs the command, and returns the affected row.</span>
