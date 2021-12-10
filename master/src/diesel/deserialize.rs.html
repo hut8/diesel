@@ -730,7 +730,7 @@
 <span class="doccomment">/// #[derive(Queryable, PartialEq, Debug)]</span>
 <span class="doccomment">/// struct User {</span>
 <span class="doccomment">///     id: i32,</span>
-<span class="doccomment">///     #[diesel(deserialize_as = &quot;LowercaseString&quot;)]</span>
+<span class="doccomment">///     #[diesel(deserialize_as = LowercaseString)]</span>
 <span class="doccomment">///     name: String,</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
@@ -824,7 +824,7 @@
 <span class="doccomment">/// # use diesel::sql_query;</span>
 <span class="doccomment">/// #</span>
 <span class="doccomment">/// #[derive(QueryableByName, PartialEq, Debug)]</span>
-<span class="doccomment">/// #[table_name = &quot;users&quot;]</span>
+<span class="doccomment">/// #[diesel(table_name = users)]</span>
 <span class="doccomment">/// struct User {</span>
 <span class="doccomment">///     id: i32,</span>
 <span class="doccomment">///     name: String,</span>
@@ -874,10 +874,10 @@
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// #[derive(QueryableByName, PartialEq, Debug)]</span>
-<span class="doccomment">/// #[table_name = &quot;users&quot;]</span>
+<span class="doccomment">/// #[diesel(table_name = users)]</span>
 <span class="doccomment">/// struct User {</span>
 <span class="doccomment">///     id: i32,</span>
-<span class="doccomment">///     #[diesel(deserialize_as = &quot;LowercaseString&quot;)]</span>
+<span class="doccomment">///     #[diesel(deserialize_as = LowercaseString)]</span>
 <span class="doccomment">///     name: String,</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>

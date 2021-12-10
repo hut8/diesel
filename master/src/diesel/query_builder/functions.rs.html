@@ -799,7 +799,7 @@
 <span class="doccomment">/// # use schema::users;</span>
 <span class="doccomment">/// #</span>
 <span class="doccomment">/// #[derive(Insertable)]</span>
-<span class="doccomment">/// #[table_name = &quot;users&quot;]</span>
+<span class="doccomment">/// #[diesel(table_name = users)]</span>
 <span class="doccomment">/// struct NewUser&lt;&#39;a&gt; {</span>
 <span class="doccomment">///     name: &amp;&#39;a str,</span>
 <span class="doccomment">/// }</span>
@@ -846,7 +846,7 @@
 <span class="doccomment">/// #</span>
 <span class="doccomment">/// # #[cfg(not(feature = &quot;sqlite&quot;))]</span>
 <span class="doccomment">/// #[derive(Insertable)]</span>
-<span class="doccomment">/// #[table_name = &quot;brands&quot;]</span>
+<span class="doccomment">/// #[diesel(table_name = brands)]</span>
 <span class="doccomment">/// struct NewBrand {</span>
 <span class="doccomment">///     color: Option&lt;String&gt;,</span>
 <span class="doccomment">/// }</span>
@@ -892,7 +892,7 @@
 <span class="doccomment">/// #</span>
 <span class="doccomment">/// # #[cfg(not(feature = &quot;sqlite&quot;))]</span>
 <span class="doccomment">/// #[derive(Insertable)]</span>
-<span class="doccomment">/// #[table_name = &quot;brands&quot;]</span>
+<span class="doccomment">/// #[diesel(table_name = brands)]</span>
 <span class="doccomment">/// struct NewBrand {</span>
 <span class="doccomment">///     accent: Option&lt;Option&lt;String&gt;&gt;,</span>
 <span class="doccomment">/// }</span>
@@ -1124,7 +1124,7 @@
 <span class="doccomment">/// # use schema::users;</span>
 <span class="doccomment">/// #</span>
 <span class="doccomment">/// # #[derive(QueryableByName, Debug, PartialEq)]</span>
-<span class="doccomment">/// # #[table_name=&quot;users&quot;]</span>
+<span class="doccomment">/// # #[diesel(table_name = users)]</span>
 <span class="doccomment">/// # struct User {</span>
 <span class="doccomment">/// #     id: i32,</span>
 <span class="doccomment">/// #     name: String,</span>

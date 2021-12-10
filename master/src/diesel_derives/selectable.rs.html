@@ -67,15 +67,16 @@
 <span id="67">67</span>
 <span id="68">68</span>
 <span id="69">69</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">proc_macro2</span>;
-<span class="kw">use</span> <span class="ident">syn</span>;
+<span id="70">70</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">proc_macro2::TokenStream</span>;
+<span class="kw">use</span> <span class="ident">syn::DeriveInput</span>;
 
-<span class="kw">use</span> <span class="ident">field</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">model</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">util</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">field::Field</span>;
+<span class="kw">use</span> <span class="ident">model::Model</span>;
+<span class="kw">use</span> <span class="ident">util::wrap_in_dummy_mod</span>;
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive</span>(<span class="ident">item</span>: <span class="ident">syn::DeriveInput</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">proc_macro2::TokenStream</span>, <span class="ident">Diagnostic</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">model</span> <span class="op">=</span> <span class="ident">Model::from_item</span>(<span class="kw-2">&amp;</span><span class="ident">item</span>)<span class="question-mark">?</span>;
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive</span>(<span class="ident">item</span>: <span class="ident">DeriveInput</span>) -&gt; <span class="ident">TokenStream</span> {
+    <span class="kw">let</span> <span class="ident">model</span> <span class="op">=</span> <span class="ident">Model::from_item</span>(<span class="kw-2">&amp;</span><span class="ident">item</span>, <span class="bool-val">false</span>);
 
     <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">ty_generics</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">item</span>.<span class="ident">generics</span>.<span class="ident">split_for_impl</span>();
 
@@ -83,7 +84,8 @@
     <span class="ident">generics</span>
         .<span class="ident">params</span>
         .<span class="ident">push</span>(<span class="macro">parse_quote!</span>(<span class="ident">__DB</span>: <span class="ident">diesel::backend::Backend</span>));
-    <span class="kw">for</span> <span class="ident">embed_field</span> <span class="kw">in</span> <span class="ident">model</span>.<span class="ident">fields</span>().<span class="ident">iter</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">has_flag</span>(<span class="string">&quot;embed&quot;</span>)) {
+
+    <span class="kw">for</span> <span class="ident">embed_field</span> <span class="kw">in</span> <span class="ident">model</span>.<span class="ident">fields</span>().<span class="ident">iter</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">embed</span>) {
         <span class="kw">let</span> <span class="ident">embed_ty</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">embed_field</span>.<span class="ident">ty</span>;
         <span class="ident">generics</span>
             .<span class="ident">where_clause</span>
@@ -91,15 +93,15 @@
             .<span class="ident">predicates</span>
             .<span class="ident">push</span>(<span class="macro">parse_quote!</span>(#<span class="ident">embed_ty</span>: <span class="ident">Selectable</span><span class="op">&lt;</span><span class="ident">__DB</span><span class="op">&gt;</span>));
     }
+
     <span class="kw">let</span> (<span class="ident">impl_generics</span>, <span class="kw">_</span>, <span class="ident">where_clause</span>) <span class="op">=</span> <span class="ident">generics</span>.<span class="ident">split_for_impl</span>();
 
     <span class="kw">let</span> <span class="ident">struct_name</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">item</span>.<span class="ident">ident</span>;
 
     <span class="kw">let</span> <span class="ident">field_columns_ty</span> <span class="op">=</span> <span class="ident">model</span>.<span class="ident">fields</span>().<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">field_column_ty</span>(<span class="ident">f</span>, <span class="kw-2">&amp;</span><span class="ident">model</span>));
-
     <span class="kw">let</span> <span class="ident">field_columns_inst</span> <span class="op">=</span> <span class="ident">model</span>.<span class="ident">fields</span>().<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">field_column_inst</span>(<span class="ident">f</span>, <span class="kw-2">&amp;</span><span class="ident">model</span>));
 
-    <span class="prelude-val">Ok</span>(<span class="ident">wrap_in_dummy_mod</span>(<span class="macro">quote!</span> {
+    <span class="ident">wrap_in_dummy_mod</span>(<span class="macro">quote!</span> {
         <span class="kw">use</span> <span class="ident">diesel::expression::Selectable</span>;
 
         <span class="kw">impl</span> #<span class="ident">impl_generics</span> <span class="ident">Selectable</span><span class="op">&lt;</span><span class="ident">__DB</span><span class="op">&gt;</span>
@@ -112,28 +114,28 @@
                 (#(#<span class="ident">field_columns_inst</span>,)<span class="kw-2">*</span>)
             }
         }
-    }))
+    })
 }
 
-<span class="kw">fn</span> <span class="ident">field_column_ty</span>(<span class="ident">field</span>: <span class="kw-2">&amp;</span><span class="ident">Field</span>, <span class="ident">model</span>: <span class="kw-2">&amp;</span><span class="ident">Model</span>) -&gt; <span class="ident">syn::Type</span> {
-    <span class="kw">if</span> <span class="ident">field</span>.<span class="ident">has_flag</span>(<span class="string">&quot;embed&quot;</span>) {
+<span class="kw">fn</span> <span class="ident">field_column_ty</span>(<span class="ident">field</span>: <span class="kw-2">&amp;</span><span class="ident">Field</span>, <span class="ident">model</span>: <span class="kw-2">&amp;</span><span class="ident">Model</span>) -&gt; <span class="ident">TokenStream</span> {
+    <span class="kw">if</span> <span class="ident">field</span>.<span class="ident">embed</span> {
         <span class="kw">let</span> <span class="ident">embed_ty</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">field</span>.<span class="ident">ty</span>;
-        <span class="macro">parse_quote!</span>(<span class="op">&lt;</span>#<span class="ident">embed_ty</span> <span class="kw">as</span> <span class="ident">Selectable</span><span class="op">&lt;</span><span class="ident">__DB</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::SelectExpression</span>)
+        <span class="macro">quote!</span>(<span class="op">&lt;</span>#<span class="ident">embed_ty</span> <span class="kw">as</span> <span class="ident">Selectable</span><span class="op">&lt;</span><span class="ident">__DB</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::SelectExpression</span>)
     } <span class="kw">else</span> {
         <span class="kw">let</span> <span class="ident">table_name</span> <span class="op">=</span> <span class="ident">model</span>.<span class="ident">table_name</span>();
-        <span class="kw">let</span> <span class="ident">column_name</span> <span class="op">=</span> <span class="ident">field</span>.<span class="ident">column_name_ident</span>();
-        <span class="macro">parse_quote!</span>(#<span class="ident">table_name</span>::#<span class="ident">column_name</span>)
+        <span class="kw">let</span> <span class="ident">column_name</span> <span class="op">=</span> <span class="ident">field</span>.<span class="ident">column_name</span>();
+        <span class="macro">quote!</span>(#<span class="ident">table_name</span>::#<span class="ident">column_name</span>)
     }
 }
 
-<span class="kw">fn</span> <span class="ident">field_column_inst</span>(<span class="ident">field</span>: <span class="kw-2">&amp;</span><span class="ident">Field</span>, <span class="ident">model</span>: <span class="kw-2">&amp;</span><span class="ident">Model</span>) -&gt; <span class="ident">syn::Expr</span> {
-    <span class="kw">if</span> <span class="ident">field</span>.<span class="ident">has_flag</span>(<span class="string">&quot;embed&quot;</span>) {
+<span class="kw">fn</span> <span class="ident">field_column_inst</span>(<span class="ident">field</span>: <span class="kw-2">&amp;</span><span class="ident">Field</span>, <span class="ident">model</span>: <span class="kw-2">&amp;</span><span class="ident">Model</span>) -&gt; <span class="ident">TokenStream</span> {
+    <span class="kw">if</span> <span class="ident">field</span>.<span class="ident">embed</span> {
         <span class="kw">let</span> <span class="ident">embed_ty</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">field</span>.<span class="ident">ty</span>;
-        <span class="macro">parse_quote!</span>(<span class="op">&lt;</span>#<span class="ident">embed_ty</span> <span class="kw">as</span> <span class="ident">Selectable</span><span class="op">&lt;</span><span class="ident">__DB</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::construct_selection</span>())
+        <span class="macro">quote!</span>(<span class="op">&lt;</span>#<span class="ident">embed_ty</span> <span class="kw">as</span> <span class="ident">Selectable</span><span class="op">&lt;</span><span class="ident">__DB</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::construct_selection</span>())
     } <span class="kw">else</span> {
         <span class="kw">let</span> <span class="ident">table_name</span> <span class="op">=</span> <span class="ident">model</span>.<span class="ident">table_name</span>();
-        <span class="kw">let</span> <span class="ident">column_name</span> <span class="op">=</span> <span class="ident">field</span>.<span class="ident">column_name_ident</span>();
-        <span class="macro">parse_quote!</span>(#<span class="ident">table_name</span>::#<span class="ident">column_name</span>)
+        <span class="kw">let</span> <span class="ident">column_name</span> <span class="op">=</span> <span class="ident">field</span>.<span class="ident">column_name</span>();
+        <span class="macro">quote!</span>(#<span class="ident">table_name</span>::#<span class="ident">column_name</span>)
     }
 }
 </code></pre></div>

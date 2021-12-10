@@ -469,11 +469,11 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serializing_named_composite_types</span>() {
         <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">SqlType</span>, <span class="ident">QueryId</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
-        <span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">type_name</span> <span class="op">=</span> <span class="string">&quot;my_type&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;my_type&quot;</span>))]</span>
         <span class="kw">struct</span> <span class="ident">MyType</span>;
 
         <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">AsExpression</span>)]</span>
-        <span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;MyType&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">MyType</span>)]</span>
         <span class="kw">struct</span> <span class="ident">MyStruct</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">i32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>);
 
         <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">MyType</span>, <span class="ident">Pg</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MyStruct</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {

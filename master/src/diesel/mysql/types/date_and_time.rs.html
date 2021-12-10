@@ -397,10 +397,10 @@
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">AsExpression</span>, <span class="ident">FromSqlRow</span>)]</span>
 <span class="attribute">#[<span class="ident">non_exhaustive</span>]</span>
-<span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;Timestamp&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;Time&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;Date&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;Datetime&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">Timestamp</span>)]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">Time</span>)]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">Date</span>)]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">Datetime</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MysqlTime</span> {
     <span class="doccomment">/// [Year field](https://dev.mysql.com/doc/dev/mysql-server/latest/structMYSQL__TIME.html#af585231d3ed0bc2fa389856e61e15d4e)</span>
     <span class="kw">pub</span> <span class="ident">year</span>: <span class="ident">libc::c_uint</span>,

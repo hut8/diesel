@@ -180,7 +180,7 @@
 <span class="doccomment">/// use diesel::data_types::PgMoney as Fils;  // 1/1000th unit of Dinar</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">AsExpression</span>, <span class="ident">FromSqlRow</span>)]</span>
-<span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;Money&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">Money</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PgMoney</span>(<span class="kw">pub</span> <span class="ident">i64</span>);
 
 <span class="kw">impl</span> <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Money</span>, <span class="ident">Pg</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PgMoney</span> {

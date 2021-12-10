@@ -45,6 +45,7 @@
 <span id="45">45</span>
 <span id="46">46</span>
 <span id="47">47</span>
+<span id="48">48</span>
 </pre><pre class="rust"><code><span class="attribute">#![<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::deserialize::FromSqlRow</span>;
@@ -53,7 +54,7 @@
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">AsExpression</span>, <span class="ident">FromSqlRow</span>)]</span>
 <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">foreign_derive</span>)]</span>
-<span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;crate::sql_types::Timestamp&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::sql_types::Timestamp</span>)]</span>
 <span class="kw">struct</span> <span class="ident">SystemTimeProxy</span>(<span class="ident">SystemTime</span>);
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;chrono&quot;</span>)]</span>
@@ -66,29 +67,30 @@
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">AsExpression</span>, <span class="ident">FromSqlRow</span>)]</span>
     <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">foreign_derive</span>)]</span>
-    <span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;Date&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">Date</span>)]</span>
     <span class="kw">struct</span> <span class="ident">NaiveDateProxy</span>(<span class="ident">NaiveDate</span>);
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">AsExpression</span>, <span class="ident">FromSqlRow</span>)]</span>
     <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">foreign_derive</span>)]</span>
-    <span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;Time&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">Time</span>)]</span>
     <span class="kw">struct</span> <span class="ident">NaiveTimeProxy</span>(<span class="ident">NaiveTime</span>);
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">AsExpression</span>, <span class="ident">FromSqlRow</span>)]</span>
     <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">foreign_derive</span>)]</span>
-    <span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;Timestamp&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">Timestamp</span>)]</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(
         <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;postgres_backend&quot;</span>,
-        <span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;crate::sql_types::Timestamptz&quot;</span>
+        <span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::sql_types::Timestamptz</span>)
     )]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mysql_backend&quot;</span>, <span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;crate::sql_types::Datetime&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mysql_backend&quot;</span>, <span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::sql_types::Datetime</span>))]</span>
     <span class="kw">struct</span> <span class="ident">NaiveDateTimeProxy</span>(<span class="ident">NaiveDateTime</span>);
 
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">AsExpression</span>, <span class="ident">FromSqlRow</span>)]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">FromSqlRow</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;postgres_backend&quot;</span>, <span class="ident">derive</span>(<span class="ident">AsExpression</span>))]</span>
     <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">foreign_derive</span>)]</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(
         <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;postgres_backend&quot;</span>,
-        <span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;crate::sql_types::Timestamptz&quot;</span>
+        <span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::sql_types::Timestamptz</span>)
     )]</span>
     <span class="kw">struct</span> <span class="ident">DateTimeProxy</span><span class="op">&lt;</span><span class="ident">Tz</span>: <span class="ident">TimeZone</span><span class="op">&gt;</span>(<span class="ident">DateTime</span><span class="op">&lt;</span><span class="ident">Tz</span><span class="op">&gt;</span>);
 }

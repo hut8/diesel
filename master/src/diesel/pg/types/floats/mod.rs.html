@@ -125,7 +125,7 @@
 <span class="kw">mod</span> <span class="ident">quickcheck_impls</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">AsExpression</span>, <span class="ident">FromSqlRow</span>)]</span>
-<span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;sql_types::Numeric&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">sql_types::Numeric</span>)]</span>
 <span class="doccomment">/// Represents a NUMERIC value, closely mirroring the PG wire protocol</span>
 <span class="doccomment">/// representation</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PgNumeric</span> {

@@ -6,7 +6,7 @@
 <p>If we just want to map a query to our struct, we can use <code>derive</code>.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[<span class="ident">derive</span>(<span class="ident">QueryableByName</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>)]</span>
-<span class="attribute">#[<span class="ident">table_name</span> <span class="op">=</span> <span class="string">&quot;users&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">table_name</span> <span class="op">=</span> <span class="ident">users</span>)]</span>
 <span class="kw">struct</span> <span class="ident">User</span> {
     <span class="ident">id</span>: <span class="ident">i32</span>,
     <span class="ident">name</span>: <span class="ident">String</span>,
@@ -39,10 +39,10 @@
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">QueryableByName</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>)]</span>
-<span class="attribute">#[<span class="ident">table_name</span> <span class="op">=</span> <span class="string">&quot;users&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">table_name</span> <span class="op">=</span> <span class="ident">users</span>)]</span>
 <span class="kw">struct</span> <span class="ident">User</span> {
     <span class="ident">id</span>: <span class="ident">i32</span>,
-    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">deserialize_as</span> <span class="op">=</span> <span class="string">&quot;LowercaseString&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">deserialize_as</span> <span class="op">=</span> <span class="ident">LowercaseString</span>)]</span>
     <span class="ident">name</span>: <span class="ident">String</span>,
 }
 

@@ -175,15 +175,15 @@
 <span class="kw">mod</span> <span class="ident">std_time</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">AsExpression</span>, <span class="ident">FromSqlRow</span>)]</span>
-<span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;Timestamp&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;Timestamptz&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">Timestamp</span>)]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">Timestamptz</span>)]</span>
 <span class="doccomment">/// Timestamps are represented in Postgres as a 64 bit signed integer representing the number of</span>
 <span class="doccomment">/// microseconds since January 1st 2000. This struct is a dumb wrapper type, meant only to indicate</span>
 <span class="doccomment">/// the integer&#39;s meaning.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PgTimestamp</span>(<span class="kw">pub</span> <span class="ident">i64</span>);
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">AsExpression</span>, <span class="ident">FromSqlRow</span>)]</span>
-<span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;Date&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">Date</span>)]</span>
 <span class="doccomment">/// Dates are represented in Postgres as a 32 bit signed integer representing the number of julian</span>
 <span class="doccomment">/// days since January 1st 2000. This struct is a dumb wrapper type, meant only to indicate the</span>
 <span class="doccomment">/// integer&#39;s meaning.</span>
@@ -193,7 +193,7 @@
 <span class="doccomment">/// microseconds since midnight. This struct is a dumb wrapper type, meant only to indicate the</span>
 <span class="doccomment">/// integer&#39;s meaning.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">AsExpression</span>, <span class="ident">FromSqlRow</span>)]</span>
-<span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;Time&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">Time</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PgTime</span>(<span class="kw">pub</span> <span class="ident">i64</span>);
 
 <span class="doccomment">/// Intervals in Postgres are separated into 3 parts. A 64 bit integer representing time in</span>
@@ -201,7 +201,7 @@
 <span class="doccomment">/// representing number of months. This struct is a dumb wrapper type, meant only to indicate the</span>
 <span class="doccomment">/// meaning of these parts.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">AsExpression</span>, <span class="ident">FromSqlRow</span>)]</span>
-<span class="attribute">#[<span class="ident">sql_type</span> <span class="op">=</span> <span class="string">&quot;Interval&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sql_type</span> <span class="op">=</span> <span class="ident">Interval</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PgInterval</span> {
     <span class="doccomment">/// The number of whole microseconds</span>
     <span class="kw">pub</span> <span class="ident">microseconds</span>: <span class="ident">i64</span>,

@@ -40,7 +40,7 @@ can return the inserted rows by calling <a href="prelude/trait.RunQueryDsl.html#
 <span class="macro">assert_eq!</span>(<span class="prelude-val">Ok</span>(<span class="number">2</span>), <span class="ident">rows_inserted</span>);</code></pre></div>
 <h4 id="using-struct-for-values" class="section-header"><a href="#using-struct-for-values">Using struct for values</a></h4>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Insertable</span>)]</span>
-<span class="attribute">#[<span class="ident">table_name</span> <span class="op">=</span> <span class="string">&quot;users&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">table_name</span> <span class="op">=</span> <span class="ident">users</span>)]</span>
 <span class="kw">struct</span> <span class="ident">NewUser</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
 }
@@ -72,7 +72,7 @@ When the field is set to <code>Some(..)</code>, diesel inserts the given value.<
 <p>The column <code>color</code> in <code>brands</code> table is <code>NOT NULL DEFAULT 'Green'</code>.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Insertable</span>)]</span>
-<span class="attribute">#[<span class="ident">table_name</span> <span class="op">=</span> <span class="string">&quot;brands&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">table_name</span> <span class="op">=</span> <span class="ident">brands</span>)]</span>
 <span class="kw">struct</span> <span class="ident">NewBrand</span> {
     <span class="ident">color</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
@@ -100,7 +100,7 @@ When the field is set to <code>Some(None)</code>, diesel inserts <code>NULL</cod
 When the field is set to <code>Some(Some(..))</code> diesel inserts the given value.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Insertable</span>)]</span>
-<span class="attribute">#[<span class="ident">table_name</span> <span class="op">=</span> <span class="string">&quot;brands&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">table_name</span> <span class="op">=</span> <span class="ident">brands</span>)]</span>
 <span class="kw">struct</span> <span class="ident">NewBrand</span> {
     <span class="ident">accent</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }

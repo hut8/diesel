@@ -674,9 +674,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [bool]: https://doc.rust-lang.org/nightly/std/primitive.bool.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1000&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">sqlite_type</span> <span class="op">=</span> <span class="string">&quot;Integer&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;Tiny&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">16</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1000</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sqlite_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Integer&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Tiny&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Bool</span>;
 
 <span class="doccomment">/// The tiny integer SQL type.</span>
@@ -695,7 +695,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [i8]: https://doc.rust-lang.org/nightly/std/primitive.i8.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;Tiny&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Tiny&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TinyInt</span>;
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Tinyint</span> <span class="op">=</span> <span class="ident">TinyInt</span>;
@@ -712,9 +712,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [i16]: https://doc.rust-lang.org/nightly/std/primitive.i16.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;21&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1005&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">sqlite_type</span> <span class="op">=</span> <span class="string">&quot;SmallInt&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;Short&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">21</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1005</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sqlite_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;SmallInt&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Short&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SmallInt</span>;
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Int2</span> <span class="op">=</span> <span class="ident">SmallInt</span>;
@@ -733,9 +733,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [i32]: https://doc.rust-lang.org/nightly/std/primitive.i32.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;23&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1007&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">sqlite_type</span> <span class="op">=</span> <span class="string">&quot;Integer&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;Long&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">23</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1007</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sqlite_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Integer&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Long&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Integer</span>;
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Int4</span> <span class="op">=</span> <span class="ident">Integer</span>;
@@ -752,9 +752,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [i64]: https://doc.rust-lang.org/nightly/std/primitive.i64.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;20&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1016&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">sqlite_type</span> <span class="op">=</span> <span class="string">&quot;Long&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;LongLong&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">20</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1016</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sqlite_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Long&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;LongLong&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigInt</span>;
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Int8</span> <span class="op">=</span> <span class="ident">BigInt</span>;
@@ -773,9 +773,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [f32]: https://doc.rust-lang.org/nightly/std/primitive.f32.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;700&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1021&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">sqlite_type</span> <span class="op">=</span> <span class="string">&quot;Float&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;Float&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">700</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1021</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sqlite_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Float&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Float&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Float</span>;
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Float4</span> <span class="op">=</span> <span class="ident">Float</span>;
@@ -792,9 +792,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [f64]: https://doc.rust-lang.org/nightly/std/primitive.f64.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;701&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1022&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">sqlite_type</span> <span class="op">=</span> <span class="string">&quot;Double&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;Double&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">701</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1022</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sqlite_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Double&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Double&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Double</span>;
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Float8</span> <span class="op">=</span> <span class="ident">Double</span>;
@@ -814,9 +814,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`bigdecimal::BigDecimal`]: /bigdecimal/struct.BigDecimal.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;1700&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1231&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;Numeric&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">sqlite_type</span> <span class="op">=</span> <span class="string">&quot;Double&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">1700</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1231</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Numeric&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sqlite_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Double&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Numeric</span>;
 
 <span class="doccomment">/// Alias for `Numeric`</span>
@@ -842,9 +842,9 @@
 <span class="doccomment">/// [String]: std::string::String</span>
 <span class="doccomment">/// [str]: https://doc.rust-lang.org/nightly/std/primitive.str.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;25&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1009&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">sqlite_type</span> <span class="op">=</span> <span class="string">&quot;Text&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;String&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">25</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1009</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sqlite_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Text&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;String&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Text</span>;
 
 <span class="doccomment">/// The SQL `VARCHAR` type</span>
@@ -885,9 +885,9 @@
 <span class="doccomment">/// [Vec]: std::vec::Vec</span>
 <span class="doccomment">/// [slice]: https://doc.rust-lang.org/nightly/std/primitive.slice.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1001&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">sqlite_type</span> <span class="op">=</span> <span class="string">&quot;Binary&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;Blob&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">17</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1001</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sqlite_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Binary&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Blob&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Binary</span>;
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
@@ -915,9 +915,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [NaiveDate]: https://docs.rs/chrono/*/chrono/naive/struct.NaiveDate.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;1082&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1182&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">sqlite_type</span> <span class="op">=</span> <span class="string">&quot;Text&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;Date&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">1082</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1182</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sqlite_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Text&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Date&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Date</span>;
 
 <span class="doccomment">/// The interval SQL type.</span>
@@ -935,7 +935,7 @@
 <span class="doccomment">/// [`PgInterval`]: ../pg/data_types/struct.PgInterval.html</span>
 <span class="doccomment">/// [`IntervalDsl`]: ../pg/expression/extensions/trait.IntervalDsl.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;1186&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1187&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">1186</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1187</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Interval</span>;
 
 <span class="doccomment">/// The time SQL type.</span>
@@ -950,9 +950,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [NaiveTime]: /chrono/naive/time/struct.NaiveTime.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;1083&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1183&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">sqlite_type</span> <span class="op">=</span> <span class="string">&quot;Text&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;Time&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">1083</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1183</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sqlite_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Text&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Time&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Time</span>;
 
 <span class="doccomment">/// The timestamp SQL type.</span>
@@ -980,9 +980,9 @@
 )]</span>
 <span class="doccomment">/// [Timespec]: /time/struct.Timespec.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;1114&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1115&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">sqlite_type</span> <span class="op">=</span> <span class="string">&quot;Text&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;Timestamp&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">1114</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1115</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">sqlite_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Text&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Timestamp&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Timestamp</span>;
 
 <span class="doccomment">/// The JSON SQL type.  This type can only be used with `feature =</span>
@@ -1003,8 +1003,8 @@
 <span class="doccomment">/// [`FromSql`]: /deserialize/trait.FromSql.html</span>
 <span class="doccomment">/// [`serde_json::Value`]: /../serde_json/value/enum.Value.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-<span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;114&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;199&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">mysql_type</span> <span class="op">=</span> <span class="string">&quot;String&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">114</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">199</span>))]</span>
+<span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">mysql_type</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;String&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Json</span>;
 
 <span class="doccomment">/// The nullable SQL type.</span>
@@ -1044,9 +1044,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```rust</span>
 <span class="doccomment">/// #[derive(diesel::sql_types::SqlType)]</span>
-<span class="doccomment">/// #[postgres(oid = &quot;23&quot;, array_oid = &quot;1007&quot;)]</span>
-<span class="doccomment">/// #[sqlite_type = &quot;Integer&quot;]</span>
-<span class="doccomment">/// #[mysql_type = &quot;Long&quot;]</span>
+<span class="doccomment">/// #[diesel(postgres_type(oid = 23, array_oid = 1007))]</span>
+<span class="doccomment">/// #[diesel(sqlite_type(name = &quot;Integer&quot;))]</span>
+<span class="doccomment">/// #[diesel(mysql_type(name = &quot;Long&quot;))]</span>
 <span class="doccomment">/// pub struct Integer;</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">HasSqlType</span><span class="op">&lt;</span><span class="ident">ST</span><span class="op">&gt;</span>: <span class="ident">TypeMetadata</span> {

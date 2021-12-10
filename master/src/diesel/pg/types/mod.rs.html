@@ -578,7 +578,7 @@
     <span class="doccomment">/// [`FromSql`]: crate::deserialize::FromSql</span>
     <span class="doccomment">/// [`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-    <span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;26&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1018&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">26</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1018</span>))]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Oid</span>;
 
     <span class="doccomment">/// The &quot;timestamp with time zone&quot; SQL type, which PostgreSQL abbreviates</span>
@@ -613,7 +613,7 @@
         <span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [`chrono::DateTime`]: https://docs.rs/chrono/0.4.19/chrono/struct.DateTime.html&quot;</span>
     )]</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-    <span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;1184&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1185&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">1184</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1185</span>))]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Timestamptz</span>;
 
     <span class="doccomment">/// The `Array` SQL type.</span>
@@ -707,7 +707,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`WriteTuple`]: super::super::super::serialize::WriteTuple</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-    <span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;2249&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;2287&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">2249</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">2287</span>))]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Record</span><span class="op">&lt;</span><span class="ident">ST</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="ident">ST</span>);
 
     <span class="doccomment">/// Alias for `SmallInt`</span>
@@ -733,7 +733,7 @@
     <span class="doccomment">/// [`FromSql`]: crate::deserialize::FromSql</span>
     <span class="doccomment">/// [Uuid]: https://docs.rs/uuid/*/uuid/struct.Uuid.html</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-    <span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;2950&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;2951&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">2950</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">2951</span>))]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Uuid</span>;
 
     <span class="doccomment">/// Alias for `Binary`, to ensure `infer_schema!` works</span>
@@ -824,7 +824,7 @@
     <span class="doccomment">/// # fn main() {}</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-    <span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;3802&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;3807&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">3802</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">3807</span>))]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Jsonb</span>;
 
     <span class="doccomment">/// The PostgreSQL [Money](https://www.postgresql.org/docs/9.1/static/datatype-money.html) type.</span>
@@ -872,7 +872,7 @@
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-    <span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;790&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;791&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">790</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">791</span>))]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Money</span>;
 
     <span class="doccomment">/// The [`MACADDR`](https://www.postgresql.org/docs/9.6/static/datatype-net-types.html) SQL type.</span>
@@ -916,7 +916,7 @@
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-    <span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;829&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1040&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">829</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1040</span>))]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MacAddr</span>;
 
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
@@ -977,7 +977,7 @@
     <span class="doccomment">/// # fn main() {}</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-    <span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;869&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;1041&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">869</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">1041</span>))]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Inet</span>;
 
     <span class="doccomment">/// The [`CIDR`](https://www.postgresql.org/docs/9.6/static/datatype-net-types.html) SQL type. This type can only be used with `feature = &quot;network-address&quot;`</span>
@@ -1033,7 +1033,7 @@
     <span class="doccomment">/// # fn main() {}</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">QueryId</span>, <span class="ident">SqlType</span>)]</span>
-    <span class="attribute">#[<span class="ident">postgres</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="string">&quot;650&quot;</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="string">&quot;651&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">diesel</span>(<span class="ident">postgres_type</span>(<span class="ident">oid</span> <span class="op">=</span> <span class="number">650</span>, <span class="ident">array_oid</span> <span class="op">=</span> <span class="number">651</span>))]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Cidr</span>;
 }
 

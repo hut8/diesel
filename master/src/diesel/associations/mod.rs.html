@@ -413,7 +413,7 @@
 </pre><pre class="rust"><code><span class="doccomment">//! Traits related to relationships between multiple tables.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Associations in Diesel are always child-to-parent.</span>
-<span class="doccomment">//! You can declare an association between two records with `#[belongs_to]`.</span>
+<span class="doccomment">//! You can declare an association between two records with `#[diesel(belongs_to)]`.</span>
 <span class="doccomment">//! Unlike other ORMs, Diesel has no concept of `has many`</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```rust</span>
@@ -421,15 +421,15 @@
 <span class="doccomment">//! use schema::{posts, users};</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! #[derive(Identifiable, Queryable, PartialEq, Debug)]</span>
-<span class="doccomment">//! #[table_name = &quot;users&quot;]</span>
+<span class="doccomment">//! #[diesel(table_name = users)]</span>
 <span class="doccomment">//! pub struct User {</span>
 <span class="doccomment">//!     id: i32,</span>
 <span class="doccomment">//!     name: String,</span>
 <span class="doccomment">//! }</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! #[derive(Identifiable, Queryable, Associations, PartialEq, Debug)]</span>
-<span class="doccomment">//! #[belongs_to(User)]</span>
-<span class="doccomment">//! #[table_name = &quot;posts&quot;]</span>
+<span class="doccomment">//! #[diesel(belongs_to(User))]</span>
+<span class="doccomment">//! #[diesel(table_name = posts)]</span>
 <span class="doccomment">//! pub struct Post {</span>
 <span class="doccomment">//!     id: i32,</span>
 <span class="doccomment">//!     user_id: i32,</span>
@@ -452,12 +452,12 @@
 <span class="doccomment">//! # }</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! Note that in addition to the `#[belongs_to]` annotation, we also need to</span>
+<span class="doccomment">//! Note that in addition to the `#[diesel(belongs_to)]` annotation, we also need to</span>
 <span class="doccomment">//! `#[derive(Associations)]`</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! `#[belongs_to]` is given the name of the struct that represents the parent.</span>
+<span class="doccomment">//! `#[diesel(belongs_to)]` is given the name of the struct that represents the parent.</span>
 <span class="doccomment">//! Both the parent and child must implement [`Identifiable`].</span>
-<span class="doccomment">//! The struct given to `#[belongs_to]` must be in scope,</span>
+<span class="doccomment">//! The struct given to `#[diesel(belongs_to)]` must be in scope,</span>
 <span class="doccomment">//! so you will need `use some_module::User` if `User` is defined in another module.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! If the parent record is generic over lifetimes, they can be written as `&#39;_`.</span>
@@ -470,15 +470,15 @@
 <span class="doccomment">//! # use std::borrow::Cow;</span>
 <span class="doccomment">//! #</span>
 <span class="doccomment">//! #[derive(Identifiable)]</span>
-<span class="doccomment">//! #[table_name = &quot;users&quot;]</span>
+<span class="doccomment">//! #[diesel(table_name = users)]</span>
 <span class="doccomment">//! pub struct User&lt;&#39;a&gt; {</span>
 <span class="doccomment">//!     id: i32,</span>
 <span class="doccomment">//!     name: Cow&lt;&#39;a, str&gt;,</span>
 <span class="doccomment">//! }</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! #[derive(Associations)]</span>
-<span class="doccomment">//! #[belongs_to(parent = &quot;User&lt;&#39;_&gt;&quot;)]</span>
-<span class="doccomment">//! #[table_name = &quot;posts&quot;]</span>
+<span class="doccomment">//! #[diesel(belongs_to(User&lt;&#39;_&gt;))]</span>
+<span class="doccomment">//! #[diesel(table_name = posts)]</span>
 <span class="doccomment">//! pub struct Post {</span>
 <span class="doccomment">//!     id: i32,</span>
 <span class="doccomment">//!     user_id: i32,</span>
@@ -491,8 +491,8 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! By default, Diesel assumes that your foreign keys will follow the convention `table_name_id`.</span>
 <span class="doccomment">//! If your foreign key has a different name,</span>
-<span class="doccomment">//! you can provide the `foreign_key` argument to `#[belongs_to]`.</span>
-<span class="doccomment">//! For example, `#[belongs_to(Foo, foreign_key = &quot;mykey&quot;)]`.</span>
+<span class="doccomment">//! you can provide the `foreign_key` argument to `#[diesel(belongs_to)]`.</span>
+<span class="doccomment">//! For example, `#[diesel(belongs_to(Foo, foreign_key = mykey))]`.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Associated data is typically loaded in multiple queries (one query per table).</span>
 <span class="doccomment">//! This is usually more efficient than using a join,</span>
@@ -518,7 +518,7 @@
 <span class="doccomment">//! # }</span>
 <span class="doccomment">//! #</span>
 <span class="doccomment">//! # #[derive(Debug, PartialEq, Identifiable, Queryable, Associations)]</span>
-<span class="doccomment">//! # #[belongs_to(User)]</span>
+<span class="doccomment">//! # #[diesel(belongs_to(User))]</span>
 <span class="doccomment">//! # pub struct Post {</span>
 <span class="doccomment">//! #     id: i32,</span>
 <span class="doccomment">//! #     user_id: i32,</span>
@@ -572,7 +572,7 @@
 <span class="doccomment">//! #</span>
 <span class="doccomment">//! # #[derive(Debug, PartialEq)]</span>
 <span class="doccomment">//! # #[derive(Identifiable, Queryable, Associations)]</span>
-<span class="doccomment">//! # #[belongs_to(User)]</span>
+<span class="doccomment">//! # #[diesel(belongs_to(User))]</span>
 <span class="doccomment">//! # pub struct Post {</span>
 <span class="doccomment">//! #     id: i32,</span>
 <span class="doccomment">//! #     user_id: i32,</span>
@@ -626,7 +626,7 @@
 <span class="doccomment">//! #</span>
 <span class="doccomment">//! # #[derive(Debug, PartialEq)]</span>
 <span class="doccomment">//! # #[derive(Identifiable, Queryable, Associations)]</span>
-<span class="doccomment">//! # #[belongs_to(User)]</span>
+<span class="doccomment">//! # #[diesel(belongs_to(User))]</span>
 <span class="doccomment">//! # pub struct Post {</span>
 <span class="doccomment">//! #     id: i32,</span>
 <span class="doccomment">//! #     user_id: i32,</span>
@@ -686,7 +686,7 @@
 <span class="doccomment">//! # }</span>
 <span class="doccomment">//! #</span>
 <span class="doccomment">//! # #[derive(Debug, PartialEq, Identifiable, Queryable, Associations)]</span>
-<span class="doccomment">//! # #[belongs_to(User)]</span>
+<span class="doccomment">//! # #[diesel(belongs_to(User))]</span>
 <span class="doccomment">//! # pub struct Post {</span>
 <span class="doccomment">//! #     id: i32,</span>
 <span class="doccomment">//! #     user_id: i32,</span>
@@ -694,7 +694,7 @@
 <span class="doccomment">//! # }</span>
 <span class="doccomment">//! #</span>
 <span class="doccomment">//! # #[derive(Debug, PartialEq, Identifiable, Queryable, Associations)]</span>
-<span class="doccomment">//! # #[belongs_to(Post)]</span>
+<span class="doccomment">//! # #[diesel(belongs_to(Post))]</span>
 <span class="doccomment">//! # pub struct Comment {</span>
 <span class="doccomment">//! #     id: i32,</span>
 <span class="doccomment">//! #     post_id: i32,</span>

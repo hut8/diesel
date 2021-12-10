@@ -1211,15 +1211,6 @@
 <span id="1211">1211</span>
 <span id="1212">1212</span>
 <span id="1213">1213</span>
-<span id="1214">1214</span>
-<span id="1215">1215</span>
-<span id="1216">1216</span>
-<span id="1217">1217</span>
-<span id="1218">1218</span>
-<span id="1219">1219</span>
-<span id="1220">1220</span>
-<span id="1221">1221</span>
-<span id="1222">1222</span>
 </pre><pre class="rust"><code><span class="attribute">#![<span class="ident">recursion_limit</span> <span class="op">=</span> <span class="string">&quot;1024&quot;</span>]</span>
 <span class="comment">// Built-in Lints</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">warnings</span>, <span class="ident">missing_copy_implementations</span>)]</span>
@@ -1239,22 +1230,22 @@
     <span class="ident">clippy::items_after_statements</span>,
     <span class="ident">clippy::used_underscore_binding</span>
 )]</span>
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;nightly&quot;</span>, <span class="ident">feature</span>(<span class="ident">proc_macro_diagnostic</span>, <span class="ident">proc_macro_span</span>))]</span>
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">proc_macro</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">proc_macro2</span>;
-<span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">quote</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">syn</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">proc_macro_error</span>;
 
 <span class="kw">use</span> <span class="ident">proc_macro::TokenStream</span>;
 
-<span class="kw">mod</span> <span class="ident">diagnostic_shim</span>;
+<span class="kw">mod</span> <span class="ident">attrs</span>;
+<span class="kw">mod</span> <span class="ident">deprecated</span>;
 <span class="kw">mod</span> <span class="ident">field</span>;
-<span class="kw">mod</span> <span class="ident">meta</span>;
 <span class="kw">mod</span> <span class="ident">model</span>;
-<span class="kw">mod</span> <span class="ident">resolved_at_shim</span>;
+<span class="kw">mod</span> <span class="ident">parsers</span>;
 <span class="kw">mod</span> <span class="ident">util</span>;
 
 <span class="kw">mod</span> <span class="ident">as_changeset</span>;
@@ -1272,48 +1263,49 @@
 <span class="kw">mod</span> <span class="ident">sql_type</span>;
 <span class="kw">mod</span> <span class="ident">valid_grouping</span>;
 
-<span class="kw">use</span> <span class="ident">diagnostic_shim</span>::<span class="kw-2">*</span>;
-
 <span class="doccomment">/// Implements `AsChangeset`</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// To implement `AsChangeset` this derive needs to know the corresponding table</span>
 <span class="doccomment">/// type. By default it uses the `snake_case` type name with an added `s` from</span>
 <span class="doccomment">/// the current scope.</span>
-<span class="doccomment">/// It is possible to change this default by using `#[table_name = &quot;something&quot;]`.</span>
+<span class="doccomment">/// It is possible to change this default by using `#[diesel(table_name = something)]`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// If a field name of your struct differs</span>
 <span class="doccomment">/// from the name of the corresponding column, you can annotate the field with</span>
-<span class="doccomment">/// `#[column_name = &quot;some_column_name&quot;]`.</span>
+<span class="doccomment">/// `#[diesel(column_name = some_column_name)]`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// By default, any `Option` fields on the struct are skipped if their value is</span>
 <span class="doccomment">/// `None`. If you would like to assign `NULL` to the field instead, you can</span>
-<span class="doccomment">/// annotate your struct with `#[changeset_options(treat_none_as_null =</span>
-<span class="doccomment">/// &quot;true&quot;)]`.</span>
+<span class="doccomment">/// annotate your struct with `#[diesel(treat_none_as_null = true)]`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Attributes</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ## Optional container attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[changeset_options(treat_none_as_null = &quot;true&quot;)]`, specifies that</span>
-<span class="doccomment">/// the derive should threat `None` values as `NULL`. By default</span>
-<span class="doccomment">/// `Option::&lt;T&gt;::None` is just skipped. To insert a `NULL` using default</span>
-<span class="doccomment">/// behavior use `Option::&lt;Option&lt;T&gt;&gt;::Some(None)`</span>
-<span class="doccomment">/// * `#[table_name = &quot;path::to::table&quot;]`, specifies a path to the table for which the</span>
-<span class="doccomment">/// current type is a changeset. The path is relative to the current module.</span>
-<span class="doccomment">/// If this attribute is not used, the type name converted to</span>
-<span class="doccomment">/// `snake_case` with an added `s` is used as table name.</span>
+<span class="doccomment">/// * `#[diesel(treat_none_as_null = true)]`, specifies that</span>
+<span class="doccomment">///    the derive should threat `None` values as `NULL`. By default</span>
+<span class="doccomment">///    `Option::&lt;T&gt;::None` is just skipped. To insert a `NULL` using default</span>
+<span class="doccomment">///    behavior use `Option::&lt;Option&lt;T&gt;&gt;::Some(None)`</span>
+<span class="doccomment">/// * `#[diesel(table_name = path::to::table)]`, specifies a path to the table for which the</span>
+<span class="doccomment">///    current type is a changeset. The path is relative to the current module.</span>
+<span class="doccomment">///    If this attribute is not used, the type name converted to</span>
+<span class="doccomment">///    `snake_case` with an added `s` is used as table name.</span>
+<span class="doccomment">/// * `#[diesel(primary_key(id1, id2))]` to specify the struct field that</span>
+<span class="doccomment">///    that corresponds to the primary key. If not used, `id` will be</span>
+<span class="doccomment">///    assumed as primary key field</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ## Optional field attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[column_name = &quot;some_column_name&quot;]`, overrides the column name</span>
-<span class="doccomment">/// of the current field to `some_column_name`. By default the field</span>
-<span class="doccomment">/// name is used as column name.</span>
+<span class="doccomment">/// * `#[diesel(column_name = some_column_name)]`, overrides the column name</span>
+<span class="doccomment">///    of the current field to `some_column_name`. By default the field</span>
+<span class="doccomment">///    name is used as column name.</span>
+<span class="attribute">#[<span class="ident">proc_macro_error</span>]</span>
 <span class="attribute">#[<span class="ident">proc_macro_derive</span>(
     <span class="ident">AsChangeset</span>,
-    <span class="ident">attributes</span>(<span class="ident">table_name</span>, <span class="ident">primary_key</span>, <span class="ident">column_name</span>, <span class="ident">changeset_options</span>)
+    <span class="ident">attributes</span>(<span class="ident">diesel</span>, <span class="ident">table_name</span>, <span class="ident">column_name</span>, <span class="ident">primary_key</span>, <span class="ident">changeset_options</span>)
 )]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_as_changeset</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">as_changeset::derive</span>)
+    <span class="ident">as_changeset::derive</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Implements all required variants of `AsExpression`</span>
@@ -1335,60 +1327,60 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// ## Required container attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[sql_type = &quot;SqlType&quot;]`, to specify the sql type of the</span>
-<span class="doccomment">///  generated implementations. If the attribute exists multiple times</span>
-<span class="doccomment">///  impls for each sql type are generated.</span>
+<span class="doccomment">/// * `#[diesel(sql_type = SqlType)]`, to specify the sql type of the</span>
+<span class="doccomment">///    generated implementations. If the attribute exists multiple times</span>
+<span class="doccomment">///    impls for each sql type are generated.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ## Optional container attributes</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// * `#[diesel(not_sized)]`, to skip generating impls that require</span>
-<span class="doccomment">///   that the type is `Sized`</span>
+<span class="doccomment">///    that the type is `Sized`</span>
+<span class="attribute">#[<span class="ident">proc_macro_error</span>]</span>
 <span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">AsExpression</span>, <span class="ident">attributes</span>(<span class="ident">diesel</span>, <span class="ident">sql_type</span>))]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_as_expression</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">as_expression::derive</span>)
+    <span class="ident">as_expression::derive</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Implement required traits for the associations API</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This derive implement support for diesels associations api. Check the</span>
+<span class="doccomment">/// This derive implement support for diesel&#39;s associations api. Check the</span>
 <span class="doccomment">/// module level documentation of the `diesel::associations` module for details.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Attributes</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Required container attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[belongs_to(User)]`, to specify a child-to-parent relation ship</span>
-<span class="doccomment">/// between the current type and the specified parent type (`User`).</span>
-<span class="doccomment">/// If this attribute is given multiple times, multiple relation ships</span>
-<span class="doccomment">/// are generated.</span>
-<span class="doccomment">/// * `#[belongs_to(User, foreign_key = &quot;mykey&quot;)]`, variant of the attribute</span>
-<span class="doccomment">/// above. Allows to specify the name of the foreign key. If the foreign key</span>
-<span class="doccomment">/// is not specified explicitly, the remote lower case type name with an</span>
-<span class="doccomment">/// appended `_id` is used as foreign key name. (`user_id` in this example</span>
-<span class="doccomment">/// case)</span>
+<span class="doccomment">/// * `#[diesel(belongs_to(User))]`, to specify a child-to-parent relation ship</span>
+<span class="doccomment">///    between the current type and the specified parent type (`User`).</span>
+<span class="doccomment">///    If this attribute is given multiple times, multiple relation ships</span>
+<span class="doccomment">///    are generated. `#[diesel(belongs_to(User, foreign_key = mykey))]` variant</span>
+<span class="doccomment">///    allows to specify the name of the foreign key. If the foreign key</span>
+<span class="doccomment">///    is not specified explicitly, the remote lower case type name with an</span>
+<span class="doccomment">///    appended `_id` is used as foreign key name. (`user_id` in this example</span>
+<span class="doccomment">///    case)</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Optional container attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[table_name = &quot;path::to::table&quot;]` specifies a path to the table this</span>
+<span class="doccomment">/// * `#[diesel(table_name = path::to::table)]` specifies a path to the table this</span>
 <span class="doccomment">///    type belongs to. The path is relative to the current module.</span>
 <span class="doccomment">///    If this attribute is not used, the type name converted to</span>
 <span class="doccomment">///    `snake_case` with an added `s` is used as table name.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Optional field attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[column_name = &quot;some_column_name&quot;]`, overrides the column the current</span>
-<span class="doccomment">/// field maps to to `some_column_name`. By default the field name is used</span>
-<span class="doccomment">/// as column name. Only useful for the foreign key field.</span>
-<span class="doccomment">///</span>
-<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">Associations</span>, <span class="ident">attributes</span>(<span class="ident">belongs_to</span>, <span class="ident">column_name</span>, <span class="ident">table_name</span>))]</span>
+<span class="doccomment">/// * `#[diesel(column_name = some_column_name)]`, overrides the column the current</span>
+<span class="doccomment">///    field maps to to `some_column_name`. By default the field name is used</span>
+<span class="doccomment">///    as column name.</span>
+<span class="attribute">#[<span class="ident">proc_macro_error</span>]</span>
+<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">Associations</span>, <span class="ident">attributes</span>(<span class="ident">diesel</span>, <span class="ident">belongs_to</span>, <span class="ident">column_name</span>, <span class="ident">table_name</span>))]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_associations</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">associations::derive</span>)
+    <span class="ident">associations::derive</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Implement numeric operators for the current query node</span>
 <span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">DieselNumericOps</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_diesel_numeric_ops</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">diesel_numeric_ops::derive</span>)
+    <span class="ident">diesel_numeric_ops::derive</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Implements `Queryable` for primitive types</span>
@@ -1397,23 +1389,24 @@
 <span class="doccomment">/// into rust types not supported by diesel itself.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// There are no options or special considerations needed for this derive.</span>
+<span class="attribute">#[<span class="ident">proc_macro_error</span>]</span>
 <span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">FromSqlRow</span>, <span class="ident">attributes</span>(<span class="ident">diesel</span>))]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_from_sql_row</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">from_sql_row::derive</span>)
+    <span class="ident">from_sql_row::derive</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Implements `Identifiable` for references of the current type</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// By default, the primary key field is assumed to be a single field called `id`.</span>
-<span class="doccomment">/// If it&#39;s not, you can put `#[primary_key(your_id)]` on your struct.</span>
-<span class="doccomment">/// If you have a composite primary key, the syntax is `#[primary_key(id1, id2)]`.</span>
+<span class="doccomment">/// If it&#39;s not, you can put `#[diesel(primary_key(your_id))]` on your struct.</span>
+<span class="doccomment">/// If you have a composite primary key, the syntax is `#[diesel(primary_key(id1, id2))]`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// By default, `#[derive(Identifiable)]` will assume that your table is</span>
 <span class="doccomment">/// in scope and its name is the plural form of your struct name.</span>
 <span class="doccomment">/// Diesel uses very simple pluralization rules.</span>
 <span class="doccomment">/// It only adds an `s` to the end, and converts `CamelCase` to `snake_case`.</span>
 <span class="doccomment">/// If your table name does not follow this convention or is not in scope,</span>
-<span class="doccomment">/// you can specify a path to the table with `#[table_name = &quot;path::to::table&quot;]`.</span>
+<span class="doccomment">/// you can specify a path to the table with `#[diesel(table_name = path::to::table)]`.</span>
 <span class="doccomment">/// Our rules for inferring table names is considered public API.</span>
 <span class="doccomment">/// It will never change without a major version bump.</span>
 <span class="doccomment">///</span>
@@ -1421,16 +1414,23 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// ## Optional container attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[table_name = &quot;path::to::table&quot;]` specifies a path to the table this</span>
+<span class="doccomment">/// * `#[diesel(table_name = path::to::table)]` specifies a path to the table this</span>
 <span class="doccomment">///    type belongs to. The path is relative to the current module.</span>
 <span class="doccomment">///    If this attribute is not used, the type name converted to</span>
 <span class="doccomment">///    `snake_case` with an added `s` is used as table name</span>
-<span class="doccomment">/// * `#[primary_key(id1, id2)]` to specify the struct field that</span>
+<span class="doccomment">/// * `#[diesel(primary_key(id1, id2))]` to specify the struct field that</span>
 <span class="doccomment">///    that corresponds to the primary key. If not used, `id` will be</span>
 <span class="doccomment">///    assumed as primary key field</span>
-<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">Identifiable</span>, <span class="ident">attributes</span>(<span class="ident">table_name</span>, <span class="ident">primary_key</span>, <span class="ident">column_name</span>))]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Optional field attributes</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// * `#[diesel(column_name = some_column_name)]`, overrides the column the current</span>
+<span class="doccomment">///    field maps to to `some_column_name`. By default the field name is used</span>
+<span class="doccomment">///    as column name.</span>
+<span class="attribute">#[<span class="ident">proc_macro_error</span>]</span>
+<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">Identifiable</span>, <span class="ident">attributes</span>(<span class="ident">diesel</span>, <span class="ident">table_name</span>, <span class="ident">column_name</span>, <span class="ident">primary_key</span>))]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_identifiable</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">identifiable::derive</span>)
+    <span class="ident">identifiable::derive</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Implements `Insertable`</span>
@@ -1438,11 +1438,11 @@
 <span class="doccomment">/// To implement `Insertable` this derive needs to know the corresponding table</span>
 <span class="doccomment">/// type. By default it uses the `snake_case` type name with an added `s`</span>
 <span class="doccomment">/// from the current scope.</span>
-<span class="doccomment">/// It is possible to change this default by using `#[table_name = &quot;something&quot;]`.</span>
+<span class="doccomment">/// It is possible to change this default by using `#[diesel(table_name = something)]`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// If a field name of your</span>
 <span class="doccomment">/// struct differs from the name of the corresponding column,</span>
-<span class="doccomment">/// you can annotate the field with `#[column_name = &quot;some_column_name&quot;]`.</span>
+<span class="doccomment">/// you can annotate the field with `#[diesel(column_name = some_column_name)]`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Your struct can also contain fields which implement `Insertable`. This is</span>
 <span class="doccomment">/// useful when you want to have one field map to more than one column (for</span>
@@ -1450,7 +1450,7 @@
 <span class="doccomment">/// `#[diesel(embed)]` to any such fields.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// To provide custom serialization behavior for a field, you can use</span>
-<span class="doccomment">/// `#[diesel(serialize_as = &quot;SomeType&quot;)]`. If this attribute is present, Diesel</span>
+<span class="doccomment">/// `#[diesel(serialize_as = SomeType)]`. If this attribute is present, Diesel</span>
 <span class="doccomment">/// will call `.into` on the corresponding field and serialize the instance of `SomeType`,</span>
 <span class="doccomment">/// rather than the actual field on your struct. This can be used to add custom behavior for a</span>
 <span class="doccomment">/// single field, or use types that are otherwise unsupported by Diesel.</span>
@@ -1465,26 +1465,26 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// ## Optional container attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[table_name = &quot;path::to::table&quot;]`, specifies a path to the table this type</span>
-<span class="doccomment">/// is insertable into. The path is relative to the current module.</span>
-<span class="doccomment">/// If this attribute is not used, the type name converted to</span>
-<span class="doccomment">/// `snake_case` with an added `s` is used as table name</span>
-<span class="doccomment">/// * `#[diesel(treat_none_as_default_value = &quot;true/false&quot;)], specifies if `None` values</span>
-<span class="doccomment">/// should be converted to `NULL` values on SQL side or treated as `DEFAULT` value primitive</span>
-<span class="doccomment">/// *Note: This option may control if your query is stored in the</span>
-<span class="doccomment">/// prepared statement cache or not*</span>
+<span class="doccomment">/// * `#[diesel(table_name = path::to::table)]`, specifies a path to the table this type</span>
+<span class="doccomment">///    is insertable into. The path is relative to the current module.</span>
+<span class="doccomment">///    If this attribute is not used, the type name converted to</span>
+<span class="doccomment">///    `snake_case` with an added `s` is used as table name</span>
+<span class="doccomment">/// * `#[diesel(treat_none_as_default_value = false)], specifies that `None` values</span>
+<span class="doccomment">///    should be converted to `NULL` values on SQL side instead of being treated as `DEFAULT`</span>
+<span class="doccomment">///    value primitive. *Note*: This option may control if your query is stored in the</span>
+<span class="doccomment">///    prepared statement cache or not*</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ## Optional field attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[column_name = &quot;some_column_name&quot;]`, overrides the column the current</span>
-<span class="doccomment">/// field maps to `some_column_name`. By default the field name is used</span>
-<span class="doccomment">/// as column name</span>
+<span class="doccomment">/// * `#[diesel(column_name = some_column_name)]`, overrides the column the current</span>
+<span class="doccomment">///    field maps to `some_column_name`. By default the field name is used</span>
+<span class="doccomment">///    as column name</span>
 <span class="doccomment">/// * `#[diesel(embed)]`, specifies that the current field maps not only</span>
-<span class="doccomment">/// to single database field, but is a struct that implements `Insertable`</span>
-<span class="doccomment">/// * `#[diesel(serialize_as = &quot;SomeType&quot;)]`, instead of serializing the actual</span>
-<span class="doccomment">/// field type, Diesel will convert the field into `SomeType` using `.into` and</span>
-<span class="doccomment">/// serialize that instead. By default this derive will serialize directly using</span>
-<span class="doccomment">/// the actual field type.</span>
+<span class="doccomment">///    to single database field, but is a struct that implements `Insertable`</span>
+<span class="doccomment">/// * `#[diesel(serialize_as = SomeType)]`, instead of serializing the actual</span>
+<span class="doccomment">///    field type, Diesel will convert the field into `SomeType` using `.into` and</span>
+<span class="doccomment">///    serialize that instead. By default this derive will serialize directly using</span>
+<span class="doccomment">///    the actual field type.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">///</span>
@@ -1499,7 +1499,7 @@
 <span class="doccomment">/// # use std::io::Write;</span>
 <span class="doccomment">/// #</span>
 <span class="doccomment">/// #[derive(Debug, FromSqlRow, AsExpression)]</span>
-<span class="doccomment">/// #[sql_type = &quot;sql_types::Text&quot;]</span>
+<span class="doccomment">/// #[diesel(sql_type = sql_types::Text)]</span>
 <span class="doccomment">/// struct UppercaseString(pub String);</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// impl Into&lt;UppercaseString&gt; for String {</span>
@@ -1519,10 +1519,10 @@
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// #[derive(Insertable, PartialEq, Debug)]</span>
-<span class="doccomment">/// #[table_name = &quot;users&quot;]</span>
+<span class="doccomment">/// #[diesel(table_name = users)]</span>
 <span class="doccomment">/// struct InsertableUser {</span>
 <span class="doccomment">///     id: i32,</span>
-<span class="doccomment">///     #[diesel(serialize_as = &quot;UppercaseString&quot;)]</span>
+<span class="doccomment">///     #[diesel(serialize_as = UppercaseString)]</span>
 <span class="doccomment">///     name: String,</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
@@ -1551,20 +1551,10 @@
 <span class="doccomment">/// # Ok(())</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-
-<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">Insertable</span>, <span class="ident">attributes</span>(<span class="ident">table_name</span>, <span class="ident">column_name</span>, <span class="ident">diesel</span>))]</span>
+<span class="attribute">#[<span class="ident">proc_macro_error</span>]</span>
+<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">Insertable</span>, <span class="ident">attributes</span>(<span class="ident">diesel</span>, <span class="ident">table_name</span>, <span class="ident">column_name</span>))]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_insertable</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">insertable::derive</span>)
-}
-
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">NonAggregate</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_non_aggregate</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="macro">eprintln!</span>(
-        <span class="string">&quot;#[derive(NonAggregate)] is deprecated. Please use \
-         `#[derive(ValidGrouping)]` instead.)&quot;</span>
-    );
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">valid_grouping::derive</span>)
+    <span class="ident">insertable::derive</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Implements `QueryId`</span>
@@ -1601,9 +1591,10 @@
 <span class="doccomment">/// meaning that `HAS_STATIC_QUERY_ID` should always be false,</span>
 <span class="doccomment">/// you should not derive this trait.</span>
 <span class="doccomment">/// In that case you should implement it manually instead.</span>
+<span class="attribute">#[<span class="ident">proc_macro_error</span>]</span>
 <span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">QueryId</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_query_id</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">query_id::derive</span>)
+    <span class="ident">query_id::derive</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Implements `Queryable` to load the result of statically typed queries</span>
@@ -1616,7 +1607,7 @@
 <span class="doccomment">/// `#[derive(Queryable)]`. __Field name has no effect__.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// To provide custom deserialization behavior for a field, you can use</span>
-<span class="doccomment">/// `#[diesel(deserialize_as = &quot;SomeType&quot;)]`. If this attribute is present, Diesel</span>
+<span class="doccomment">/// `#[diesel(deserialize_as = SomeType)]`. If this attribute is present, Diesel</span>
 <span class="doccomment">/// will deserialize the corresponding field into `SomeType`, rather than the</span>
 <span class="doccomment">/// actual field type on your struct and then call</span>
 <span class="doccomment">/// [`.try_into`](https://doc.rust-lang.org/stable/std/convert/trait.TryInto.html#tymethod.try_into)</span>
@@ -1627,14 +1618,13 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// ## Optional field attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[diesel(deserialize_as = &quot;Type&quot;)]`, instead of deserializing directly</span>
-<span class="doccomment">///   into the field type, the implementation will deserialize into `Type`.</span>
-<span class="doccomment">///   Then `Type` is converted via</span>
-<span class="doccomment">///   [`.try_into`](https://doc.rust-lang.org/stable/std/convert/trait.TryInto.html#tymethod.try_into)</span>
-<span class="doccomment">///   into the field type. By default this derive will deserialize directly into the field type</span>
+<span class="doccomment">/// * `#[diesel(deserialize_as = Type)]`, instead of deserializing directly</span>
+<span class="doccomment">///    into the field type, the implementation will deserialize into `Type`.</span>
+<span class="doccomment">///    Then `Type` is converted via</span>
+<span class="doccomment">///    [`.try_into`](https://doc.rust-lang.org/stable/std/convert/trait.TryInto.html#tymethod.try_into)</span>
+<span class="doccomment">///    into the field type. By default this derive will deserialize directly into the field type</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">///</span>
@@ -1702,7 +1692,7 @@
 <span class="doccomment">/// #[derive(Queryable, PartialEq, Debug)]</span>
 <span class="doccomment">/// struct User {</span>
 <span class="doccomment">///     id: i32,</span>
-<span class="doccomment">///     #[diesel(deserialize_as = &quot;LowercaseString&quot;)]</span>
+<span class="doccomment">///     #[diesel(deserialize_as = LowercaseString)]</span>
 <span class="doccomment">///     name: String,</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
@@ -1765,23 +1755,24 @@
 <span class="doccomment">/// #     Ok(())</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">Queryable</span>, <span class="ident">attributes</span>(<span class="ident">column_name</span>, <span class="ident">diesel</span>))]</span>
+<span class="attribute">#[<span class="ident">proc_macro_error</span>]</span>
+<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">Queryable</span>, <span class="ident">attributes</span>(<span class="ident">diesel</span>, <span class="ident">column_name</span>))]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_queryable</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">queryable::derive</span>)
+    <span class="ident">queryable::derive</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Implements `QueryableByName` for untyped sql queries, such as that one generated</span>
 <span class="doccomment">/// by `sql_query`</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// To derive this trait, Diesel needs to know the SQL type of each field. You</span>
-<span class="doccomment">/// can do this by either annotating your struct with `#[table_name =</span>
-<span class="doccomment">/// &quot;some_table&quot;]` (in which case the SQL type will be</span>
+<span class="doccomment">/// can do this by either annotating your struct with `#[diesel(table_name =</span>
+<span class="doccomment">/// some_table)]` (in which case the SQL type will be</span>
 <span class="doccomment">/// `diesel::dsl::SqlTypeOf&lt;table_name::column_name&gt;`), or by annotating each</span>
-<span class="doccomment">/// field with `#[sql_type = &quot;SomeType&quot;]`.</span>
+<span class="doccomment">/// field with `#[diesel(sql_type = SomeType)]`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// If the name of a field on your struct is different than the column in your</span>
 <span class="doccomment">/// `table!` declaration, or if you are deriving this trait on a tuple struct,</span>
-<span class="doccomment">/// you can annotate the field with `#[column_name = &quot;some_column&quot;]`. For tuple</span>
+<span class="doccomment">/// you can annotate the field with `#[diesel(column_name = some_column)]`. For tuple</span>
 <span class="doccomment">/// structs, all fields must have this annotation.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// If a field is another struct which implements `QueryableByName`,</span>
@@ -1790,7 +1781,7 @@
 <span class="doccomment">/// the embedded struct.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// To provide custom deserialization behavior for a field, you can use</span>
-<span class="doccomment">/// `#[diesel(deserialize_as = &quot;SomeType&quot;)]`. If this attribute is present, Diesel</span>
+<span class="doccomment">/// `#[diesel(deserialize_as = SomeType)]`. If this attribute is present, Diesel</span>
 <span class="doccomment">/// will deserialize the corresponding field into `SomeType`, rather than the</span>
 <span class="doccomment">/// actual field type on your struct and then call `.into` to convert it to the</span>
 <span class="doccomment">/// actual field type. This can be used to add custom behavior for a</span>
@@ -1798,29 +1789,29 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Type attributes</span>
+<span class="doccomment">/// ## Optional container attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[table_name = &quot;path::to::table&quot;]`, to specify that this type contains</span>
-<span class="doccomment">///   columns for the specified table. The path is relative to the current module.</span>
-<span class="doccomment">///   If no field attributes are specified the derive will use the sql type of</span>
-<span class="doccomment">///   the corresponding column.</span>
+<span class="doccomment">/// * `#[diesel(table_name = path::to::table)]`, to specify that this type contains</span>
+<span class="doccomment">///    columns for the specified table. The path is relative to the current module.</span>
+<span class="doccomment">///    If no field attributes are specified the derive will use the sql type of</span>
+<span class="doccomment">///    the corresponding column.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Field attributes</span>
+<span class="doccomment">/// ## Optional field attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[column_name = &quot;some_column&quot;]`, overrides the column name for</span>
+<span class="doccomment">/// * `#[diesel(column_name = some_column)]`, overrides the column name for</span>
 <span class="doccomment">///    a given field. If not set, the name of the field is used as column</span>
 <span class="doccomment">///    name. This attribute is required on tuple structs, if</span>
-<span class="doccomment">///    `#[table_name = &quot;some_table&quot;]` is used, otherwise it&#39;s optional.</span>
-<span class="doccomment">/// * `#[sql_type = &quot;SomeType&quot;]`, assumes `SomeType` as sql type of the</span>
+<span class="doccomment">///    `#[diesel(table_name = some_table)]` is used, otherwise it&#39;s optional.</span>
+<span class="doccomment">/// * `#[diesel(sql_type = SomeType)]`, assumes `SomeType` as sql type of the</span>
 <span class="doccomment">///    corresponding field. This attributes has precedence over all other</span>
 <span class="doccomment">///    variants to specify the sql type.</span>
-<span class="doccomment">/// * `#[diesel(deserialize_as = &quot;Type&quot;)]`, instead of deserializing directly</span>
-<span class="doccomment">///   into the field type, the implementation will deserialize into `Type`.</span>
-<span class="doccomment">///   Then `Type` is converted via `.into()` into the field type. By default</span>
-<span class="doccomment">///   this derive will deserialize directly into the field type</span>
+<span class="doccomment">/// * `#[diesel(deserialize_as = Type)]`, instead of deserializing directly</span>
+<span class="doccomment">///    into the field type, the implementation will deserialize into `Type`.</span>
+<span class="doccomment">///    Then `Type` is converted via `.into()` into the field type. By default</span>
+<span class="doccomment">///    this derive will deserialize directly into the field type</span>
 <span class="doccomment">/// * `#[diesel(embed)]`, specifies that the current field maps not only</span>
-<span class="doccomment">///   single database column, but is a type that implements</span>
-<span class="doccomment">///   `QueryableByName` on it&#39;s own</span>
+<span class="doccomment">///    single database column, but is a type that implements</span>
+<span class="doccomment">///    `QueryableByName` on it&#39;s own</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">///</span>
@@ -1834,7 +1825,7 @@
 <span class="doccomment">/// # use diesel::sql_query;</span>
 <span class="doccomment">/// #</span>
 <span class="doccomment">/// #[derive(QueryableByName, PartialEq, Debug)]</span>
-<span class="doccomment">/// #[table_name = &quot;users&quot;]</span>
+<span class="doccomment">/// #[diesel(table_name = users)]</span>
 <span class="doccomment">/// struct User {</span>
 <span class="doccomment">///     id: i32,</span>
 <span class="doccomment">///     name: String,</span>
@@ -1886,10 +1877,10 @@
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// #[derive(QueryableByName, PartialEq, Debug)]</span>
-<span class="doccomment">/// #[table_name = &quot;users&quot;]</span>
+<span class="doccomment">/// #[diesel(table_name = users)]</span>
 <span class="doccomment">/// struct User {</span>
 <span class="doccomment">///     id: i32,</span>
-<span class="doccomment">///     #[diesel(deserialize_as = &quot;LowercaseString&quot;)]</span>
+<span class="doccomment">///     #[diesel(deserialize_as = LowercaseString)]</span>
 <span class="doccomment">///     name: String,</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
@@ -1952,20 +1943,21 @@
 <span class="doccomment">/// #     Ok(())</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">QueryableByName</span>, <span class="ident">attributes</span>(<span class="ident">table_name</span>, <span class="ident">column_name</span>, <span class="ident">sql_type</span>, <span class="ident">diesel</span>))]</span>
+<span class="attribute">#[<span class="ident">proc_macro_error</span>]</span>
+<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">QueryableByName</span>, <span class="ident">attributes</span>(<span class="ident">diesel</span>, <span class="ident">table_name</span>, <span class="ident">column_name</span>, <span class="ident">sql_type</span>))]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_queryable_by_name</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">queryable_by_name::derive</span>)
+    <span class="ident">queryable_by_name::derive</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Implements `Selectable`</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// To implement `Selectable` this derive needs to know the corresponding table</span>
 <span class="doccomment">/// type. By default it uses the `snake_case` type name with an added `s`.</span>
-<span class="doccomment">/// It is possible to change this default by using `#[table_name = &quot;something&quot;]`.</span>
+<span class="doccomment">/// It is possible to change this default by using `#[diesel(table_name = something)]`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// If the name of a field on your struct is different than the column in your</span>
 <span class="doccomment">/// `table!` declaration, or if you are deriving this trait on a tuple struct,</span>
-<span class="doccomment">/// you can annotate the field with `#[column_name = &quot;some_column&quot;]`. For tuple</span>
+<span class="doccomment">/// you can annotate the field with `#[diesel(column_name = some_column)]`. For tuple</span>
 <span class="doccomment">/// structs, all fields must have this annotation.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// If a field is another struct which implements `Selectable`,</span>
@@ -1982,21 +1974,23 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// ## Type attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[table_name = &quot;path::to::table&quot;]`, specifies a path to the table for which the</span>
-<span class="doccomment">/// current type is selectable. The path is relative to the current module.</span>
-<span class="doccomment">/// If this attribute is not used, the type name converted to</span>
-<span class="doccomment">/// `snake_case` with an added `s` is used as table name.</span>
+<span class="doccomment">/// * `#[diesel(table_name = path::to::table)]`, specifies a path to the table for which the</span>
+<span class="doccomment">///    current type is selectable. The path is relative to the current module.</span>
+<span class="doccomment">///    If this attribute is not used, the type name converted to</span>
+<span class="doccomment">///    `snake_case` with an added `s` is used as table name.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ## Field attributes</span>
-<span class="doccomment">/// * `#[column_name = &quot;some_column&quot;]`, overrides the column name for</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// * `#[diesel(column_name = some_column)]`, overrides the column name for</span>
 <span class="doccomment">///    a given field. If not set, the name of the field is used as column</span>
 <span class="doccomment">///    name.</span>
 <span class="doccomment">/// * `#[diesel(embed)]`, specifies that the current field maps not only</span>
 <span class="doccomment">///    single database column, but is a type that implements</span>
 <span class="doccomment">///    `Selectable` on it&#39;s own</span>
-<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">Selectable</span>, <span class="ident">attributes</span>(<span class="ident">table_name</span>, <span class="ident">column_name</span>, <span class="ident">sql_type</span>, <span class="ident">diesel</span>))]</span>
+<span class="attribute">#[<span class="ident">proc_macro_error</span>]</span>
+<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">Selectable</span>, <span class="ident">attributes</span>(<span class="ident">diesel</span>))]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_selectable</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">selectable::derive</span>)
+    <span class="ident">selectable::derive</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Implement necessary traits for adding a new sql type</span>
@@ -2007,39 +2001,40 @@
 <span class="doccomment">/// all backends you specified via the attributes listed below.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This derive will implement `NotNull`, `HasSqlType` and `SingleValue`.</span>
-<span class="doccomment">/// When using this deriving,</span>
+<span class="doccomment">/// When using this derive macro,</span>
 <span class="doccomment">/// you need to specify how the type is represented on various backends.</span>
 <span class="doccomment">/// You don&#39;t need to specify every backend,</span>
 <span class="doccomment">/// only the ones supported by your type.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// For PostgreSQL, add  `#[postgres(type_name = &quot;pg_type_name&quot;, type_schema = &quot;pg_schema_name&quot;)]`</span>
-<span class="doccomment">/// or `#[postgres(oid = &quot;some_oid&quot;, array_oid = &quot;some_oid&quot;)]` for</span>
+<span class="doccomment">/// For PostgreSQL, add `#[diesel(postgres_type(name = &quot;pg_type_name&quot;, schema = &quot;pg_schema_name&quot;))]`</span>
+<span class="doccomment">/// or `#[diesel(postgres_type(oid = &quot;some_oid&quot;, array_oid = &quot;some_oid&quot;))]` for</span>
 <span class="doccomment">/// builtin types.</span>
 <span class="doccomment">/// For MySQL, specify which variant of `MysqlType` should be used</span>
-<span class="doccomment">/// by adding `#[mysql_type = &quot;Variant&quot;]`.</span>
+<span class="doccomment">/// by adding `#[diesel(mysql_type(name = &quot;Variant&quot;))]`.</span>
 <span class="doccomment">/// For SQLite, specify which variant of `SqliteType` should be used</span>
-<span class="doccomment">/// by adding `#[sqlite_type = &quot;Variant&quot;]`.</span>
+<span class="doccomment">/// by adding `#[diesel(sqlite_type(name = &quot;Variant&quot;))]`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Attributes</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ## Type attributes</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// * `#[postgres(type_name = &quot;TypeName&quot;, type_schema = &quot;public&quot;)]` specifies support for</span>
-<span class="doccomment">/// a postgresql type with the name `TypeName` in the schema `public`. Prefer this variant</span>
-<span class="doccomment">/// for types with no stable OID (== everything but the builtin types). It&#39;s possible to leaf</span>
-<span class="doccomment">/// of the `type_schema` part. In that case diesel defaults to the default postgres search path.</span>
-<span class="doccomment">/// * `#[postgres(oid = 42, array_oid = 142)]`, specifies support for a</span>
-<span class="doccomment">/// postgresql type with the given `oid` and `array_oid`. This variant</span>
-<span class="doccomment">/// should only be used with types that have a stable OID.</span>
-<span class="doccomment">/// * `#[sqlite_type = &quot;TypeName&quot;]`, specifies support for a sqlite type</span>
-<span class="doccomment">/// with the given name. `TypeName` needs to be one of the possible values</span>
-<span class="doccomment">/// in `SqliteType`</span>
-<span class="doccomment">/// * `#[mysql_type = &quot;TypeName&quot;]`, specifies support for a mysql type</span>
-<span class="doccomment">/// with the given name. `TypeName` needs to be one of the possible values</span>
-<span class="doccomment">/// in `MysqlType`</span>
-<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">SqlType</span>, <span class="ident">attributes</span>(<span class="ident">postgres</span>, <span class="ident">sqlite_type</span>, <span class="ident">mysql_type</span>))]</span>
+<span class="doccomment">/// * `#[diesel(postgres_type(name = &quot;TypeName&quot;, schema = &quot;public&quot;))]` specifies support for</span>
+<span class="doccomment">///    a postgresql type with the name `TypeName` in the schema `public`. Prefer this variant</span>
+<span class="doccomment">///    for types with no stable OID (== everything but the builtin types). It&#39;s possible to leaf</span>
+<span class="doccomment">///    of the `schema` part. In that case diesel defaults to the default postgres search path.</span>
+<span class="doccomment">/// * `#[diesel(postgres_type(oid = 42, array_oid = 142))]`, specifies support for a</span>
+<span class="doccomment">///    postgresql type with the given `oid` and `array_oid`. This variant</span>
+<span class="doccomment">///    should only be used with types that have a stable OID.</span>
+<span class="doccomment">/// * `#[diesel(sqlite_type(name = &quot;TypeName&quot;))]`, specifies support for a sqlite type</span>
+<span class="doccomment">///    with the given name. `TypeName` needs to be one of the possible values</span>
+<span class="doccomment">///    in `SqliteType`</span>
+<span class="doccomment">/// * `#[diesel(mysql_type(name = &quot;TypeName&quot;))]`, specifies support for a mysql type</span>
+<span class="doccomment">///    with the given name. `TypeName` needs to be one of the possible values</span>
+<span class="doccomment">///    in `MysqlType`</span>
+<span class="attribute">#[<span class="ident">proc_macro_error</span>]</span>
+<span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">SqlType</span>, <span class="ident">attributes</span>(<span class="ident">diesel</span>, <span class="ident">postgres</span>, <span class="ident">sqlite_type</span>, <span class="ident">mysql_type</span>))]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_sql_type</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">sql_type::derive</span>)
+    <span class="ident">sql_type::derive</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Implements `ValidGrouping`</span>
@@ -2080,10 +2075,11 @@
 <span class="doccomment">/// ## Optional container attributes</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// * `#[diesel(aggregate)]` for cases where the type represents an aggregating</span>
-<span class="doccomment">///   SQL expression</span>
+<span class="doccomment">///    SQL expression</span>
+<span class="attribute">#[<span class="ident">proc_macro_error</span>]</span>
 <span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">ValidGrouping</span>, <span class="ident">attributes</span>(<span class="ident">diesel</span>))]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">derive_valid_grouping</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">valid_grouping::derive</span>)
+    <span class="ident">valid_grouping::derive</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 
 <span class="doccomment">/// Declare a sql function for use in your code.</span>
@@ -2179,7 +2175,7 @@
 <span class="doccomment">/// - `#[aggregate]`</span>
 <span class="doccomment">///   - Indicates that this is an aggregate function, and that `NonAggregate`</span>
 <span class="doccomment">///     should not be implemented.</span>
-<span class="doccomment">/// - `#[sql_name=&quot;name&quot;]`</span>
+<span class="doccomment">/// - `#[sql_name = &quot;name&quot;]`</span>
 <span class="doccomment">///   - The SQL to be generated is different than the Rust name of the function.</span>
 <span class="doccomment">///     This can be used to represent functions which can take many argument</span>
 <span class="doccomment">///     types, or to capitalize function names.</span>
@@ -2426,21 +2422,7 @@
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">proc_macro</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sql_function_proc</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">expand_proc_macro</span>(<span class="ident">input</span>, <span class="ident">sql_function::expand</span>)
-}
-
-<span class="kw">fn</span> <span class="ident">expand_proc_macro</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">syn::parse::Parse</span><span class="op">&gt;</span>(
-    <span class="ident">input</span>: <span class="ident">TokenStream</span>,
-    <span class="ident">f</span>: <span class="kw">fn</span>(<span class="ident">T</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">proc_macro2::TokenStream</span>, <span class="ident">Diagnostic</span><span class="op">&gt;</span>,
-) -&gt; <span class="ident">TokenStream</span> {
-    <span class="kw">let</span> <span class="ident">item</span> <span class="op">=</span> <span class="ident">syn::parse</span>(<span class="ident">input</span>).<span class="ident">unwrap</span>();
-    <span class="kw">match</span> <span class="ident">f</span>(<span class="ident">item</span>) {
-        <span class="prelude-val">Ok</span>(<span class="ident">x</span>) =&gt; <span class="ident">x</span>.<span class="ident">into</span>(),
-        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; {
-            <span class="ident">e</span>.<span class="ident">emit</span>();
-            <span class="string">&quot;&quot;</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>()
-        }
-    }
+    <span class="ident">sql_function::expand</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="diesel_derives" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
