@@ -242,9 +242,11 @@
 <span id="242">242</span>
 <span id="243">243</span>
 <span id="244">244</span>
+<span id="245">245</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">proc_macro2::TokenStream</span>;
 <span class="kw">use</span> <span class="ident">syn</span>::{<span class="ident">DeriveInput</span>, <span class="ident">Expr</span>, <span class="ident">Path</span>, <span class="ident">Type</span>};
 
+<span class="kw">use</span> <span class="ident">attrs::AttributeSpanWrapper</span>;
 <span class="kw">use</span> <span class="ident">field::Field</span>;
 <span class="kw">use</span> <span class="ident">model::Model</span>;
 <span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">inner_of_option_ty</span>, <span class="ident">is_option_ty</span>, <span class="ident">wrap_in_dummy_mod</span>};
@@ -269,7 +271,7 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ref_field_assign</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">model</span>.<span class="ident">fields</span>().<span class="ident">len</span>());
 
     <span class="kw">for</span> <span class="ident">field</span> <span class="kw">in</span> <span class="ident">model</span>.<span class="ident">fields</span>() {
-        <span class="kw">match</span> (<span class="ident">field</span>.<span class="ident">serialize_as</span>.<span class="ident">as_ref</span>(), <span class="ident">field</span>.<span class="ident">embed</span>) {
+        <span class="kw">match</span> (<span class="ident">field</span>.<span class="ident">serialize_as</span>.<span class="ident">as_ref</span>(), <span class="ident">field</span>.<span class="ident">embed</span>()) {
             (<span class="prelude-val">None</span>, <span class="bool-val">true</span>) =&gt; {
                 <span class="ident">direct_field_ty</span>.<span class="ident">push</span>(<span class="ident">field_ty_embed</span>(<span class="ident">field</span>, <span class="prelude-val">None</span>));
                 <span class="ident">direct_field_assign</span>.<span class="ident">push</span>(<span class="ident">field_expr_embed</span>(<span class="ident">field</span>, <span class="prelude-val">None</span>));
@@ -302,7 +304,7 @@
                     <span class="ident">treat_none_as_default_value</span>,
                 ));
             }
-            (<span class="prelude-val">Some</span>(<span class="ident">ty</span>), <span class="bool-val">false</span>) =&gt; {
+            (<span class="prelude-val">Some</span>(<span class="ident">AttributeSpanWrapper</span> { <span class="ident">item</span>: <span class="ident">ty</span>, .. }), <span class="bool-val">false</span>) =&gt; {
                 <span class="ident">direct_field_ty</span>.<span class="ident">push</span>(<span class="ident">field_ty_serialize_as</span>(
                     <span class="ident">field</span>,
                     <span class="ident">table_name</span>,
@@ -318,9 +320,9 @@
 
                 <span class="ident">generate_borrowed_insert</span> <span class="op">=</span> <span class="bool-val">false</span>; <span class="comment">// as soon as we hit one field with #[diesel(serialize_as)] there is no point in generating the impl of Insertable for borrowed structs</span>
             }
-            (<span class="prelude-val">Some</span>(<span class="ident">ty</span>), <span class="bool-val">true</span>) =&gt; {
+            (<span class="prelude-val">Some</span>(<span class="ident">AttributeSpanWrapper</span> { <span class="ident">attribute_span</span>, .. }), <span class="bool-val">true</span>) =&gt; {
                 <span class="macro">abort!</span>(
-                    <span class="ident">ty</span>,
+                    <span class="ident">attribute_span</span>,
                     <span class="string">&quot;`#[diesel(embed)]` cannot be combined with `#[diesel(serialize_as)]`&quot;</span>
                 )
             }

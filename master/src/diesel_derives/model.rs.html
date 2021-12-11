@@ -231,7 +231,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">postgres_type</span> <span class="op">=</span> <span class="prelude-val">None</span>;
 
         <span class="kw">for</span> <span class="ident">attr</span> <span class="kw">in</span> <span class="ident">parse_attributes</span>(<span class="ident">attrs</span>) {
-            <span class="kw">match</span> <span class="ident">attr</span> {
+            <span class="kw">match</span> <span class="ident">attr</span>.<span class="ident">item</span> {
                 <span class="ident">StructAttr::SqlType</span>(<span class="kw">_</span>, <span class="ident">value</span>) =&gt; <span class="ident">sql_types</span>.<span class="ident">push</span>(<span class="ident">Type::Path</span>(<span class="ident">value</span>)),
                 <span class="ident">StructAttr::TableName</span>(<span class="kw">_</span>, <span class="ident">value</span>) =&gt; <span class="ident">table_name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>),
                 <span class="ident">StructAttr::PrimaryKey</span>(<span class="kw">_</span>, <span class="ident">keys</span>) =&gt; {

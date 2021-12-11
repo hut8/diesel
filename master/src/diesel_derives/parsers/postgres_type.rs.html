@@ -148,10 +148,10 @@
 
         <span class="kw">for</span> <span class="ident">attr</span> <span class="kw">in</span> <span class="ident">Punctuated</span>::<span class="op">&lt;</span><span class="ident">Attr</span>, <span class="ident">Comma</span><span class="op">&gt;</span><span class="ident">::parse_terminated</span>(<span class="ident">input</span>)<span class="question-mark">?</span> {
             <span class="kw">match</span> <span class="ident">attr</span> {
-                <span class="ident">Attr::Oid</span>(<span class="kw">_</span>, <span class="ident">value</span>) =&gt; <span class="ident">oid</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>),
-                <span class="ident">Attr::ArrayOid</span>(<span class="kw">_</span>, <span class="ident">value</span>) =&gt; <span class="ident">array_oid</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>),
-                <span class="ident">Attr::Name</span>(<span class="kw">_</span>, <span class="ident">value</span>) =&gt; <span class="ident">name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>),
-                <span class="ident">Attr::Schema</span>(<span class="kw">_</span>, <span class="ident">value</span>) =&gt; <span class="ident">schema</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>),
+                <span class="ident">Attr::Oid</span>(<span class="ident">ident</span>, <span class="ident">value</span>) =&gt; <span class="ident">oid</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">ident</span>, <span class="ident">value</span>)),
+                <span class="ident">Attr::ArrayOid</span>(<span class="ident">ident</span>, <span class="ident">value</span>) =&gt; <span class="ident">array_oid</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">ident</span>, <span class="ident">value</span>)),
+                <span class="ident">Attr::Name</span>(<span class="ident">ident</span>, <span class="ident">value</span>) =&gt; <span class="ident">name</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">ident</span>, <span class="ident">value</span>)),
+                <span class="ident">Attr::Schema</span>(<span class="ident">ident</span>, <span class="ident">value</span>) =&gt; <span class="ident">schema</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">ident</span>, <span class="ident">value</span>)),
             }
         }
 
@@ -162,36 +162,36 @@
 <span class="kw">impl</span> <span class="ident">PostgresType</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">validate_and_build</span>(
         <span class="ident">input</span>: <span class="ident">ParseStream</span>,
-        <span class="ident">oid</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LitInt</span><span class="op">&gt;</span>,
-        <span class="ident">array_oid</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LitInt</span><span class="op">&gt;</span>,
-        <span class="ident">name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LitStr</span><span class="op">&gt;</span>,
-        <span class="ident">schema</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LitStr</span><span class="op">&gt;</span>,
+        <span class="ident">oid</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">Ident</span>, <span class="ident">LitInt</span>)<span class="op">&gt;</span>,
+        <span class="ident">array_oid</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">Ident</span>, <span class="ident">LitInt</span>)<span class="op">&gt;</span>,
+        <span class="ident">name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">Ident</span>, <span class="ident">LitStr</span>)<span class="op">&gt;</span>,
+        <span class="ident">schema</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">Ident</span>, <span class="ident">LitStr</span>)<span class="op">&gt;</span>,
     ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">help</span> <span class="op">=</span> <span class="macro">format!</span>(
             <span class="string">&quot;The correct format looks like either `#[diesel({})]` or `#[diesel({})]`&quot;</span>,
             <span class="ident">POSTGRES_TYPE_NOTE</span>, <span class="ident">POSTGRES_TYPE_NOTE_ID</span>
         );
 
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">name</span>) <span class="op">=</span> <span class="ident">name</span> {
-            <span class="kw">if</span> <span class="ident">oid</span>.<span class="ident">is_some</span>() {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="ident">name</span>)) <span class="op">=</span> <span class="ident">name</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">oid</span>, <span class="kw">_</span>)) <span class="op">=</span> <span class="ident">oid</span> {
                 <span class="macro">abort!</span>(
                     <span class="ident">oid</span>, <span class="string">&quot;unexpected `oid` when `name` is present&quot;</span>;
                     <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;{}&quot;</span>, <span class="ident">help</span>
                 );
-            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">array_oid</span>.<span class="ident">is_some</span>() {
+            } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">array_oid</span>, <span class="kw">_</span>)) <span class="op">=</span> <span class="ident">array_oid</span> {
                 <span class="macro">abort!</span>(
                     <span class="ident">array_oid</span>, <span class="string">&quot;unexpected `array_oid` when `name` is present&quot;</span>;
                     <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;{}&quot;</span>, <span class="ident">help</span>
                 );
             }
 
-            <span class="prelude-val">Ok</span>(<span class="ident">PostgresType::Lookup</span>(<span class="ident">name</span>, <span class="ident">schema</span>))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">schema</span>) <span class="op">=</span> <span class="ident">schema</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">PostgresType::Lookup</span>(<span class="ident">name</span>, <span class="ident">schema</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="number">1</span>)))
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">schema</span>, <span class="ident">lit</span>)) <span class="op">=</span> <span class="ident">schema</span> {
             <span class="macro">abort!</span>(
                 <span class="ident">schema</span>, <span class="string">&quot;expected `name` to be also present&quot;</span>;
-                <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;make sure `name` is present, `#[diesel(postgres_type(name = \&quot;...\&quot;, schema = \&quot;{}\&quot;))]`&quot;</span>, <span class="ident">schema</span>.<span class="ident">value</span>()
+                <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;make sure `name` is present, `#[diesel(postgres_type(name = \&quot;...\&quot;, schema = \&quot;{}\&quot;))]`&quot;</span>, <span class="ident">lit</span>.<span class="ident">value</span>()
             );
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> (<span class="prelude-val">Some</span>(<span class="ident">oid</span>), <span class="prelude-val">Some</span>(<span class="ident">array_oid</span>)) <span class="op">=</span> (<span class="ident">oid</span>, <span class="ident">array_oid</span>) {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> (<span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="ident">oid</span>)), <span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="ident">array_oid</span>))) <span class="op">=</span> (<span class="ident">oid</span>, <span class="ident">array_oid</span>) {
             <span class="prelude-val">Ok</span>(<span class="ident">PostgresType::Fixed</span>(<span class="ident">oid</span>, <span class="ident">array_oid</span>))
         } <span class="kw">else</span> {
             <span class="macro">abort!</span>(
