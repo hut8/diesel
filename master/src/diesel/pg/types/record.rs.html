@@ -374,7 +374,7 @@
     )<span class="op">+</span>}
 }
 
-<span class="macro">__diesel_for_each_tuple!</span>(<span class="ident">tuple_impls</span>);
+<span class="macro">diesel_derives::__diesel_for_each_tuple!</span>(<span class="ident">tuple_impls</span>);
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">QueryId</span>, <span class="ident">ValidGrouping</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PgTuple</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">T</span>);

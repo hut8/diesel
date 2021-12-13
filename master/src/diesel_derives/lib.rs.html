@@ -1211,6 +1211,16 @@
 <span id="1211">1211</span>
 <span id="1212">1212</span>
 <span id="1213">1213</span>
+<span id="1214">1214</span>
+<span id="1215">1215</span>
+<span id="1216">1216</span>
+<span id="1217">1217</span>
+<span id="1218">1218</span>
+<span id="1219">1219</span>
+<span id="1220">1220</span>
+<span id="1221">1221</span>
+<span id="1222">1222</span>
+<span id="1223">1223</span>
 </pre><pre class="rust"><code><span class="attribute">#![<span class="ident">recursion_limit</span> <span class="op">=</span> <span class="string">&quot;1024&quot;</span>]</span>
 <span class="comment">// Built-in Lints</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">warnings</span>, <span class="ident">missing_copy_implementations</span>)]</span>
@@ -1251,6 +1261,7 @@
 <span class="kw">mod</span> <span class="ident">as_changeset</span>;
 <span class="kw">mod</span> <span class="ident">as_expression</span>;
 <span class="kw">mod</span> <span class="ident">associations</span>;
+<span class="kw">mod</span> <span class="ident">diesel_for_each_tuple</span>;
 <span class="kw">mod</span> <span class="ident">diesel_numeric_ops</span>;
 <span class="kw">mod</span> <span class="ident">from_sql_row</span>;
 <span class="kw">mod</span> <span class="ident">identifiable</span>;
@@ -2423,6 +2434,15 @@
 <span class="attribute">#[<span class="ident">proc_macro</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sql_function_proc</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
     <span class="ident">sql_function::expand</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
+}
+
+<span class="doccomment">/// This is an internal diesel macro that</span>
+<span class="doccomment">/// helps to implement all traits for tuples of</span>
+<span class="doccomment">/// various sizes</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="attribute">#[<span class="ident">proc_macro</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">__diesel_for_each_tuple</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) -&gt; <span class="ident">TokenStream</span> {
+    <span class="ident">diesel_for_each_tuple::expand</span>(<span class="macro">parse_macro_input!</span>(<span class="ident">input</span>)).<span class="ident">into</span>()
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="diesel_derives" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>

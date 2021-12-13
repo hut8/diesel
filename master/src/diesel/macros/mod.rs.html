@@ -1549,6 +1549,127 @@
 <span id="1549">1549</span>
 <span id="1550">1550</span>
 <span id="1551">1551</span>
+<span id="1552">1552</span>
+<span id="1553">1553</span>
+<span id="1554">1554</span>
+<span id="1555">1555</span>
+<span id="1556">1556</span>
+<span id="1557">1557</span>
+<span id="1558">1558</span>
+<span id="1559">1559</span>
+<span id="1560">1560</span>
+<span id="1561">1561</span>
+<span id="1562">1562</span>
+<span id="1563">1563</span>
+<span id="1564">1564</span>
+<span id="1565">1565</span>
+<span id="1566">1566</span>
+<span id="1567">1567</span>
+<span id="1568">1568</span>
+<span id="1569">1569</span>
+<span id="1570">1570</span>
+<span id="1571">1571</span>
+<span id="1572">1572</span>
+<span id="1573">1573</span>
+<span id="1574">1574</span>
+<span id="1575">1575</span>
+<span id="1576">1576</span>
+<span id="1577">1577</span>
+<span id="1578">1578</span>
+<span id="1579">1579</span>
+<span id="1580">1580</span>
+<span id="1581">1581</span>
+<span id="1582">1582</span>
+<span id="1583">1583</span>
+<span id="1584">1584</span>
+<span id="1585">1585</span>
+<span id="1586">1586</span>
+<span id="1587">1587</span>
+<span id="1588">1588</span>
+<span id="1589">1589</span>
+<span id="1590">1590</span>
+<span id="1591">1591</span>
+<span id="1592">1592</span>
+<span id="1593">1593</span>
+<span id="1594">1594</span>
+<span id="1595">1595</span>
+<span id="1596">1596</span>
+<span id="1597">1597</span>
+<span id="1598">1598</span>
+<span id="1599">1599</span>
+<span id="1600">1600</span>
+<span id="1601">1601</span>
+<span id="1602">1602</span>
+<span id="1603">1603</span>
+<span id="1604">1604</span>
+<span id="1605">1605</span>
+<span id="1606">1606</span>
+<span id="1607">1607</span>
+<span id="1608">1608</span>
+<span id="1609">1609</span>
+<span id="1610">1610</span>
+<span id="1611">1611</span>
+<span id="1612">1612</span>
+<span id="1613">1613</span>
+<span id="1614">1614</span>
+<span id="1615">1615</span>
+<span id="1616">1616</span>
+<span id="1617">1617</span>
+<span id="1618">1618</span>
+<span id="1619">1619</span>
+<span id="1620">1620</span>
+<span id="1621">1621</span>
+<span id="1622">1622</span>
+<span id="1623">1623</span>
+<span id="1624">1624</span>
+<span id="1625">1625</span>
+<span id="1626">1626</span>
+<span id="1627">1627</span>
+<span id="1628">1628</span>
+<span id="1629">1629</span>
+<span id="1630">1630</span>
+<span id="1631">1631</span>
+<span id="1632">1632</span>
+<span id="1633">1633</span>
+<span id="1634">1634</span>
+<span id="1635">1635</span>
+<span id="1636">1636</span>
+<span id="1637">1637</span>
+<span id="1638">1638</span>
+<span id="1639">1639</span>
+<span id="1640">1640</span>
+<span id="1641">1641</span>
+<span id="1642">1642</span>
+<span id="1643">1643</span>
+<span id="1644">1644</span>
+<span id="1645">1645</span>
+<span id="1646">1646</span>
+<span id="1647">1647</span>
+<span id="1648">1648</span>
+<span id="1649">1649</span>
+<span id="1650">1650</span>
+<span id="1651">1651</span>
+<span id="1652">1652</span>
+<span id="1653">1653</span>
+<span id="1654">1654</span>
+<span id="1655">1655</span>
+<span id="1656">1656</span>
+<span id="1657">1657</span>
+<span id="1658">1658</span>
+<span id="1659">1659</span>
+<span id="1660">1660</span>
+<span id="1661">1661</span>
+<span id="1662">1662</span>
+<span id="1663">1663</span>
+<span id="1664">1664</span>
+<span id="1665">1665</span>
+<span id="1666">1666</span>
+<span id="1667">1667</span>
+<span id="1668">1668</span>
+<span id="1669">1669</span>
+<span id="1670">1670</span>
+<span id="1671">1671</span>
+<span id="1672">1672</span>
 </pre><pre class="rust"><code><span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_parens</span>)]</span> <span class="comment">// FIXME: Remove this attribute once false positive is resolved.</span>
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">rustfmt</span>, <span class="ident">rustfmt_skip</span>)]</span> <span class="comment">// https://github.com/rust-lang-nursery/rustfmt/issues/2755</span>
 
@@ -2196,6 +2317,32 @@
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="macro">macro_rules!</span> <span class="ident">__diesel_table_impl</span> {
     (
+        <span class="ident">table</span> <span class="op">=</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">table</span>: <span class="ident">tt</span>)<span class="op">*</span> },
+        <span class="ident">columns</span> <span class="op">=</span> [$({
+            <span class="ident">name</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">column_name</span>:<span class="ident">ident</span>,
+            <span class="ident">sql_name</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">column_sql_name</span>:<span class="ident">expr</span>,
+            <span class="ident">ty</span> <span class="op">=</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">column_ty</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>),
+            $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">column</span>:<span class="ident">tt</span>)<span class="op">*</span>
+        },)<span class="op">+</span>],
+    ) =&gt; {
+        <span class="macro-nonterminal">$</span><span class="macro">crate::__diesel_check_column_count!</span>{
+            <span class="macro-nonterminal">inner</span> <span class="op">=</span> {
+                <span class="macro-nonterminal">$</span><span class="macro">crate::__diesel_table_impl!</span> {
+                    <span class="macro-nonterminal">impl_table</span>,
+                    <span class="ident">table</span> <span class="op">=</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">table</span>)<span class="kw-2">*</span>},
+                    <span class="ident">columns</span> <span class="op">=</span> [$({
+                        <span class="ident">name</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">column_name</span>,
+                        <span class="ident">sql_name</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">column_sql_name</span>,
+                        <span class="ident">ty</span> <span class="op">=</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">column_ty</span>)<span class="kw-2">*</span>),
+                        $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">column</span>)<span class="op">*</span>
+                    },)<span class="op">+</span>],
+                }
+            },
+            ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">column_name</span>,)<span class="kw-2">*</span>)
+        }
+    };
+    (
+        <span class="ident">impl_table</span>,
         <span class="ident">table</span> <span class="op">=</span> {
             <span class="ident">imports</span> <span class="op">=</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">imports</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>],
             <span class="ident">meta</span> <span class="op">=</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">meta</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>],
@@ -2875,6 +3022,102 @@
 }
 
 
+<span class="macro">macro_rules!</span> <span class="ident">impl_column_check</span> {
+    ($(
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Tuple</span>:<span class="ident">tt</span> {
+            $((<span class="macro-nonterminal">$</span><span class="macro-nonterminal">idx</span>:<span class="ident">tt</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ST</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">TT</span>:<span class="ident">ident</span>,)<span class="op">+</span>
+        }
+    )<span class="op">+</span>) =&gt; {
+        <span class="macro">__diesel_with_dollar_sign!</span> {
+            (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">d</span>:<span class="ident">tt</span>) =&gt; {
+                <span class="attribute">#[<span class="ident">macro_export</span>]</span>
+                <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+                <span class="macro">macro_rules!</span> <span class="ident">__diesel_check_column_count_internal</span> {
+                    $(
+                    (<span class="ident">inner</span> <span class="op">=</span> {<span class="macro-nonterminal">$</span><span class="macro-nonterminal">d</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">d</span> <span class="ident">inner</span>: <span class="ident">tt</span>)<span class="kw-2">*</span>}, ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">d</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>: <span class="ident">ident</span>,)<span class="kw-2">*</span>)) =&gt; {
+                        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">d</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">d</span> <span class="ident">inner</span>)<span class="op">*</span>
+                    };
+                    )<span class="op">*</span>
+                    (<span class="ident">inner</span> <span class="op">=</span> {<span class="macro-nonterminal">$</span><span class="macro-nonterminal">d</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">d</span> <span class="ident">inner</span>: <span class="ident">tt</span>)<span class="kw-2">*</span>}, (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">d</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">d</span> <span class="ident">names</span>: <span class="ident">ident</span>,)<span class="kw-2">*</span>)) =&gt; {
+                        <span class="macro-nonterminal">$</span><span class="macro">crate::__diesel_error_table_size!</span>();
+                    }
+                }
+            }
+        }
+    }
+}
+
+<span class="macro">diesel_derives::__diesel_for_each_tuple!</span>(<span class="macro-nonterminal">impl_column_check</span>);
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;32-column-tables&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;64-column-tables&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;128-column-tables&quot;</span>
+)))]</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="macro">macro_rules!</span> <span class="ident">__diesel_error_table_size</span> {
+    () =&gt; {
+        <span class="macro">compile_error!</span>(
+            <span class="string">&quot;Table contains more than 16 columns. Consider enabling the `32-column-tables` feature to enable diesels support for tables with more than 16 columns.&quot;</span>
+        );
+
+    }
+}
+
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;32-column-tables&quot;</span>,
+    <span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;64-column-tables&quot;</span>),
+    <span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;128-column-tables&quot;</span>)
+))]</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="macro">macro_rules!</span> <span class="ident">__diesel_error_table_size</span> {
+    () =&gt; {
+        <span class="macro">compile_error!</span>(
+            <span class="string">&quot;Table contains more than 32 columns. Consider enabling the `64-column-tables` feature to enable diesels support for tables with more than 32 columns.&quot;</span>
+        );
+
+    }
+}
+
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;32-column-tables&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;64-column-tables&quot;</span>,
+    <span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;128-column-tables&quot;</span>)
+))]</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="macro">macro_rules!</span> <span class="ident">__diesel_error_table_size</span> {
+    () =&gt; {
+        <span class="macro">compile_error!</span>(
+            <span class="string">&quot;Table contains more than 64 columns. Consider enabling the `128-column-tables` feature to enable diesels support for tables with more than 64 columns.&quot;</span>
+        );
+
+    }
+}
+
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;32-column-tables&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;64-column-tables&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;128-column-tables&quot;</span>
+))]</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="macro">macro_rules!</span> <span class="ident">__diesel_error_table_size</span> {
+    () =&gt; {
+        <span class="macro">compile_error!</span>(
+            <span class="string">&quot;You reached the end. Diesel does not support tables with more than 128 columns. Consider using less columns.&quot;</span>
+        );
+    }
+}
+
+
+
+
 <span class="comment">// The order of these modules is important (at least for those which have tests).</span>
 <span class="comment">// Utility macros which don&#39;t call any others need to come first.</span>
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
@@ -2883,8 +3126,7 @@
 <span class="kw">mod</span> <span class="ident">static_cond</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">mod</span> <span class="ident">ops</span>;
-<span class="attribute">#[<span class="ident">macro_use</span>]</span>
-<span class="kw">mod</span> <span class="ident">tuples</span>;
+
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
