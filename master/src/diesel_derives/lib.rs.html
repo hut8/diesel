@@ -1221,6 +1221,21 @@
 <span id="1221">1221</span>
 <span id="1222">1222</span>
 <span id="1223">1223</span>
+<span id="1224">1224</span>
+<span id="1225">1225</span>
+<span id="1226">1226</span>
+<span id="1227">1227</span>
+<span id="1228">1228</span>
+<span id="1229">1229</span>
+<span id="1230">1230</span>
+<span id="1231">1231</span>
+<span id="1232">1232</span>
+<span id="1233">1233</span>
+<span id="1234">1234</span>
+<span id="1235">1235</span>
+<span id="1236">1236</span>
+<span id="1237">1237</span>
+<span id="1238">1238</span>
 </pre><pre class="rust"><code><span class="attribute">#![<span class="ident">recursion_limit</span> <span class="op">=</span> <span class="string">&quot;1024&quot;</span>]</span>
 <span class="comment">// Built-in Lints</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">warnings</span>, <span class="ident">missing_copy_implementations</span>)]</span>
@@ -1285,6 +1300,17 @@
 <span class="doccomment">/// from the name of the corresponding column, you can annotate the field with</span>
 <span class="doccomment">/// `#[diesel(column_name = some_column_name)]`.</span>
 <span class="doccomment">///</span>
+<span class="doccomment">/// To provide custom serialization behavior for a field, you can use</span>
+<span class="doccomment">/// `#[diesel(serialize_as = SomeType)]`. If this attribute is present, Diesel</span>
+<span class="doccomment">/// will call `.into` on the corresponding field and serialize the instance of `SomeType`,</span>
+<span class="doccomment">/// rather than the actual field on your struct. This can be used to add custom behavior for a</span>
+<span class="doccomment">/// single field, or use types that are otherwise unsupported by Diesel.</span>
+<span class="doccomment">/// Normally, Diesel produces two implementations of the `AsChangeset` trait for your</span>
+<span class="doccomment">/// struct using this derive: one for an owned version and one for a borrowed version.</span>
+<span class="doccomment">/// Using `#[diesel(serialize_as)]` implies a conversion using `.into` which consumes the underlying value.</span>
+<span class="doccomment">/// Hence, once you use `#[diesel(serialize_as)]`, Diesel can no longer insert borrowed</span>
+<span class="doccomment">/// versions of your struct.</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// By default, any `Option` fields on the struct are skipped if their value is</span>
 <span class="doccomment">/// `None`. If you would like to assign `NULL` to the field instead, you can</span>
 <span class="doccomment">/// annotate your struct with `#[diesel(treat_none_as_null = true)]`.</span>
@@ -1310,6 +1336,10 @@
 <span class="doccomment">/// * `#[diesel(column_name = some_column_name)]`, overrides the column name</span>
 <span class="doccomment">///    of the current field to `some_column_name`. By default the field</span>
 <span class="doccomment">///    name is used as column name.</span>
+<span class="doccomment">/// * `#[diesel(serialize_as = SomeType)]`, instead of serializing the actual</span>
+<span class="doccomment">///    field type, Diesel will convert the field into `SomeType` using `.into` and</span>
+<span class="doccomment">///    serialize that instead. By default this derive will serialize directly using</span>
+<span class="doccomment">///    the actual field type.</span>
 <span class="attribute">#[<span class="ident">proc_macro_error</span>]</span>
 <span class="attribute">#[<span class="ident">proc_macro_derive</span>(
     <span class="ident">AsChangeset</span>,
