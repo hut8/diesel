@@ -231,13 +231,62 @@
 <span id="231">231</span>
 <span id="232">232</span>
 <span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::backend::Backend</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::dsl</span>::{<span class="ident">Filter</span>, <span class="ident">IntoBoxed</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::dsl</span>::{<span class="ident">Filter</span>, <span class="ident">IntoBoxed</span>, <span class="ident">OrFilter</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::expression</span>::{<span class="ident">AppearsOnTable</span>, <span class="ident">SelectableExpression</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::returning_clause</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::where_clause</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_dsl::methods</span>::{<span class="ident">BoxedDsl</span>, <span class="ident">FilterDsl</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_dsl::methods</span>::{<span class="ident">BoxedDsl</span>, <span class="ident">FilterDsl</span>, <span class="ident">OrFilterDsl</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_dsl::RunQueryDsl</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_source::Table</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::result::QueryResult</span>;
@@ -306,6 +355,39 @@
         <span class="ident">FilterDsl::filter</span>(<span class="self">self</span>, <span class="ident">predicate</span>)
     }
 
+    <span class="doccomment">/// Adds to the `WHERE` clause of a query using `OR`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If there is already a `WHERE` clause, the result will be `(old OR new)`.</span>
+    <span class="doccomment">/// Calling `foo.filter(bar).or_filter(baz)`</span>
+    <span class="doccomment">/// is identical to `foo.filter(bar.or(baz))`.</span>
+    <span class="doccomment">/// However, the second form is much harder to do dynamically.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Example</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// # include!(&quot;../../doctest_setup.rs&quot;);</span>
+    <span class="doccomment">/// #</span>
+    <span class="doccomment">/// # fn main() {</span>
+    <span class="doccomment">/// #     use schema::users::dsl::*;</span>
+    <span class="doccomment">/// #     let connection = &amp;mut establish_connection();</span>
+    <span class="doccomment">/// let deleted_rows = diesel::delete(users)</span>
+    <span class="doccomment">///     .filter(name.eq(&quot;Sean&quot;))</span>
+    <span class="doccomment">///     .or_filter(name.eq(&quot;Tess&quot;))</span>
+    <span class="doccomment">///     .execute(connection);</span>
+    <span class="doccomment">/// assert_eq!(Ok(2), deleted_rows);</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let num_users = users.count().first(connection);</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// assert_eq!(Ok(0), num_users);</span>
+    <span class="doccomment">/// # }</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">or_filter</span><span class="op">&lt;</span><span class="ident">Predicate</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">Predicate</span>) -&gt; <span class="ident">OrFilter</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Predicate</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="self">Self</span>: <span class="ident">OrFilterDsl</span><span class="op">&lt;</span><span class="ident">Predicate</span><span class="op">&gt;</span>,
+    {
+        <span class="ident">OrFilterDsl::or_filter</span>(<span class="self">self</span>, <span class="ident">predicate</span>)
+    }
+
     <span class="doccomment">/// Boxes the `WHERE` clause of this delete statement.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is useful for cases where you want to conditionally modify a query,</span>
@@ -369,6 +451,22 @@
         <span class="ident">DeleteStatement</span> {
             <span class="ident">table</span>: <span class="self">self</span>.<span class="ident">table</span>,
             <span class="ident">where_clause</span>: <span class="self">self</span>.<span class="ident">where_clause</span>.<span class="ident">and</span>(<span class="ident">predicate</span>),
+            <span class="ident">returning</span>: <span class="self">self</span>.<span class="ident">returning</span>,
+        }
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span>, <span class="ident">Ret</span>, <span class="ident">Predicate</span><span class="op">&gt;</span> <span class="ident">OrFilterDsl</span><span class="op">&lt;</span><span class="ident">Predicate</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DeleteStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span>, <span class="ident">Ret</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">U</span>: <span class="ident">WhereOr</span><span class="op">&lt;</span><span class="ident">Predicate</span><span class="op">&gt;</span>,
+    <span class="ident">Predicate</span>: <span class="ident">AppearsOnTable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+{
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">DeleteStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U::Output</span>, <span class="ident">Ret</span><span class="op">&gt;</span>;
+
+    <span class="kw">fn</span> <span class="ident">or_filter</span>(<span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">Predicate</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
+        <span class="ident">DeleteStatement</span> {
+            <span class="ident">table</span>: <span class="self">self</span>.<span class="ident">table</span>,
+            <span class="ident">where_clause</span>: <span class="self">self</span>.<span class="ident">where_clause</span>.<span class="ident">or</span>(<span class="ident">predicate</span>),
             <span class="ident">returning</span>: <span class="self">self</span>.<span class="ident">returning</span>,
         }
     }
