@@ -389,6 +389,11 @@
 <span id="389">389</span>
 <span id="390">390</span>
 <span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::expression::Expression</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::upsert::into_conflict_clause::IntoConflictValueClause</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::upsert::on_conflict_actions</span>::<span class="kw-2">*</span>;
@@ -401,6 +406,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span> <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span>
 <span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">QuerySource</span>,
     <span class="ident">U</span>: <span class="ident">UndecoratedInsertRecord</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">IntoConflictValueClause</span>,
 {
     <span class="doccomment">/// Adds `ON CONFLICT DO NOTHING` to the insert statement, without</span>
@@ -615,7 +621,9 @@
     <span class="ident">target</span>: <span class="ident">Target</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span>, <span class="ident">Op</span>, <span class="ident">Ret</span>, <span class="ident">Target</span><span class="op">&gt;</span> <span class="ident">IncompleteOnConflict</span><span class="op">&lt;</span><span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span>, <span class="ident">Target</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">QuerySource</span>, <span class="ident">U</span>, <span class="ident">Op</span>, <span class="ident">Ret</span>, <span class="ident">Target</span><span class="op">&gt;</span>
+    <span class="ident">IncompleteOnConflict</span><span class="op">&lt;</span><span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span>, <span class="ident">Target</span><span class="op">&gt;</span>
+{
     <span class="doccomment">/// Creates a query with `ON CONFLICT (target) DO NOTHING`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If you want to do nothing when *any* constraint conflicts, use</span>
@@ -762,7 +770,9 @@
     <span class="ident">target</span>: <span class="ident">Target</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span>, <span class="ident">Op</span>, <span class="ident">Ret</span>, <span class="ident">Target</span><span class="op">&gt;</span> <span class="ident">IncompleteDoUpdate</span><span class="op">&lt;</span><span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span>, <span class="ident">Target</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">QuerySource</span>, <span class="ident">U</span>, <span class="ident">Op</span>, <span class="ident">Ret</span>, <span class="ident">Target</span><span class="op">&gt;</span>
+    <span class="ident">IncompleteDoUpdate</span><span class="op">&lt;</span><span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span>, <span class="ident">Target</span><span class="op">&gt;</span>
+{
     <span class="doccomment">/// See [`do_update`] for usage examples.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`do_update`]: IncompleteOnConflict::do_update()</span>

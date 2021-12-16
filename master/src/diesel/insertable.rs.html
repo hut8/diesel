@@ -389,6 +389,20 @@
 <span id="389">389</span>
 <span id="390">390</span>
 <span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::backend</span>::{<span class="ident">sql_dialect</span>, <span class="ident">Backend</span>, <span class="ident">SqlDialect</span>};
@@ -459,6 +473,7 @@
     <span class="doccomment">/// ```</span>
     <span class="kw">fn</span> <span class="ident">insert_into</span>(<span class="self">self</span>, <span class="ident">table</span>: <span class="ident">T</span>) -&gt; <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident"><span class="self">Self</span>::Values</span><span class="op">&gt;</span>
     <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">Table</span>,
         <span class="self">Self</span>: <span class="ident">Sized</span>,
     {
         <span class="ident"><span class="kw">crate</span>::insert_into</span>(<span class="ident">table</span>).<span class="ident">values</span>(<span class="self">self</span>)
@@ -506,7 +521,7 @@
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">InsertValues</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Table</span>, <span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">column_names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">column_names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">QueryId</span>)]</span>
@@ -551,7 +566,7 @@
     <span class="ident">Expr</span>: <span class="ident">Expression</span><span class="op">&lt;</span><span class="ident">SqlType</span> <span class="op">=</span> <span class="ident">Col::SqlType</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AppearsOnTable</span><span class="op">&lt;</span><span class="ident">NoFromClause</span><span class="op">&gt;</span>,
     <span class="self">Self</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">column_names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">column_names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_identifier</span>(<span class="ident">Col::NAME</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     }
@@ -564,7 +579,7 @@
     <span class="ident">Expr</span>: <span class="ident">Expression</span><span class="op">&lt;</span><span class="ident">SqlType</span> <span class="op">=</span> <span class="ident">Col::SqlType</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AppearsOnTable</span><span class="op">&lt;</span><span class="ident">NoFromClause</span><span class="op">&gt;</span>,
     <span class="self">Self</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">column_names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">column_names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_identifier</span>(<span class="ident">Col::NAME</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     }
@@ -575,7 +590,7 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="self">Self</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span>, <span class="ident">DB::InsertWithDefaultKeyword</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span>, <span class="ident">DB::InsertWithDefaultKeyword</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::walk_ast</span>(<span class="self">self</span>, <span class="ident">pass</span>)
     }
 }
@@ -585,7 +600,7 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span> <span class="op">+</span> <span class="ident">SqlDialect</span><span class="op">&lt;</span><span class="ident">InsertWithDefaultKeyword</span> <span class="op">=</span> <span class="ident">sql_dialect::default_keyword_for_insert::IsoSqlDefaultKeyword</span><span class="op">&gt;</span>,
     <span class="ident">Expr</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">unsafe_to_cache_prepared</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident"><span class="self">Self</span>::Expression</span>(<span class="kw-2">ref</span> <span class="ident">inner</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">inner</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
@@ -601,7 +616,7 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">Expr</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">expr</span>.<span class="ident">walk_ast</span>(<span class="ident">pass</span>)
     }
 }
@@ -614,7 +629,7 @@
     <span class="ident">Expr</span>: <span class="ident">Expression</span><span class="op">&lt;</span><span class="ident">SqlType</span> <span class="op">=</span> <span class="ident">Col::SqlType</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AppearsOnTable</span><span class="op">&lt;</span><span class="ident">NoFromClause</span><span class="op">&gt;</span>,
     <span class="self">Self</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::sqlite::Sqlite</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">column_names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::sqlite::Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">column_names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>, <span class="ident"><span class="kw">crate</span>::sqlite::Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident"><span class="self">Self</span>::Expression</span>(..) <span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">out</span>.<span class="ident">push_identifier</span>(<span class="ident">Col::NAME</span>)<span class="question-mark">?</span>;
         }
@@ -631,7 +646,7 @@
 <span class="kw">where</span>
     <span class="ident">Expr</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::sqlite::Sqlite</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::sqlite::Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident"><span class="kw">crate</span>::sqlite::Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident"><span class="self">Self</span>::Expression</span>(<span class="kw-2">ref</span> <span class="ident">inner</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">inner</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         }
@@ -641,12 +656,13 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">Tab</span><span class="op">&gt;</span> <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">T</span>]
 <span class="kw">where</span>
-    <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span>: <span class="ident">UndecoratedInsertRecord</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span>,
+    <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span>: <span class="ident">UndecoratedInsertRecord</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span>,
 {
-    <span class="kw">type</span> <span class="ident">Values</span> <span class="op">=</span> <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">T</span>], <span class="ident">Tab</span>, (), <span class="bool-val">false</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">Values</span> <span class="op">=</span> <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span> <span class="kw">as</span> <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Values</span><span class="op">&gt;</span>, <span class="ident">Tab</span>, (), <span class="bool-val">false</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">values</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Values</span> {
-        <span class="ident">BatchInsert::new</span>(<span class="self">self</span>)
+        <span class="kw">let</span> <span class="ident">values</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="ident">Insertable::values</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+        <span class="ident">BatchInsert::new</span>(<span class="ident">values</span>)
     }
 }
 
@@ -665,10 +681,11 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">UndecoratedInsertRecord</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span>,
 {
-    <span class="kw">type</span> <span class="ident">Values</span> <span class="op">=</span> <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Tab</span>, (), <span class="bool-val">false</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">Values</span> <span class="op">=</span> <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T::Values</span><span class="op">&gt;</span>, <span class="ident">Tab</span>, (), <span class="bool-val">false</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">values</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Values</span> {
-        <span class="ident">BatchInsert::new</span>(<span class="self">self</span>)
+        <span class="kw">let</span> <span class="ident">values</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="ident">Insertable::values</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+        <span class="ident">BatchInsert::new</span>(<span class="ident">values</span>)
     }
 }
 
@@ -676,23 +693,32 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span>,
 {
-    <span class="kw">type</span> <span class="ident">Values</span> <span class="op">=</span> <span class="ident">BatchInsert</span><span class="op">&lt;</span>[<span class="ident">T</span>; <span class="ident">N</span>], <span class="ident">Tab</span>, [<span class="ident">T::Values</span>; <span class="ident">N</span>], <span class="bool-val">true</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">Values</span> <span class="op">=</span> <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T::Values</span><span class="op">&gt;</span>, <span class="ident">Tab</span>, [<span class="ident">T::Values</span>; <span class="ident">N</span>], <span class="bool-val">true</span><span class="op">&gt;</span>;
 
+    <span class="comment">// We must use the deprecated `IntoIter` function</span>
+    <span class="comment">// here as 1.51 (MSRV) does not support the new not</span>
+    <span class="comment">// deprecated variant</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
     <span class="kw">fn</span> <span class="ident">values</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Values</span> {
-        <span class="ident">BatchInsert::new</span>(<span class="self">self</span>)
+        <span class="kw">let</span> <span class="ident">values</span> <span class="op">=</span> <span class="ident">std::array::IntoIter::new</span>(<span class="self">self</span>)
+            .<span class="ident">map</span>(<span class="ident">Insertable::values</span>)
+            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+        <span class="ident">BatchInsert::new</span>(<span class="ident">values</span>)
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">Tab</span>, <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span><span class="op">&gt;</span> <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">T</span>; <span class="ident">N</span>]
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span>,
+    <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span>: <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span>,
 {
     <span class="comment">// We can reuse the query id for [T; N] here as this</span>
     <span class="comment">// compiles down to the same query</span>
-    <span class="kw">type</span> <span class="ident">Values</span> <span class="op">=</span> <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">T</span>; <span class="ident">N</span>], <span class="ident">Tab</span>, [<span class="ident">T::Values</span>; <span class="ident">N</span>], <span class="bool-val">true</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">Values</span> <span class="op">=</span> <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span> <span class="kw">as</span> <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Values</span><span class="op">&gt;</span>, <span class="ident">Tab</span>, [<span class="ident">T::Values</span>; <span class="ident">N</span>], <span class="bool-val">true</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">values</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Values</span> {
-        <span class="ident">BatchInsert::new</span>(<span class="self">self</span>)
+        <span class="kw">let</span> <span class="ident">values</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="ident">Insertable::values</span>).<span class="ident">collect</span>();
+        <span class="ident">BatchInsert::new</span>(<span class="ident">values</span>)
     }
 }
 
@@ -702,10 +728,12 @@
 {
     <span class="comment">// We can reuse the query id for [T; N] here as this</span>
     <span class="comment">// compiles down to the same query</span>
-    <span class="kw">type</span> <span class="ident">Values</span> <span class="op">=</span> <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span>[<span class="ident">T</span>; <span class="ident">N</span>]<span class="op">&gt;</span>, <span class="ident">Tab</span>, [<span class="ident">T::Values</span>; <span class="ident">N</span>], <span class="bool-val">true</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">Values</span> <span class="op">=</span> <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T::Values</span><span class="op">&gt;</span>, <span class="ident">Tab</span>, [<span class="ident">T::Values</span>; <span class="ident">N</span>], <span class="bool-val">true</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">values</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Values</span> {
-        <span class="ident">BatchInsert::new</span>(<span class="self">self</span>)
+        <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Vec::from</span>(<span class="self">self</span> <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span>);
+        <span class="kw">let</span> <span class="ident">values</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="ident">Insertable::values</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+        <span class="ident">BatchInsert::new</span>(<span class="ident">values</span>)
     }
 }
 

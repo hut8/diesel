@@ -73,17 +73,7 @@
 <span id="73">73</span>
 <span id="74">74</span>
 <span id="75">75</span>
-<span id="76">76</span>
-<span id="77">77</span>
-<span id="78">78</span>
-<span id="79">79</span>
-<span id="80">80</span>
-<span id="81">81</span>
-<span id="82">82</span>
-<span id="83">83</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::Pg</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::backend::BinaryRawValue</span>;
-<span class="kw">use</span> <span class="ident">std::num::NonZeroU32</span>;
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::num::NonZeroU32</span>;
 <span class="kw">use</span> <span class="ident">std::ops::Range</span>;
 
 <span class="doccomment">/// Raw postgres value as received from the database</span>
@@ -117,12 +107,6 @@
 <span class="kw">impl</span> <span class="ident">TypeOidLookup</span> <span class="kw">for</span> <span class="ident">NonZeroU32</span> {
     <span class="kw">fn</span> <span class="ident">lookup</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">NonZeroU32</span> {
         <span class="kw-2">*</span><span class="self">self</span>
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">BinaryRawValue</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Pg</span> {
-    <span class="kw">fn</span> <span class="ident">as_bytes</span>(<span class="ident">value</span>: <span class="ident">PgValue</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>] {
-        <span class="ident">value</span>.<span class="ident">raw_value</span>
     }
 }
 

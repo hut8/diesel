@@ -243,27 +243,17 @@
 <span id="243">243</span>
 <span id="244">244</span>
 <span id="245">245</span>
-<span id="246">246</span>
-<span id="247">247</span>
-<span id="248">248</span>
-<span id="249">249</span>
-<span id="250">250</span>
-<span id="251">251</span>
-<span id="252">252</span>
-<span id="253">253</span>
-<span id="254">254</span>
-<span id="255">255</span>
 </pre><pre class="rust"><code><span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libsqlite3_sys</span> <span class="kw">as</span> <span class="ident">ffi</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::raw::RawConnection</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::row::PrivateSqliteRow</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::serialized_value::SerializedValue</span>;
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Sqlite</span>, <span class="ident">SqliteAggregateFunction</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::deserialize</span>::{<span class="ident">FromSqlRow</span>, <span class="ident">StaticallySizedRow</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::result</span>::{<span class="ident">DatabaseErrorKind</span>, <span class="ident">Error</span>, <span class="ident">QueryResult</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::row</span>::{<span class="ident">Field</span>, <span class="ident">PartialRow</span>, <span class="ident">Row</span>, <span class="ident">RowGatWorkaround</span>, <span class="ident">RowIndex</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serialize</span>::{<span class="ident">IsNull</span>, <span class="ident">Output</span>, <span class="ident">ToSql</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sql_types::HasSqlType</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sqlite::connection::bind_collector::SqliteBindValue</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sqlite::connection::sqlite_value::OwnedSqliteValue</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sqlite::SqliteValue</span>;
 <span class="kw">use</span> <span class="ident">std::cell</span>::{<span class="ident">Ref</span>, <span class="ident">RefCell</span>};
@@ -295,9 +285,7 @@
     <span class="ident">conn</span>.<span class="ident">register_sql_function</span>(<span class="ident">fn_name</span>, <span class="ident">fields_needed</span>, <span class="ident">deterministic</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">conn</span>, <span class="ident">args</span><span class="op">|</span> {
         <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">build_sql_function_args</span>::<span class="op">&lt;</span><span class="ident">ArgsSqlType</span>, <span class="ident">Args</span><span class="op">&gt;</span>(<span class="ident">args</span>)<span class="question-mark">?</span>;
 
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">f</span>(<span class="ident">conn</span>, <span class="ident">args</span>);
-
-        <span class="ident">process_sql_function_result</span>::<span class="op">&lt;</span><span class="ident">RetSqlType</span>, <span class="ident">Ret</span><span class="op">&gt;</span>(<span class="ident">result</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">f</span>(<span class="ident">conn</span>, <span class="ident">args</span>))
     })<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }
@@ -313,10 +301,7 @@
     <span class="ident">Ret</span>: <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">RetSqlType</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>,
     <span class="ident">Sqlite</span>: <span class="ident">HasSqlType</span><span class="op">&lt;</span><span class="ident">RetSqlType</span><span class="op">&gt;</span>,
 {
-    <span class="ident">conn</span>.<span class="ident">register_sql_function</span>(<span class="ident">fn_name</span>, <span class="number">0</span>, <span class="ident">deterministic</span>, <span class="kw">move</span> <span class="op">|</span><span class="kw">_</span>, <span class="kw">_</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">f</span>();
-        <span class="ident">process_sql_function_result</span>::<span class="op">&lt;</span><span class="ident">RetSqlType</span>, <span class="ident">Ret</span><span class="op">&gt;</span>(<span class="ident">result</span>)
-    })<span class="question-mark">?</span>;
+    <span class="ident">conn</span>.<span class="ident">register_sql_function</span>(<span class="ident">fn_name</span>, <span class="number">0</span>, <span class="ident">deterministic</span>, <span class="kw">move</span> <span class="op">|</span><span class="kw">_</span>, <span class="kw">_</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">f</span>()))<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }
 
@@ -357,32 +342,27 @@
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">process_sql_function_result</span><span class="op">&lt;</span><span class="ident">RetSqlType</span>, <span class="ident">Ret</span><span class="op">&gt;</span>(
-    <span class="ident">result</span>: <span class="ident">Ret</span>,
-) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">SerializedValue</span><span class="op">&gt;</span>
+    <span class="ident">result</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_</span> <span class="ident">Ret</span>,
+) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">SqliteBindValue</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">Ret</span>: <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">RetSqlType</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>,
     <span class="ident">Sqlite</span>: <span class="ident">HasSqlType</span><span class="op">&lt;</span><span class="ident">RetSqlType</span><span class="op">&gt;</span>,
 {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">metadata_lookup</span> <span class="op">=</span> ();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Output::new</span>(<span class="ident">Vec::new</span>(), <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">metadata_lookup</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Output::new</span>(<span class="ident">SqliteBindValue::Null</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">metadata_lookup</span>);
     <span class="kw">let</span> <span class="ident">is_null</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">to_sql</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">map_err</span>(<span class="ident">Error::SerializationError</span>)<span class="question-mark">?</span>;
 
-    <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="ident">IsNull::Yes</span> <span class="op">=</span> <span class="ident">is_null</span> {
-        <span class="prelude-val">None</span>
+    <span class="kw">if</span> <span class="kw">let</span> <span class="ident">IsNull::Yes</span> <span class="op">=</span> <span class="ident">is_null</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">SqliteBindValue::Null</span>)
     } <span class="kw">else</span> {
-        <span class="prelude-val">Some</span>(<span class="ident">buf</span>.<span class="ident">into_inner</span>())
-    };
-
-    <span class="prelude-val">Ok</span>(<span class="ident">SerializedValue</span> {
-        <span class="ident">ty</span>: <span class="ident">Sqlite::metadata</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> ()),
-        <span class="ident">data</span>: <span class="ident">bytes</span>,
-    })
+        <span class="prelude-val">Ok</span>(<span class="ident">buf</span>.<span class="ident">into_inner</span>())
+    }
 }
 
 <span class="kw">struct</span> <span class="ident">FunctionRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="comment">// we use `ManuallyDrop` to prevent dropping the content of the internal vector</span>
     <span class="comment">// as this buffer is owned by sqlite not by diesel</span>
-    <span class="ident">args</span>: <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">ManuallyDrop</span><span class="op">&lt;</span><span class="ident">PrivateSqliteRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">args</span>: <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">ManuallyDrop</span><span class="op">&lt;</span><span class="ident">PrivateSqliteRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;static</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">field_count</span>: <span class="ident">usize</span>,
     <span class="ident">marker</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">ffi::sqlite3_value</span><span class="op">&gt;</span>,
 }
@@ -466,7 +446,7 @@
         })
     }
 
-    <span class="kw">fn</span> <span class="ident">partial_row</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">range</span>: <span class="ident">std::ops::Range</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) -&gt; <span class="ident">PartialRow</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::InnerPartialRow</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">partial_row</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">range</span>: <span class="ident">std::ops::Range</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) -&gt; <span class="ident">PartialRow</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident"><span class="self">Self</span>::InnerPartialRow</span><span class="op">&gt;</span> {
         <span class="ident">PartialRow::new</span>(<span class="self">self</span>, <span class="ident">range</span>)
     }
 }
@@ -488,7 +468,7 @@
 }
 
 <span class="kw">struct</span> <span class="ident">FunctionArgument</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="ident">args</span>: <span class="ident">Ref</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ManuallyDrop</span><span class="op">&lt;</span><span class="ident">PrivateSqliteRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">args</span>: <span class="ident">Ref</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ManuallyDrop</span><span class="op">&lt;</span><span class="ident">PrivateSqliteRow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;static</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">col_idx</span>: <span class="ident">i32</span>,
 }
 
@@ -501,7 +481,7 @@
         <span class="self">self</span>.<span class="ident">value</span>().<span class="ident">is_none</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::backend::RawValue</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::backend::RawValue</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="ident">SqliteValue::new</span>(
             <span class="ident">Ref::map</span>(<span class="ident">Ref::clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">args</span>), <span class="op">|</span><span class="ident">drop</span><span class="op">|</span> <span class="ident">std::ops::Deref::deref</span>(<span class="ident">drop</span>)),
             <span class="self">self</span>.<span class="ident">col_idx</span>,

@@ -292,6 +292,8 @@
 <span id="292">292</span>
 <span id="293">293</span>
 <span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">diesel::backend::Backend</span>;
 <span class="kw">use</span> <span class="ident">diesel::dsl</span>;
 <span class="kw">use</span> <span class="ident">diesel::expression::bound::Bound</span>;
@@ -303,6 +305,7 @@
 <span class="kw">use</span> <span class="ident">diesel::query_builder</span>::{<span class="ident">InsertStatement</span>, <span class="ident">ValuesClause</span>};
 <span class="kw">use</span> <span class="ident">diesel::query_dsl::methods::ExecuteDsl</span>;
 <span class="kw">use</span> <span class="ident">diesel::query_dsl::LoadQuery</span>;
+<span class="kw">use</span> <span class="ident">diesel::serialize::ToSql</span>;
 <span class="kw">use</span> <span class="ident">diesel::sql_types::Text</span>;
 <span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
 <span class="kw">use</span> <span class="ident">std::collections::HashMap</span>;
@@ -447,14 +450,14 @@
     <span class="kw">fn</span> <span class="ident">applied_migrations</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MigrationVersion</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">DB</span><span class="op">&gt;</span> <span class="ident">MigrationHarness</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">C</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">C</span>, <span class="ident">DB</span><span class="op">&gt;</span> <span class="ident">MigrationHarness</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">C</span>
 <span class="kw">where</span>
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">C</span>: <span class="ident">Connection</span><span class="op">&lt;</span><span class="ident">Backend</span> <span class="op">=</span> <span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">MigrationConnection</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     <span class="ident">dsl::Order</span><span class="op">&lt;</span>
         <span class="ident">dsl::Select</span><span class="op">&lt;</span><span class="ident">__diesel_schema_migrations::table</span>, <span class="ident">__diesel_schema_migrations::version</span><span class="op">&gt;</span>,
         <span class="ident">dsl::Desc</span><span class="op">&lt;</span><span class="ident">__diesel_schema_migrations::version</span><span class="op">&gt;</span>,
-    <span class="op">&gt;</span>: <span class="ident">LoadQuery</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">MigrationVersion</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="op">&gt;</span>: <span class="ident">LoadQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">C</span>, <span class="ident">MigrationVersion</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">InsertStatement</span><span class="op">&lt;</span>
         <span class="ident">__diesel_schema_migrations::table</span>,
         <span class="ident">ValuesClause</span><span class="op">&lt;</span>
@@ -465,6 +468,7 @@
             <span class="ident">__diesel_schema_migrations::table</span>,
         <span class="op">&gt;</span>,
     <span class="op">&gt;</span>: <span class="ident">ExecuteDsl</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>,
+    <span class="ident">str</span>: <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">Text</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
 {
     <span class="kw">fn</span> <span class="ident">run_migration</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,

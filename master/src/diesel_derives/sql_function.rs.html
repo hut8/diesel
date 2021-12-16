@@ -504,6 +504,17 @@
 <span id="504">504</span>
 <span id="505">505</span>
 <span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">proc_macro2::TokenStream</span>;
 <span class="kw">use</span> <span class="ident">quote::ToTokens</span>;
 <span class="kw">use</span> <span class="ident">syn::parse</span>::{<span class="ident">Parse</span>, <span class="ident">ParseStream</span>, <span class="prelude-ty">Result</span>};
@@ -651,11 +662,22 @@
             <span class="kw">for</span> #<span class="ident">fn_name</span> #<span class="ident">ty_generics</span>
         <span class="kw">where</span>
             <span class="ident">__DieselInternal</span>: <span class="ident">diesel::backend::Backend</span>,
-            <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> (#(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> #<span class="ident">arg_name</span>),<span class="kw-2">*</span>): <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">__DieselInternal</span><span class="op">&gt;</span>,
+            #(#<span class="ident">arg_name</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">__DieselInternal</span><span class="op">&gt;</span>,)<span class="op">*</span>
         {
-            <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">__DieselInternal</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+            <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_assignments</span>)]</span>
+            <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;__b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;__b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;__b</span>, <span class="ident">__DieselInternal</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>{
                 <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="macro">concat!</span>(#<span class="ident">sql_name</span>, <span class="string">&quot;(&quot;</span>));
-                (#(<span class="kw-2">&amp;</span><span class="self">self</span>.#<span class="ident">arg_name</span>,)<span class="kw-2">*</span>).<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
+                <span class="comment">// we unroll the arguments manually here, to prevent borrow check issues</span>
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">needs_comma</span> <span class="op">=</span> <span class="bool-val">false</span>;
+                #(
+                    <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.#<span class="ident">arg_name</span>.<span class="ident">is_noop</span>()<span class="question-mark">?</span> {
+                        <span class="kw">if</span> <span class="ident">needs_comma</span> {
+                            <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;, &quot;</span>);
+                        }
+                        <span class="self">self</span>.#<span class="ident">arg_name</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
+                        <span class="ident">needs_comma</span> <span class="op">=</span> <span class="bool-val">true</span>;
+                    }
+                )<span class="op">*</span>
                 <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;)&quot;</span>);
                 <span class="prelude-val">Ok</span>(())
             }

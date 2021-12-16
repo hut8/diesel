@@ -132,7 +132,7 @@
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sqlite::Sqlite</span>;
 
 <span class="kw">impl</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">LimitOffsetClause</span><span class="op">&lt;</span><span class="ident">NoLimitClause</span>, <span class="ident">NoOffsetClause</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="ident">_out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(())
     }
 }
@@ -141,7 +141,7 @@
 <span class="kw">where</span>
     <span class="ident">LimitClause</span><span class="op">&lt;</span><span class="ident">L</span><span class="op">&gt;</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">limit_clause</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     }
@@ -151,7 +151,7 @@
 <span class="kw">where</span>
     <span class="ident">OffsetClause</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="comment">// Sqlite requires a limit clause in front of any offset clause</span>
         <span class="comment">// using `LIMIT -1` is the same as not having any limit clause</span>
         <span class="comment">// https://sqlite.org/lang_select.html</span>
@@ -166,7 +166,7 @@
     <span class="ident">LimitClause</span><span class="op">&lt;</span><span class="ident">L</span><span class="op">&gt;</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>,
     <span class="ident">OffsetClause</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">limit_clause</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">offset_clause</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
@@ -174,7 +174,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">BoxedLimitOffsetClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> (<span class="self">self</span>.<span class="ident">limit</span>.<span class="ident">as_ref</span>(), <span class="self">self</span>.<span class="ident">offset</span>.<span class="ident">as_ref</span>()) {
             (<span class="prelude-val">Some</span>(<span class="ident">limit</span>), <span class="prelude-val">Some</span>(<span class="ident">offset</span>)) =&gt; {
                 <span class="ident">limit</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;

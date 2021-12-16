@@ -234,15 +234,6 @@
 <span id="234">234</span>
 <span id="235">235</span>
 <span id="236">236</span>
-<span id="237">237</span>
-<span id="238">238</span>
-<span id="239">239</span>
-<span id="240">240</span>
-<span id="241">241</span>
-<span id="242">242</span>
-<span id="243">243</span>
-<span id="244">244</span>
-<span id="245">245</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Within this module, types commonly use the following abbreviations:</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! F: From Clause</span>
@@ -263,6 +254,8 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::boxed::BoxedSelectStatement</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::distinct_clause::NoDistinctClause</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::from_clause::AsQuerySource</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::from_clause::FromClause</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::group_by_clause</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::limit_clause::NoLimitClause</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::locking_clause::NoLockingClause</span>;
@@ -270,6 +263,7 @@
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::order_clause::NoOrderClause</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::select_clause</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::where_clause</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::NoFromClause</span>;
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">AstPass</span>, <span class="ident">Query</span>, <span class="ident">QueryFragment</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::backend::Backend</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::expression::subselect::ValidSubselect</span>;
@@ -283,24 +277,11 @@
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::result::QueryResult</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">QueryId</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NoFromClause</span>;
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span>, <span class="ident"><span class="kw">crate</span>::backend::sql_dialect::from_clause_syntax::AnsiSqlFromClauseSyntax</span><span class="op">&gt;</span>
-    <span class="kw">for</span> <span class="ident">NoFromClause</span>
-<span class="kw">where</span>
-    <span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&lt;</span><span class="ident">EmptyFromClauseSyntax</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::backend::sql_dialect::from_clause_syntax::AnsiSqlFromClauseSyntax</span><span class="op">&gt;</span>,
-{
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="prelude-val">Ok</span>(())
-    }
-}
-
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">QueryId</span>)]</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;Queries are only executed when calling `load`, `get_result` or similar.&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span>
     <span class="ident">From</span>,
-    <span class="ident">Select</span> <span class="op">=</span> <span class="ident">DefaultSelectClause</span>,
+    <span class="ident">Select</span> <span class="op">=</span> <span class="ident">DefaultSelectClause</span><span class="op">&lt;</span><span class="ident">From</span><span class="op">&gt;</span>,
     <span class="ident">Distinct</span> <span class="op">=</span> <span class="ident">NoDistinctClause</span>,
     <span class="ident">Where</span> <span class="op">=</span> <span class="ident">NoWhereClause</span>,
     <span class="ident">Order</span> <span class="op">=</span> <span class="ident">NoOrderClause</span>,
@@ -347,10 +328,11 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">QuerySource</span><span class="op">&gt;</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">simple</span>(<span class="ident">from</span>: <span class="ident">F</span>) -&gt; <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="ident">from</span> <span class="op">=</span> <span class="ident">FromClause::new</span>(<span class="ident">from</span>);
         <span class="ident">SelectStatement::new</span>(
-            <span class="ident">DefaultSelectClause</span>,
+            <span class="ident">DefaultSelectClause::new</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>),
             <span class="ident">from</span>,
             <span class="ident">NoDistinctClause</span>,
             <span class="ident">NoWhereClause</span>,
@@ -388,9 +370,8 @@
     <span class="kw">for</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">S</span>, <span class="ident">D</span>, <span class="ident">W</span>, <span class="ident">O</span>, <span class="ident">LOf</span>, <span class="ident">G</span>, <span class="ident">H</span>, <span class="ident">LC</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
-    <span class="ident">S</span>: <span class="ident">SelectClauseQueryFragment</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
-    <span class="ident">F</span>: <span class="ident">QuerySource</span>,
-    <span class="ident">F::FromClause</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
+    <span class="ident">S</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
+    <span class="ident">F</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">D</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">W</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">O</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
@@ -399,40 +380,10 @@
     <span class="ident">H</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">LC</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;SELECT &quot;</span>);
         <span class="self">self</span>.<span class="ident">distinct</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">select</span>.<span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">from</span>, <span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot; FROM &quot;</span>);
-        <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">from_clause</span>().<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">where_clause</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">group_by</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">having</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">order</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">limit_offset</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">locking</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(())
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">D</span>, <span class="ident">W</span>, <span class="ident">O</span>, <span class="ident">LOf</span>, <span class="ident">G</span>, <span class="ident">H</span>, <span class="ident">LC</span>, <span class="ident">DB</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>
-    <span class="kw">for</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">NoFromClause</span>, <span class="ident">S</span>, <span class="ident">D</span>, <span class="ident">W</span>, <span class="ident">O</span>, <span class="ident">LOf</span>, <span class="ident">G</span>, <span class="ident">H</span>, <span class="ident">LC</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">DB</span>: <span class="ident">Backend</span>,
-    <span class="ident">S</span>: <span class="ident">SelectClauseQueryFragment</span><span class="op">&lt;</span><span class="ident">NoFromClause</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
-    <span class="ident">NoFromClause</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span>, <span class="ident">DB::EmptyFromClauseSyntax</span><span class="op">&gt;</span>,
-    <span class="ident">D</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
-    <span class="ident">W</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
-    <span class="ident">O</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
-    <span class="ident">LOf</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
-    <span class="ident">G</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
-    <span class="ident">H</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
-    <span class="ident">LC</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
-{
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;SELECT &quot;</span>);
-        <span class="self">self</span>.<span class="ident">distinct</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">select</span>.<span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="ident">NoFromClause</span>, <span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">select</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">where_clause</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">group_by</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
@@ -445,10 +396,39 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">F</span>, <span class="ident">D</span>, <span class="ident">W</span>, <span class="ident">O</span>, <span class="ident">LOf</span>, <span class="ident">G</span>, <span class="ident">H</span>, <span class="ident">LC</span>, <span class="ident">QS</span><span class="op">&gt;</span> <span class="ident">ValidSubselect</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span>
-    <span class="kw">for</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">S</span>, <span class="ident">D</span>, <span class="ident">W</span>, <span class="ident">O</span>, <span class="ident">LOf</span>, <span class="ident">G</span>, <span class="ident">H</span>, <span class="ident">LC</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>, <span class="ident">S</span>, <span class="ident">D</span>, <span class="ident">W</span>, <span class="ident">O</span>, <span class="ident">LOf</span>, <span class="ident">G</span>, <span class="ident">H</span>, <span class="ident">LC</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="self">Self</span>: <span class="ident">SelectQuery</span>,
-    <span class="ident">W</span>: <span class="ident">ValidWhereClause</span><span class="op">&lt;</span><span class="ident">Join</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">QS</span>, <span class="ident">Inner</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">F</span>: <span class="ident">QuerySource</span>,
+    <span class="ident">QS</span>: <span class="ident">QuerySource</span>,
+    <span class="ident">Join</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">QS</span>, <span class="ident">Inner</span><span class="op">&gt;</span>: <span class="ident">QuerySource</span>,
+    <span class="ident">W</span>: <span class="ident">ValidWhereClause</span><span class="op">&lt;</span><span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">Join</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">QS</span>, <span class="ident">Inner</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+{
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">D</span>, <span class="ident">W</span>, <span class="ident">O</span>, <span class="ident">LOf</span>, <span class="ident">G</span>, <span class="ident">H</span>, <span class="ident">LC</span><span class="op">&gt;</span> <span class="ident">ValidSubselect</span><span class="op">&lt;</span><span class="ident">NoFromClause</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">NoFromClause</span>, <span class="ident">S</span>, <span class="ident">D</span>, <span class="ident">W</span>, <span class="ident">O</span>, <span class="ident">LOf</span>, <span class="ident">G</span>, <span class="ident">H</span>, <span class="ident">LC</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="self">Self</span>: <span class="ident">SelectQuery</span>,
+    <span class="ident">W</span>: <span class="ident">ValidWhereClause</span><span class="op">&lt;</span><span class="ident">NoFromClause</span><span class="op">&gt;</span>,
+{
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">F</span>, <span class="ident">D</span>, <span class="ident">W</span>, <span class="ident">O</span>, <span class="ident">LOf</span>, <span class="ident">G</span>, <span class="ident">H</span>, <span class="ident">LC</span><span class="op">&gt;</span> <span class="ident">ValidSubselect</span><span class="op">&lt;</span><span class="ident">NoFromClause</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>, <span class="ident">S</span>, <span class="ident">D</span>, <span class="ident">W</span>, <span class="ident">O</span>, <span class="ident">LOf</span>, <span class="ident">G</span>, <span class="ident">H</span>, <span class="ident">LC</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="self">Self</span>: <span class="ident">SelectQuery</span>,
+    <span class="ident">F</span>: <span class="ident">QuerySource</span>,
+    <span class="ident">W</span>: <span class="ident">ValidWhereClause</span><span class="op">&lt;</span><span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+{
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">D</span>, <span class="ident">W</span>, <span class="ident">O</span>, <span class="ident">LOf</span>, <span class="ident">G</span>, <span class="ident">H</span>, <span class="ident">LC</span>, <span class="ident">QS</span><span class="op">&gt;</span> <span class="ident">ValidSubselect</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">NoFromClause</span>, <span class="ident">S</span>, <span class="ident">D</span>, <span class="ident">W</span>, <span class="ident">O</span>, <span class="ident">LOf</span>, <span class="ident">G</span>, <span class="ident">H</span>, <span class="ident">LC</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="self">Self</span>: <span class="ident">SelectQuery</span>,
+    <span class="ident">QS</span>: <span class="ident">QuerySource</span>,
+    <span class="ident">W</span>: <span class="ident">ValidWhereClause</span><span class="op">&lt;</span><span class="ident">NoFromClause</span><span class="op">&gt;</span>,
 {
 }
 
@@ -456,36 +436,38 @@
 <span class="doccomment">/// no other query methods have been called on it</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">From</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">AppearsInFromClause</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">From</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">From</span>: <span class="ident">AppearsInFromClause</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    <span class="ident">From</span>: <span class="ident">AsQuerySource</span>,
+    <span class="ident">From::QuerySource</span>: <span class="ident">AppearsInFromClause</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">QuerySource</span>,
 {
-    <span class="kw">type</span> <span class="ident">Count</span> <span class="op">=</span> <span class="ident">From::Count</span>;
+    <span class="kw">type</span> <span class="ident">Count</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">From::QuerySource</span> <span class="kw">as</span> <span class="ident">AppearsInFromClause</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Count</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">From</span><span class="op">&gt;</span> <span class="ident">QuerySource</span> <span class="kw">for</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">From</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">From</span>: <span class="ident">QuerySource</span>,
-    <span class="ident">From::DefaultSelection</span>: <span class="ident">SelectableExpression</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
+    <span class="ident">From</span>: <span class="ident">AsQuerySource</span>,
+    <span class="op">&lt;</span><span class="ident">From::QuerySource</span> <span class="kw">as</span> <span class="ident">QuerySource</span><span class="op">&gt;</span><span class="ident">::DefaultSelection</span>: <span class="ident">SelectableExpression</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
 {
-    <span class="kw">type</span> <span class="ident">FromClause</span> <span class="op">=</span> <span class="ident">From::FromClause</span>;
-    <span class="kw">type</span> <span class="ident">DefaultSelection</span> <span class="op">=</span> <span class="ident">From::DefaultSelection</span>;
+    <span class="kw">type</span> <span class="ident">FromClause</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">From::QuerySource</span> <span class="kw">as</span> <span class="ident">QuerySource</span><span class="op">&gt;</span><span class="ident">::FromClause</span>;
+    <span class="kw">type</span> <span class="ident">DefaultSelection</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">From::QuerySource</span> <span class="kw">as</span> <span class="ident">QuerySource</span><span class="op">&gt;</span><span class="ident">::DefaultSelection</span>;
 
-    <span class="kw">fn</span> <span class="ident">from_clause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::FromClause</span> {
-        <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">from_clause</span>()
+    <span class="kw">fn</span> <span class="ident">from_clause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="op">&lt;</span><span class="ident">From::QuerySource</span> <span class="kw">as</span> <span class="ident">QuerySource</span><span class="op">&gt;</span><span class="ident">::FromClause</span> {
+        <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">as_query_source</span>().<span class="ident">from_clause</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">default_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::DefaultSelection</span> {
-        <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">default_selection</span>()
+        <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">as_query_source</span>().<span class="ident">default_selection</span>()
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">From</span>, <span class="ident">Selection</span><span class="op">&gt;</span> <span class="ident">AppendSelection</span><span class="op">&lt;</span><span class="ident">Selection</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">From</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">From</span>: <span class="ident">AppendSelection</span><span class="op">&lt;</span><span class="ident">Selection</span><span class="op">&gt;</span>,
+    <span class="ident">From</span>: <span class="ident">AsQuerySource</span>,
+    <span class="ident">From::QuerySource</span>: <span class="ident">AppendSelection</span><span class="op">&lt;</span><span class="ident">Selection</span><span class="op">&gt;</span>,
 {
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">From::Output</span>;
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">From::QuerySource</span> <span class="kw">as</span> <span class="ident">AppendSelection</span><span class="op">&lt;</span><span class="ident">Selection</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Output</span>;
 
     <span class="kw">fn</span> <span class="ident">append_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
-        <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">append_selection</span>(<span class="ident">selection</span>)
+        <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">as_query_source</span>().<span class="ident">append_selection</span>(<span class="ident">selection</span>)
     }
 }
 </code></pre></div>

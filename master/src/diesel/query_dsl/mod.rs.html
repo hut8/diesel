@@ -1630,6 +1630,11 @@
 <span id="1630">1630</span>
 <span id="1631">1631</span>
 <span id="1632">1632</span>
+<span id="1633">1633</span>
+<span id="1634">1634</span>
+<span id="1635">1635</span>
+<span id="1636">1636</span>
+<span id="1637">1637</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Traits that construct SELECT statements</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Traits in this module have methods that generally map to the keyword for the corresponding clause in SQL,</span>
@@ -2879,6 +2884,8 @@
     <span class="doccomment">///     }</span>
     <span class="doccomment">/// }</span>
     <span class="doccomment">///</span>
+    <span class="doccomment">/// allow_tables_to_appear_in_same_query!(users, posts);</span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// # let _: Vec&lt;(i32, Option&lt;String&gt;)&gt; =</span>
     <span class="doccomment">/// posts::table.filter(</span>
     <span class="doccomment">///    posts::by_user.eq_any(users::table.select(users::name).nullable())</span>
@@ -3030,9 +3037,9 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">load</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Conn</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">load</span><span class="op">&lt;</span><span class="lifetime">&#39;query</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Conn</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>
     <span class="kw">where</span>
-        <span class="self">Self</span>: <span class="ident">LoadQuery</span><span class="op">&lt;</span><span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span>,
+        <span class="self">Self</span>: <span class="ident">LoadQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;query</span>, <span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span>,
     {
         <span class="self">self</span>.<span class="ident">internal_load</span>(<span class="ident">conn</span>)<span class="question-mark">?</span>.<span class="ident">collect</span>()
     }
@@ -3137,10 +3144,13 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">load_iter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Conn</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">LoadIter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span>, <span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">load_iter</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span>, <span class="lifetime">&#39;query</span>: <span class="lifetime">&#39;conn</span>, <span class="ident">U</span><span class="op">&gt;</span>(
+        <span class="self">self</span>,
+        <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;conn</span> <span class="kw-2">mut</span> <span class="ident">Conn</span>,
+    ) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">LoadIter</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span>, <span class="lifetime">&#39;query</span>, <span class="self">Self</span>, <span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>
     <span class="kw">where</span>
-        <span class="ident">U</span>: <span class="lifetime">&#39;a</span>,
-        <span class="self">Self</span>: <span class="ident">LoadQuery</span><span class="op">&lt;</span><span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>,
+        <span class="ident">U</span>: <span class="lifetime">&#39;conn</span>,
+        <span class="self">Self</span>: <span class="ident">LoadQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;query</span>, <span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;conn</span>,
     {
         <span class="self">self</span>.<span class="ident">internal_load</span>(<span class="ident">conn</span>)
     }
@@ -3190,9 +3200,9 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">get_result</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Conn</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">get_result</span><span class="op">&lt;</span><span class="lifetime">&#39;query</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Conn</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>
     <span class="kw">where</span>
-        <span class="self">Self</span>: <span class="ident">LoadQuery</span><span class="op">&lt;</span><span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span>,
+        <span class="self">Self</span>: <span class="ident">LoadQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;query</span>, <span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span>,
     {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">internal_load</span>(<span class="ident">conn</span>)<span class="question-mark">?</span>.<span class="ident">next</span>() {
             <span class="prelude-val">Some</span>(<span class="ident">v</span>) =&gt; <span class="ident">v</span>,
@@ -3206,9 +3216,9 @@
     <span class="doccomment">/// sense for insert, update, and delete statements.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`load`]: crate::query_dsl::RunQueryDsl::load()</span>
-    <span class="kw">fn</span> <span class="ident">get_results</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Conn</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">get_results</span><span class="op">&lt;</span><span class="lifetime">&#39;query</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Conn</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>
     <span class="kw">where</span>
-        <span class="self">Self</span>: <span class="ident">LoadQuery</span><span class="op">&lt;</span><span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span>,
+        <span class="self">Self</span>: <span class="ident">LoadQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;query</span>, <span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span>,
     {
         <span class="self">self</span>.<span class="ident">load</span>(<span class="ident">conn</span>)
     }
@@ -3246,10 +3256,10 @@
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">first</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Conn</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">first</span><span class="op">&lt;</span><span class="lifetime">&#39;query</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Conn</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">methods::LimitDsl</span>,
-        <span class="ident">Limit</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>: <span class="ident">LoadQuery</span><span class="op">&lt;</span><span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span>,
+        <span class="ident">Limit</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>: <span class="ident">LoadQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;query</span>, <span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span>,
     {
         <span class="ident">methods::LimitDsl::limit</span>(<span class="self">self</span>, <span class="number">1</span>).<span class="ident">get_result</span>(<span class="ident">conn</span>)
     }

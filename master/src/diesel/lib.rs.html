@@ -452,6 +452,9 @@
 <span id="452">452</span>
 <span id="453">453</span>
 <span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
 </pre><pre class="rust"><code><span class="doccomment">//! # Diesel</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Diesel is an ORM and query builder designed to reduce the boilerplate for database interactions.</span>
@@ -552,6 +555,7 @@
 <span class="attribute">#![<span class="ident">warn</span>(
     <span class="ident">missing_debug_implementations</span>,
     <span class="ident">missing_copy_implementations</span>,
+    <span class="ident">elided_lifetimes_in_paths</span>,
     <span class="ident">missing_docs</span>
 )]</span>
 <span class="comment">// Clippy lints</span>
@@ -671,9 +675,9 @@
     <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Select</span><span class="op">&lt;</span><span class="ident">Source</span>, <span class="ident">Selection</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">Source</span> <span class="kw">as</span> <span class="ident">SelectDsl</span><span class="op">&lt;</span><span class="ident">Selection</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Output</span>;
 
     <span class="doccomment">/// Represents the return type of `diesel::select(selection)`</span>
-    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">BareSelect</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Select</span><span class="op">&lt;</span>
-        <span class="ident"><span class="kw">crate</span>::query_builder::SelectStatement</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::query_builder::select_statement::NoFromClause</span><span class="op">&gt;</span>,
-        <span class="ident">T</span>,
+    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">BareSelect</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::query_builder::SelectStatement</span><span class="op">&lt;</span>
+        <span class="ident"><span class="kw">crate</span>::query_builder::NoFromClause</span>,
+        <span class="ident"><span class="kw">crate</span>::query_builder::select_clause::SelectClause</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     <span class="op">&gt;</span>;
 
     <span class="doccomment">/// Represents the return type of `.filter(predicate)`</span>
@@ -830,15 +834,17 @@
     <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">LeftJoinQuerySource</span><span class="op">&lt;</span><span class="ident">Left</span>, <span class="ident">Right</span>, <span class="ident">On</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">Left</span> <span class="kw">as</span> <span class="ident">joins::JoinTo</span><span class="op">&lt;</span><span class="ident">Right</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::OnClause</span><span class="op">&gt;</span> <span class="op">=</span>
         <span class="ident">JoinQuerySource</span><span class="op">&lt;</span><span class="ident">Left</span>, <span class="ident">Right</span>, <span class="ident">joins::LeftOuter</span>, <span class="ident">On</span><span class="op">&gt;</span>;
 
-    <span class="doccomment">/// Represents the return type of `.only()`</span>
+    <span class="doccomment">/// Represents the return type of [`.only()`](crate::pg::expression::extensions::OnlyDsl)</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;postgres_backend&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">SelectFromOnly</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span>
-        <span class="ident"><span class="kw">crate</span>::query_builder::SelectStatement</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::pg::query_builder::only_clause::Only</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">SelectFromOnly</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::query_builder::SelectStatement</span><span class="op">&lt;</span>
+        <span class="ident"><span class="kw">crate</span>::query_builder::FromClause</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::pg::query_builder::only_clause::Only</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="op">&gt;</span>;
 
     <span class="doccomment">/// [`Iterator`](std::iter::Iterator) of [`QueryResult&lt;U&gt;`](crate::result::QueryResult)</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [`RunQueryDsl::load_iter`] for more information</span>
-    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">LoadIter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Q</span>, <span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">Q</span> <span class="kw">as</span> <span class="ident">load_dsl::LoadQueryGatWorkaround</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Ret</span>;
+    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">LoadIter</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span>, <span class="lifetime">&#39;query</span>, <span class="ident">Q</span>, <span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="op">=</span>
+        <span class="op">&lt;</span><span class="ident">Q</span> <span class="kw">as</span> <span class="ident">load_dsl::LoadQueryGatWorkaround</span><span class="op">&lt;</span><span class="lifetime">&#39;conn</span>, <span class="lifetime">&#39;query</span>, <span class="ident">Conn</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Ret</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prelude</span> {

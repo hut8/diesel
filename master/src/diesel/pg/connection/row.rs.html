@@ -129,7 +129,7 @@
         })
     }
 
-    <span class="kw">fn</span> <span class="ident">partial_row</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">range</span>: <span class="ident">std::ops::Range</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) -&gt; <span class="ident">PartialRow</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::InnerPartialRow</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">partial_row</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">range</span>: <span class="ident">std::ops::Range</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) -&gt; <span class="ident">PartialRow</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident"><span class="self">Self</span>::InnerPartialRow</span><span class="op">&gt;</span> {
         <span class="ident">PartialRow::new</span>(<span class="self">self</span>, <span class="ident">range</span>)
     }
 }
@@ -162,7 +162,7 @@
         <span class="self">self</span>.<span class="ident">db_result</span>.<span class="ident">column_name</span>(<span class="self">self</span>.<span class="ident">col_idx</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::backend::RawValue</span><span class="op">&lt;</span><span class="ident">Pg</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::backend::RawValue</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Pg</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">raw</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">db_result</span>.<span class="ident">get</span>(<span class="self">self</span>.<span class="ident">row_idx</span>, <span class="self">self</span>.<span class="ident">col_idx</span>)<span class="question-mark">?</span>;
 
         <span class="prelude-val">Some</span>(<span class="ident">PgValue::new</span>(<span class="ident">raw</span>, <span class="self">self</span>))

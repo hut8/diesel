@@ -29,9 +29,10 @@
 <span id="29">29</span>
 <span id="30">30</span>
 <span id="31">31</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::Only</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder</span>::{<span class="ident">AsQuery</span>, <span class="ident">SelectStatement</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_source::Table</span>;
+<span id="32">32</span>
+<span id="33">33</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder</span>::{<span class="ident">Only</span>, <span class="ident">SelectStatement</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_source</span>::{<span class="ident">QuerySource</span>, <span class="ident">Table</span>};
 
 <span class="doccomment">/// The `only` method</span>
 <span class="doccomment">///</span>
@@ -52,9 +53,12 @@
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// Selects the number of entries in the `users` table excluding any rows found in inherited</span>
 <span class="doccomment">/// tables.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">OnlyDsl</span>: <span class="ident">AsQuery</span> <span class="op">+</span> <span class="ident">Sized</span> {
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">OnlyDsl</span>: <span class="ident">Table</span> <span class="op">+</span> <span class="ident">Sized</span> {
     <span class="doccomment">/// See the trait-level docs.</span>
-    <span class="kw">fn</span> <span class="ident">only</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="kw">crate</span>::dsl::SelectFromOnly</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">only</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="kw">crate</span>::dsl::SelectFromOnly</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">Only</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>: <span class="ident">QuerySource</span>,
+    {
         <span class="ident">SelectStatement::simple</span>(<span class="ident">Only</span> { <span class="ident">query</span>: <span class="self">self</span> })
     }
 }

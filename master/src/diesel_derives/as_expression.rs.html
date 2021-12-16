@@ -112,6 +112,7 @@
 <span id="112">112</span>
 <span id="113">113</span>
 <span id="114">114</span>
+<span id="115">115</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">proc_macro2::TokenStream</span>;
 <span class="kw">use</span> <span class="ident">syn::DeriveInput</span>;
 
@@ -186,7 +187,8 @@
                 <span class="ident">__DB</span>: <span class="ident">diesel::backend::Backend</span>,
                 <span class="self">Self</span>: <span class="ident">ToSql</span><span class="op">&lt;</span>#<span class="ident">sql_type</span>, <span class="ident">__DB</span><span class="op">&gt;</span>,
             {
-                <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">std::io::Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">__DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span> {
+                <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="lifetime">&#39;__b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;__b</span> <span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="lifetime">&#39;__b</span>, <span class="lifetime">&#39;_</span>, <span class="ident">__DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span>
+                {
                     <span class="ident">ToSql</span>::<span class="op">&lt;</span>#<span class="ident">sql_type</span>, <span class="ident">__DB</span><span class="op">&gt;</span><span class="ident">::to_sql</span>(<span class="self">self</span>, <span class="ident">out</span>)
                 }
             }

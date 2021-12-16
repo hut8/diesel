@@ -42,12 +42,7 @@
 <span id="42">42</span>
 <span id="43">43</span>
 <span id="44">44</span>
-<span id="45">45</span>
-<span id="46">46</span>
-<span id="47">47</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::io::Write</span>;
-
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::pg::Pg</span>;
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::pg::Pg</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serialize</span>::{<span class="self">self</span>, <span class="ident">Output</span>};
 
 <span class="doccomment">/// Helper trait for writing tuples as named composite types</span>
@@ -68,7 +63,6 @@
 <span class="doccomment">/// #     use diesel::pg::Pg;</span>
 <span class="doccomment">/// #     use diesel::serialize::{self, ToSql, Output, WriteTuple};</span>
 <span class="doccomment">/// #     use diesel::sql_types::{Integer, Text, SqlType};</span>
-<span class="doccomment">/// #     use std::io::Write;</span>
 <span class="doccomment">/// #</span>
 <span class="doccomment">///     #[derive(SqlType)]</span>
 <span class="doccomment">///     #[diesel(postgres_type(name = &quot;my_type&quot;))]</span>
@@ -78,10 +72,10 @@
 <span class="doccomment">///     struct MyStruct&lt;&#39;a&gt;(i32, &amp;&#39;a str);</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///     impl&lt;&#39;a&gt; ToSql&lt;MyType, Pg&gt; for MyStruct&lt;&#39;a&gt; {</span>
-<span class="doccomment">///         fn to_sql&lt;W: Write&gt;(&amp;self, out: &amp;mut Output&lt;W, Pg&gt;) -&gt; serialize::Result {</span>
+<span class="doccomment">///         fn to_sql&lt;&#39;b&gt;(&amp;&#39;b self, out: &amp;mut Output&lt;&#39;b, &#39;_, Pg&gt;) -&gt; serialize::Result {</span>
 <span class="doccomment">///             WriteTuple::&lt;(Integer, Text)&gt;::write_tuple(</span>
 <span class="doccomment">///                 &amp;(self.0, self.1),</span>
-<span class="doccomment">///                 out,</span>
+<span class="doccomment">///                 &amp;mut out.reborrow(),</span>
 <span class="doccomment">///             )</span>
 <span class="doccomment">///         }</span>
 <span class="doccomment">///     }</span>
@@ -90,7 +84,7 @@
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">WriteTuple</span><span class="op">&lt;</span><span class="ident">ST</span><span class="op">&gt;</span> {
     <span class="doccomment">/// See trait documentation.</span>
-    <span class="kw">fn</span> <span class="ident">write_tuple</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span>;
+    <span class="kw">fn</span> <span class="ident">write_tuple</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>, <span class="ident">Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span>;
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="diesel" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>

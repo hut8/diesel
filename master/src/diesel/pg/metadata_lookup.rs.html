@@ -321,14 +321,14 @@
     }
 
     <span class="doccomment">/// Lookup the OID of a custom type</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lookup_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">type_name</span>: <span class="kw-2">&amp;</span><span class="ident">PgMetadataCacheKey</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PgTypeMetadata</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lookup_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">type_name</span>: <span class="kw-2">&amp;</span><span class="ident">PgMetadataCacheKey</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PgTypeMetadata</span><span class="op">&gt;</span> {
         <span class="prelude-val">Some</span>(<span class="ident">PgTypeMetadata</span>(<span class="prelude-val">Ok</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">cache</span>.<span class="ident">get</span>(<span class="ident">type_name</span>)<span class="question-mark">?</span>)))
     }
 
     <span class="doccomment">/// Store the OID of a custom type</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">store_type</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">type_name</span>: <span class="ident">PgMetadataCacheKey</span>,
+        <span class="ident">type_name</span>: <span class="ident">PgMetadataCacheKey</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
         <span class="ident">type_metadata</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">InnerPgTypeMetadata</span><span class="op">&gt;</span>,
     ) {
         <span class="self">self</span>.<span class="ident">cache</span>

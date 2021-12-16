@@ -260,7 +260,7 @@
     <span class="ident">String</span>: <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">Text</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
 {
-    <span class="kw">fn</span> <span class="ident">from_sql</span>(<span class="ident">bytes</span>: <span class="ident"><span class="kw">crate</span>::backend::RawValue</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident"><span class="kw">crate</span>::deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from_sql</span>(<span class="ident">bytes</span>: <span class="ident"><span class="kw">crate</span>::backend::RawValue</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident"><span class="kw">crate</span>::deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">String::from_sql</span>(<span class="ident">bytes</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="self">Self</span>(<span class="ident">Cow::Owned</span>(<span class="ident">s</span>)))
     }
@@ -271,9 +271,9 @@
     <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span>: <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">Text</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
 {
-    <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">std::io::Write</span><span class="op">&gt;</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="kw">crate</span>::serialize::Output</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
+    <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>,
+        <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="kw">crate</span>::serialize::Output</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="lifetime">&#39;_</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
     ) -&gt; <span class="ident"><span class="kw">crate</span>::serialize::Result</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">to_sql</span>(<span class="ident">out</span>)
     }
@@ -311,7 +311,7 @@
 <span class="doccomment">/// schema.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">MigrationName</span>: <span class="ident">Display</span> {
     <span class="doccomment">/// The version corresponding to the current migration name</span>
-    <span class="kw">fn</span> <span class="ident">version</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">MigrationVersion</span>;
+    <span class="kw">fn</span> <span class="ident">version</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">MigrationVersion</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// Represents a migration that interacts with diesel</span>

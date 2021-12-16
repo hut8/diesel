@@ -129,7 +129,6 @@
 <span id="129">129</span>
 <span id="130">130</span>
 <span id="131">131</span>
-<span id="132">132</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::backend::Backend</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::expression::helper_types</span>::{<span class="ident">Asc</span>, <span class="ident">Desc</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::combination_clause::CombinationClause</span>;
@@ -176,13 +175,12 @@
 <span class="kw">where</span>
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">Source</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
-    <span class="ident">Expr</span>: <span class="ident">Order</span>,
-    <span class="ident">Expr::Fragment</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
+    <span class="ident">Expr</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">source</span>.<span class="ident">walk_ast</span>(<span class="ident">pass</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="ident">pass</span>.<span class="ident">push_sql</span>(<span class="string">&quot; ORDER BY &quot;</span>);
-        <span class="self">self</span>.<span class="ident">expr</span>.<span class="ident">into_fragment</span>().<span class="ident">walk_ast</span>(<span class="ident">pass</span>)
+        <span class="self">self</span>.<span class="ident">expr</span>.<span class="ident">walk_ast</span>(<span class="ident">pass</span>)
     }
 }
 
@@ -190,7 +188,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OrderColumn</span>(<span class="ident">u32</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">OrderColumn</span> {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">pass</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">pass</span>.<span class="ident">push_sql</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">to_string</span>());
         <span class="prelude-val">Ok</span>(())
     }

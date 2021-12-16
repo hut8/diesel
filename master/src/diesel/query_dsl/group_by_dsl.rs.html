@@ -33,10 +33,12 @@
 <span id="33">33</span>
 <span id="34">34</span>
 <span id="35">35</span>
+<span id="36">36</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::dsl</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::expression::Expression</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::expression::TypedExpressionType</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::expression::ValidGrouping</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::FromClause</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder</span>::{<span class="ident">AsQuery</span>, <span class="ident">SelectStatement</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_source::Table</span>;
 
@@ -58,11 +60,11 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Expr</span><span class="op">&gt;</span> <span class="ident">GroupByDsl</span><span class="op">&lt;</span><span class="ident">Expr</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">T</span>
 <span class="kw">where</span>
     <span class="ident">Expr</span>: <span class="ident">Expression</span>,
-    <span class="ident">T</span>: <span class="ident">Table</span> <span class="op">+</span> <span class="ident">AsQuery</span><span class="op">&lt;</span><span class="ident">Query</span> <span class="op">=</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">T</span>: <span class="ident">Table</span> <span class="op">+</span> <span class="ident">AsQuery</span><span class="op">&lt;</span><span class="ident">Query</span> <span class="op">=</span> <span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">T::DefaultSelection</span>: <span class="ident">Expression</span><span class="op">&lt;</span><span class="ident">SqlType</span> <span class="op">=</span> <span class="ident">T::SqlType</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">ValidGrouping</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
     <span class="ident">T::SqlType</span>: <span class="ident">TypedExpressionType</span>,
 {
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">dsl::GroupBy</span><span class="op">&lt;</span><span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Expr</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">dsl::GroupBy</span><span class="op">&lt;</span><span class="ident">SelectStatement</span><span class="op">&lt;</span><span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Expr</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">group_by</span>(<span class="self">self</span>, <span class="ident">expr</span>: <span class="ident">Expr</span>) -&gt; <span class="ident">dsl::GroupBy</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Expr</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">as_query</span>().<span class="ident">group_by</span>(<span class="ident">expr</span>)

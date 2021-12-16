@@ -599,6 +599,10 @@
 <span id="599">599</span>
 <span id="600">600</span>
 <span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
 </pre><pre class="rust"><code><span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="macro">macro_rules!</span> <span class="ident">__diesel_operator_body</span> {
@@ -694,7 +698,11 @@
                 $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty_param</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::query_builder::QueryFragment</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">backend_ty</span><span class="op">&gt;</span>,)<span class="op">+</span>
                 $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">backend_ty_param</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::backend::Backend</span>,)<span class="op">*</span>
         {
-            <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::query_builder::AstPass</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">backend_ty</span><span class="op">&gt;</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::result::QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(
+                <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>,
+                <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::query_builder::AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">backend_ty</span><span class="op">&gt;</span>
+            ) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::result::QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+            {
                 <span class="macro-nonterminal">$</span><span class="macro">crate::__diesel_operator_to_sql!</span>(
                     <span class="macro-nonterminal">notation</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">notation</span>,
                     <span class="ident">operator_expr</span> <span class="op">=</span> <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">operator</span>),
@@ -1186,9 +1194,9 @@
     <span class="ident">R</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident"><span class="kw">crate</span>::query_builder::AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>,
+        <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident"><span class="kw">crate</span>::query_builder::AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
     ) -&gt; <span class="ident"><span class="kw">crate</span>::result::QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="comment">// Those brackets are required because mysql is broken</span>
         <span class="comment">// https://github.com/diesel-rs/diesel/issues/2133#issuecomment-517432317</span>

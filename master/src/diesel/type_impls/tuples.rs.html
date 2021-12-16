@@ -559,6 +559,7 @@
 <span id="559">559</span>
 <span id="560">560</span>
 <span id="561">561</span>
+<span id="562">562</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::associations::BelongsTo</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::backend::Backend</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::deserialize</span>::{
@@ -636,7 +637,8 @@
 
             <span class="kw">impl</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">__DB</span><span class="op">&gt;</span>),<span class="op">+</span>, <span class="ident">__DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">__DB</span><span class="op">&gt;</span> <span class="kw">for</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>,)<span class="op">+</span>) {
                 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_assignments</span>)]</span>
-                <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">__DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">__DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+                {
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">needs_comma</span> <span class="op">=</span> <span class="bool-val">false</span>;
                     $(
                         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">idx</span>.<span class="ident">is_noop</span>()<span class="question-mark">?</span> {
@@ -657,7 +659,7 @@
             {
                 <span class="kw">type</span> <span class="ident">Table</span> <span class="op">=</span> <span class="ident">Tab</span>;
 
-                <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="ident">__DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">__DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="ident">__DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>, <span class="ident">__DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
                     $(
                         <span class="kw">if</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">idx</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
                             <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;, &quot;</span>);
@@ -728,7 +730,7 @@
                 <span class="ident">__DB</span>: <span class="ident">Backend</span>,
                 $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>: <span class="ident">InsertValues</span><span class="op">&lt;</span><span class="ident">Tab</span>, <span class="ident">__DB</span><span class="op">&gt;</span>,)<span class="op">+</span>
             {
-                <span class="kw">fn</span> <span class="ident">column_names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">__DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">column_names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>, <span class="ident">__DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">needs_comma</span> <span class="op">=</span> <span class="bool-val">false</span>;
                     $(
                         <span class="kw">let</span> <span class="ident">noop_element</span> <span class="op">=</span> <span class="self">self</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">idx</span>.<span class="ident">is_noop</span>()<span class="question-mark">?</span>;

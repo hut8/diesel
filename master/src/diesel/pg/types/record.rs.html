@@ -244,7 +244,6 @@
 <span id="244">244</span>
 <span id="245">245</span>
 <span id="246">246</span>
-<span id="247">247</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">byteorder</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">std::io::Write</span>;
 <span class="kw">use</span> <span class="ident">std::num::NonZeroU32</span>;
@@ -345,7 +344,7 @@
             $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>: <span class="ident">ToSql</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ST</span>, <span class="ident">Pg</span><span class="op">&gt;</span>,)<span class="op">+</span>
             $(<span class="ident">Pg</span>: <span class="ident">HasSqlType</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ST</span><span class="op">&gt;</span>),<span class="op">+</span>
         {
-            <span class="kw">fn</span> <span class="ident">write_tuple</span><span class="op">&lt;</span><span class="ident">_W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="ident">_W</span>, <span class="ident">Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span> {
+            <span class="kw">fn</span> <span class="ident">write_tuple</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>, <span class="ident">Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
                 <span class="ident">out</span>.<span class="ident">write_i32</span>::<span class="op">&lt;</span><span class="ident">NetworkEndian</span><span class="op">&gt;</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Tuple</span>)<span class="question-mark">?</span>;
 
@@ -353,9 +352,8 @@
                     <span class="kw">let</span> <span class="ident">oid</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">Pg</span> <span class="kw">as</span> <span class="ident">HasSqlType</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ST</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::metadata</span>(<span class="ident">out</span>.<span class="ident">metadata_lookup</span>()).<span class="ident">oid</span>()<span class="question-mark">?</span>;
                     <span class="ident">out</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">NetworkEndian</span><span class="op">&gt;</span>(<span class="ident">oid</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">is_null</span> <span class="op">=</span> {
-                        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp_buffer</span> <span class="op">=</span> <span class="ident">Output::new</span>(<span class="ident">buffer</span>, <span class="ident">out</span>.<span class="ident">metadata_lookup</span>());
+                        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp_buffer</span> <span class="op">=</span> <span class="ident">Output::new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>, <span class="ident">out</span>.<span class="ident">metadata_lookup</span>());
                         <span class="kw">let</span> <span class="ident">is_null</span> <span class="op">=</span> <span class="self">self</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">idx</span>.<span class="ident">to_sql</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp_buffer</span>)<span class="question-mark">?</span>;
-                        <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">temp_buffer</span>.<span class="ident">into_inner</span>();
                         <span class="ident">is_null</span>
                     };
 
@@ -383,7 +381,7 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Pg</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;(&quot;</span>);
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;)&quot;</span>);
@@ -477,7 +475,7 @@
         <span class="kw">struct</span> <span class="ident">MyStruct</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">i32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>);
 
         <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">MyType</span>, <span class="ident">Pg</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MyStruct</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-            <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span> {
+            <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="lifetime">&#39;_</span>, <span class="ident">Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span> {
                 <span class="ident">WriteTuple</span>::<span class="op">&lt;</span>(<span class="ident">Integer</span>, <span class="ident">Text</span>)<span class="op">&gt;</span><span class="ident">::write_tuple</span>(<span class="kw-2">&amp;</span>(<span class="self">self</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="number">1</span>), <span class="ident">out</span>)
             }
         }

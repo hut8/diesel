@@ -408,158 +408,46 @@
 <span id="408">408</span>
 <span id="409">409</span>
 <span id="410">410</span>
-<span id="411">411</span>
-<span id="412">412</span>
-<span id="413">413</span>
-<span id="414">414</span>
-<span id="415">415</span>
-<span id="416">416</span>
-<span id="417">417</span>
-<span id="418">418</span>
-<span id="419">419</span>
-<span id="420">420</span>
-<span id="421">421</span>
-<span id="422">422</span>
-<span id="423">423</span>
-<span id="424">424</span>
-<span id="425">425</span>
-<span id="426">426</span>
-<span id="427">427</span>
-<span id="428">428</span>
-<span id="429">429</span>
-<span id="430">430</span>
-<span id="431">431</span>
-<span id="432">432</span>
-<span id="433">433</span>
-<span id="434">434</span>
-<span id="435">435</span>
-<span id="436">436</span>
-<span id="437">437</span>
-<span id="438">438</span>
-<span id="439">439</span>
-<span id="440">440</span>
-<span id="441">441</span>
-<span id="442">442</span>
-<span id="443">443</span>
-<span id="444">444</span>
-<span id="445">445</span>
-<span id="446">446</span>
-<span id="447">447</span>
-<span id="448">448</span>
-<span id="449">449</span>
-<span id="450">450</span>
-<span id="451">451</span>
-<span id="452">452</span>
-<span id="453">453</span>
-<span id="454">454</span>
-<span id="455">455</span>
-<span id="456">456</span>
-<span id="457">457</span>
-<span id="458">458</span>
-<span id="459">459</span>
-<span id="460">460</span>
-<span id="461">461</span>
-<span id="462">462</span>
-<span id="463">463</span>
-<span id="464">464</span>
-<span id="465">465</span>
-<span id="466">466</span>
-<span id="467">467</span>
-<span id="468">468</span>
-<span id="469">469</span>
-<span id="470">470</span>
-<span id="471">471</span>
-<span id="472">472</span>
-<span id="473">473</span>
-<span id="474">474</span>
-<span id="475">475</span>
-<span id="476">476</span>
-<span id="477">477</span>
-<span id="478">478</span>
-<span id="479">479</span>
-<span id="480">480</span>
-<span id="481">481</span>
-<span id="482">482</span>
-<span id="483">483</span>
-<span id="484">484</span>
-<span id="485">485</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">BatchInsert</span>, <span class="ident">InsertStatement</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::connection::Connection</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::insertable::Insertable</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::insertable::InsertValues</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::insertable</span>::{<span class="ident">CanInsertInSingleQuery</span>, <span class="ident">ColumnInsertValue</span>, <span class="ident">DefaultableColumnInsertValue</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::prelude</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::returning_clause::NoReturningClause</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder</span>::{
-    <span class="ident">AsValueIterator</span>, <span class="ident">AstPass</span>, <span class="ident">InsertableQueryfragment</span>, <span class="ident">QueryId</span>, <span class="ident">ValuesClause</span>,
-};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder</span>::{<span class="ident">AstPass</span>, <span class="ident">QueryId</span>, <span class="ident">ValuesClause</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder</span>::{<span class="ident">DebugQuery</span>, <span class="ident">QueryFragment</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_dsl::methods::ExecuteDsl</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sqlite::Sqlite</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">QueryResult</span>, <span class="ident">Table</span>};
-<span class="kw">use</span> <span class="ident">std::fmt</span>::{<span class="self">self</span>, <span class="ident">Debug</span>, <span class="ident">Display</span>, <span class="ident">Write</span>};
-
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SqliteInsertableQueryfragment</span><span class="op">&lt;</span><span class="ident">Tab</span>, <span class="ident">Op</span>, <span class="ident">C</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="self">Self</span>: <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span>,
-{
-    <span class="kw">fn</span> <span class="ident">execute_single_record</span>(
-        <span class="ident">v</span>: <span class="ident"><span class="self">Self</span>::Values</span>,
-        <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">C</span>,
-        <span class="ident">target</span>: <span class="ident">Tab</span>,
-        <span class="ident">op</span>: <span class="ident">Op</span>,
-    ) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>;
-
-    <span class="kw">fn</span> <span class="ident">write_debug_query</span>(<span class="ident">v</span>: <span class="ident"><span class="self">Self</span>::Values</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">impl</span> <span class="ident">Write</span>, <span class="ident">target</span>: <span class="ident">Tab</span>, <span class="ident">op</span>: <span class="ident">Op</span>)
-        -&gt; <span class="ident">fmt::Result</span>;
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Tab</span>, <span class="ident">T</span>, <span class="ident">Op</span>, <span class="ident">C</span><span class="op">&gt;</span> <span class="ident">SqliteInsertableQueryfragment</span><span class="op">&lt;</span><span class="ident">Tab</span>, <span class="ident">Op</span>, <span class="ident">C</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span>
-<span class="kw">where</span>
-    <span class="self">Self</span>: <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span>,
-    <span class="ident">Tab</span>: <span class="ident">Table</span>,
-    <span class="ident">C</span>: <span class="ident">Connection</span><span class="op">&lt;</span><span class="ident">Backend</span> <span class="op">=</span> <span class="ident">Sqlite</span><span class="op">&gt;</span>,
-    <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">Tab</span>, <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span> <span class="kw">as</span> <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">Tab</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Values</span>, <span class="ident">Op</span><span class="op">&gt;</span>:
-        <span class="ident">ExecuteDsl</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>,
-{
-    <span class="kw">fn</span> <span class="ident">execute_single_record</span>(
-        <span class="ident">v</span>: <span class="ident"><span class="self">Self</span>::Values</span>,
-        <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">C</span>,
-        <span class="ident">target</span>: <span class="ident">Tab</span>,
-        <span class="ident">op</span>: <span class="ident">Op</span>,
-    ) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="ident">ExecuteDsl::execute</span>(<span class="ident">InsertStatement::new</span>(<span class="ident">target</span>, <span class="ident">v</span>, <span class="ident">op</span>, <span class="ident">NoReturningClause</span>), <span class="ident">conn</span>)
-    }
-
-    <span class="kw">fn</span> <span class="ident">write_debug_query</span>(
-        <span class="ident">v</span>: <span class="ident"><span class="self">Self</span>::Values</span>,
-        <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">impl</span> <span class="ident">Write</span>,
-        <span class="ident">target</span>: <span class="ident">Tab</span>,
-        <span class="ident">op</span>: <span class="ident">Op</span>,
-    ) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="kw">let</span> <span class="ident">stmt</span> <span class="op">=</span> <span class="ident">InsertStatement::new</span>(<span class="ident">target</span>, <span class="ident">v</span>, <span class="ident">op</span>, <span class="ident">NoReturningClause</span>);
-        <span class="macro">write!</span>(<span class="ident">out</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident"><span class="kw">crate</span>::debug_query</span>::<span class="op">&lt;</span><span class="ident">Sqlite</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">stmt</span>))
-    }
-}
+<span class="kw">use</span> <span class="ident">std::fmt</span>::{<span class="self">self</span>, <span class="ident">Debug</span>, <span class="ident">Display</span>};
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">DebugQueryHelper</span><span class="op">&lt;</span><span class="ident">ContainsDefaultableValue</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">fmt_debug</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span>;
     <span class="kw">fn</span> <span class="ident">fmt_display</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span>;
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">V</span>, <span class="ident">QId</span>, <span class="ident">Op</span>, <span class="kw">const</span> <span class="ident">STATIC_QUERY_ID</span>: <span class="ident">bool</span><span class="op">&gt;</span> <span class="ident">DebugQueryHelper</span><span class="op">&lt;</span><span class="ident">Yes</span><span class="op">&gt;</span>
-    <span class="kw">for</span> <span class="ident">DebugQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">V</span>, <span class="ident">QId</span>, <span class="ident">Op</span>, <span class="ident">Ret</span>, <span class="kw">const</span> <span class="ident">STATIC_QUERY_ID</span>: <span class="ident">bool</span><span class="op">&gt;</span> <span class="ident">DebugQueryHelper</span><span class="op">&lt;</span><span class="ident">Yes</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">DebugQuery</span><span class="op">&lt;</span>
+        <span class="lifetime">&#39;a</span>,
+        <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ValuesClause</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span>,
+        <span class="ident">Sqlite</span>,
+    <span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">V</span>: <span class="ident">AsValueIterator</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="ident">V::Item</span>: <span class="ident">SqliteInsertableQueryfragment</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Op</span>, <span class="ident">SqliteConnection</span><span class="op">&gt;</span>,
-    <span class="ident">T</span>: <span class="ident">Copy</span>,
+    <span class="ident">V</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>,
+    <span class="ident">T</span>: <span class="ident">Copy</span> <span class="op">+</span> <span class="ident">QuerySource</span>,
     <span class="ident">Op</span>: <span class="ident">Copy</span>,
+    <span class="ident">Ret</span>: <span class="ident">Copy</span>,
+    <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="ident">ValuesClause</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Op</span>, <span class="ident">Ret</span><span class="op">&gt;</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>,
 {
     <span class="kw">fn</span> <span class="ident">fmt_debug</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">statements</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">String::from</span>(<span class="string">&quot;BEGIN&quot;</span>)];
-        <span class="kw">for</span> <span class="ident">record</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">records</span>.<span class="ident">values</span>.<span class="ident">as_value_iter</span>() {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">String::new</span>();
-            <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">V::Item</span> <span class="kw">as</span> <span class="ident">SqliteInsertableQueryfragment</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Op</span>, <span class="ident">SqliteConnection</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::write_debug_query</span>(<span class="ident">record</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">out</span>, <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">target</span>, <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">operator</span>)<span class="question-mark">?</span>;
-            <span class="ident">statements</span>.<span class="ident">push</span>(<span class="ident">out</span>);
+        <span class="kw">for</span> <span class="ident">record</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">records</span>.<span class="ident">values</span>.<span class="ident">iter</span>() {
+            <span class="kw">let</span> <span class="ident">stmt</span> <span class="op">=</span> <span class="ident">InsertStatement::new</span>(
+                <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">target</span>,
+                <span class="ident">record</span>,
+                <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">operator</span>,
+                <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">returning</span>,
+            );
+            <span class="ident">statements</span>.<span class="ident">push</span>(<span class="ident"><span class="kw">crate</span>::debug_query</span>(<span class="kw-2">&amp;</span><span class="ident">stmt</span>).<span class="ident">to_string</span>());
         }
         <span class="ident">statements</span>.<span class="ident">push</span>(<span class="string">&quot;COMMIT&quot;</span>.<span class="ident">into</span>());
 
@@ -571,9 +459,14 @@
 
     <span class="kw">fn</span> <span class="ident">fmt_display</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
         <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;BEGIN;&quot;</span>)<span class="question-mark">?</span>;
-        <span class="kw">for</span> <span class="ident">record</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">records</span>.<span class="ident">values</span>.<span class="ident">as_value_iter</span>() {
-            <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">V::Item</span> <span class="kw">as</span> <span class="ident">SqliteInsertableQueryfragment</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Op</span>, <span class="ident">SqliteConnection</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::write_debug_query</span>(<span class="ident">record</span>, <span class="ident">f</span>, <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">target</span>, <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">operator</span>)<span class="question-mark">?</span>;
-            <span class="macro">writeln!</span>(<span class="ident">f</span>)<span class="question-mark">?</span>;
+        <span class="kw">for</span> <span class="ident">record</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">records</span>.<span class="ident">values</span>.<span class="ident">iter</span>() {
+            <span class="kw">let</span> <span class="ident">stmt</span> <span class="op">=</span> <span class="ident">InsertStatement::new</span>(
+                <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">target</span>,
+                <span class="ident">record</span>,
+                <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">operator</span>,
+                <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">returning</span>,
+            );
+            <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident"><span class="kw">crate</span>::debug_query</span>(<span class="kw-2">&amp;</span><span class="ident">stmt</span>))<span class="question-mark">?</span>;
         }
         <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;COMMIT;&quot;</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
@@ -583,7 +476,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">V</span>, <span class="ident">QId</span>, <span class="ident">Op</span>, <span class="kw">const</span> <span class="ident">STATIC_QUERY_ID</span>: <span class="ident">bool</span><span class="op">&gt;</span> <span class="ident">DebugQueryHelper</span><span class="op">&lt;</span><span class="ident">No</span><span class="op">&gt;</span>
     <span class="kw">for</span> <span class="ident">DebugQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">Copy</span>,
+    <span class="ident">T</span>: <span class="ident">Copy</span> <span class="op">+</span> <span class="ident">QuerySource</span>,
     <span class="ident">Op</span>: <span class="ident">Copy</span>,
     <span class="ident">DebugQuery</span><span class="op">&lt;</span>
         <span class="lifetime">&#39;a</span>,
@@ -595,10 +488,12 @@
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">unsafe</span> {
             <span class="comment">// This cast is safe as `SqliteBatchInsertWrapper` is #[repr(transparent)]</span>
             <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DebugQuery</span><span class="op">&lt;</span>
+                <span class="lifetime">&#39;a</span>,
                 <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>,
                 <span class="ident">Sqlite</span>,
             <span class="op">&gt;</span>
                 <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DebugQuery</span><span class="op">&lt;</span>
+                    <span class="lifetime">&#39;a</span>,
                     <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">SqliteBatchInsertWrapper</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>,
                     <span class="ident">Sqlite</span>,
                 <span class="op">&gt;</span>)
@@ -610,10 +505,12 @@
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">unsafe</span> {
             <span class="comment">// This cast is safe as `SqliteBatchInsertWrapper` is #[repr(transparent)]</span>
             <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DebugQuery</span><span class="op">&lt;</span>
+                <span class="lifetime">&#39;a</span>,
                 <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>,
                 <span class="ident">Sqlite</span>,
             <span class="op">&gt;</span>
                 <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DebugQuery</span><span class="op">&lt;</span>
+                    <span class="lifetime">&#39;a</span>,
                     <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">SqliteBatchInsertWrapper</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>,
                     <span class="ident">Sqlite</span>,
                 <span class="op">&gt;</span>)
@@ -623,11 +520,14 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">V</span>, <span class="ident">QId</span>, <span class="ident">Op</span>, <span class="ident">O</span>, <span class="kw">const</span> <span class="ident">STATIC_QUERY_ID</span>: <span class="ident">bool</span><span class="op">&gt;</span> <span class="ident">Display</span>
-    <span class="kw">for</span> <span class="ident">DebugQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">DebugQuery</span><span class="op">&lt;</span>
+        <span class="lifetime">&#39;a</span>,
+        <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ValuesClause</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>,
+        <span class="ident">Sqlite</span>,
+    <span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">V</span>: <span class="ident">AsValueIterator</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="ident">V::Item</span>: <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="op">&lt;</span><span class="ident">V::Item</span> <span class="kw">as</span> <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Values</span>: <span class="ident">ContainsDefaultableValue</span><span class="op">&lt;</span><span class="ident">Out</span> <span class="op">=</span> <span class="ident">O</span><span class="op">&gt;</span>,
+    <span class="ident">T</span>: <span class="ident">QuerySource</span>,
+    <span class="ident">V</span>: <span class="ident">ContainsDefaultableValue</span><span class="op">&lt;</span><span class="ident">Out</span> <span class="op">=</span> <span class="ident">O</span><span class="op">&gt;</span>,
     <span class="self">Self</span>: <span class="ident">DebugQueryHelper</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span>,
 {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
@@ -636,11 +536,14 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">V</span>, <span class="ident">QId</span>, <span class="ident">Op</span>, <span class="ident">O</span>, <span class="kw">const</span> <span class="ident">STATIC_QUERY_ID</span>: <span class="ident">bool</span><span class="op">&gt;</span> <span class="ident">Debug</span>
-    <span class="kw">for</span> <span class="ident">DebugQuery</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">DebugQuery</span><span class="op">&lt;</span>
+        <span class="lifetime">&#39;a</span>,
+        <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ValuesClause</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>,
+        <span class="ident">Sqlite</span>,
+    <span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">V</span>: <span class="ident">AsValueIterator</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="ident">V::Item</span>: <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="op">&lt;</span><span class="ident">V::Item</span> <span class="kw">as</span> <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Values</span>: <span class="ident">ContainsDefaultableValue</span><span class="op">&lt;</span><span class="ident">Out</span> <span class="op">=</span> <span class="ident">O</span><span class="op">&gt;</span>,
+    <span class="ident">T</span>: <span class="ident">QuerySource</span>,
+    <span class="ident">V</span>: <span class="ident">ContainsDefaultableValue</span><span class="op">&lt;</span><span class="ident">Out</span> <span class="op">=</span> <span class="ident">O</span><span class="op">&gt;</span>,
     <span class="self">Self</span>: <span class="ident">DebugQueryHelper</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span>,
 {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
@@ -720,12 +623,11 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">C</span>, <span class="ident">Op</span>, <span class="ident">O</span>, <span class="kw">const</span> <span class="ident">STATIC_QUERY_ID</span>: <span class="ident">bool</span><span class="op">&gt;</span> <span class="ident">ExecuteDsl</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>
-    <span class="kw">for</span> <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ValuesClause</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>
 <span class="kw">where</span>
+    <span class="ident">T</span>: <span class="ident">QuerySource</span>,
     <span class="ident">C</span>: <span class="ident">Connection</span><span class="op">&lt;</span><span class="ident">Backend</span> <span class="op">=</span> <span class="ident">Sqlite</span><span class="op">&gt;</span>,
-    <span class="ident">V</span>: <span class="ident">AsValueIterator</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="ident">V::Item</span>: <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="op">&lt;</span><span class="ident">V::Item</span> <span class="kw">as</span> <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Values</span>: <span class="ident">ContainsDefaultableValue</span><span class="op">&lt;</span><span class="ident">Out</span> <span class="op">=</span> <span class="ident">O</span><span class="op">&gt;</span>,
+    <span class="ident">V</span>: <span class="ident">ContainsDefaultableValue</span><span class="op">&lt;</span><span class="ident">Out</span> <span class="op">=</span> <span class="ident">O</span><span class="op">&gt;</span>,
     <span class="ident">O</span>: <span class="ident">Default</span>,
     (<span class="ident">O</span>, <span class="self">Self</span>): <span class="ident">ExecuteDsl</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>,
 {
@@ -737,27 +639,22 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">C</span>, <span class="ident">Op</span>, <span class="kw">const</span> <span class="ident">STATIC_QUERY_ID</span>: <span class="ident">bool</span><span class="op">&gt;</span> <span class="ident">ExecuteDsl</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>
     <span class="kw">for</span> (
         <span class="ident">Yes</span>,
-        <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>,
+        <span class="ident">InsertStatement</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ValuesClause</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>, <span class="ident">Op</span><span class="op">&gt;</span>,
     )
 <span class="kw">where</span>
     <span class="ident">C</span>: <span class="ident">Connection</span><span class="op">&lt;</span><span class="ident">Backend</span> <span class="op">=</span> <span class="ident">Sqlite</span><span class="op">&gt;</span>,
-    <span class="ident">V</span>: <span class="ident">AsValueIterator</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">V::Item</span>: <span class="ident">SqliteInsertableQueryfragment</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Op</span>, <span class="ident">C</span><span class="op">&gt;</span>,
-    <span class="ident">T</span>: <span class="ident">Table</span> <span class="op">+</span> <span class="ident">Copy</span> <span class="op">+</span> <span class="ident">QueryId</span>,
+    <span class="ident">T</span>: <span class="ident">Table</span> <span class="op">+</span> <span class="ident">Copy</span> <span class="op">+</span> <span class="ident">QueryId</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     <span class="ident">T::FromClause</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>,
-    <span class="ident">Op</span>: <span class="ident">Copy</span> <span class="op">+</span> <span class="ident">QueryId</span>,
+    <span class="ident">Op</span>: <span class="ident">Copy</span> <span class="op">+</span> <span class="ident">QueryId</span> <span class="op">+</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>,
+    <span class="ident">V</span>: <span class="ident">InsertValues</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">CanInsertInSingleQuery</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">QueryId</span>,
 {
     <span class="kw">fn</span> <span class="ident">execute</span>((<span class="ident">Yes</span>, <span class="ident">query</span>): <span class="self">Self</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">C</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="ident">conn</span>.<span class="ident">transaction</span>(<span class="op">|</span><span class="ident">conn</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="number">0</span>;
-            <span class="kw">for</span> <span class="ident">record</span> <span class="kw">in</span> <span class="ident">query</span>.<span class="ident">records</span>.<span class="ident">values</span>.<span class="ident">as_value_iter</span>() {
-                <span class="ident">result</span> <span class="op">+</span><span class="op">=</span>
-                    <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">V::Item</span> <span class="kw">as</span> <span class="ident">SqliteInsertableQueryfragment</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Op</span>, <span class="ident">C</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::execute_single_record</span>(
-                        <span class="ident">record</span>,
-                        <span class="ident">conn</span>,
-                        <span class="ident">query</span>.<span class="ident">target</span>,
-                        <span class="ident">query</span>.<span class="ident">operator</span>,
-                    )<span class="question-mark">?</span>;
+            <span class="kw">for</span> <span class="ident">record</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">query</span>.<span class="ident">records</span>.<span class="ident">values</span> {
+                <span class="kw">let</span> <span class="ident">stmt</span> <span class="op">=</span>
+                    <span class="ident">InsertStatement::new</span>(<span class="ident">query</span>.<span class="ident">target</span>, <span class="ident">record</span>, <span class="ident">query</span>.<span class="ident">operator</span>, <span class="ident">query</span>.<span class="ident">returning</span>);
+                <span class="ident">result</span> <span class="op">+</span><span class="op">=</span> <span class="ident">stmt</span>.<span class="ident">execute</span>(<span class="ident">conn</span>)<span class="question-mark">?</span>;
             }
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>)
         })
@@ -770,30 +667,24 @@
     <span class="ident">BatchInsert</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>,
 );
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">Tab</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="kw">const</span> <span class="ident">STATIC_QUERY_ID</span>: <span class="ident">bool</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>
-    <span class="kw">for</span> <span class="ident">SqliteBatchInsertWrapper</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">Tab</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">Tab</span>, <span class="ident">QId</span>, <span class="kw">const</span> <span class="ident">STATIC_QUERY_ID</span>: <span class="ident">bool</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">SqliteBatchInsertWrapper</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ValuesClause</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">Tab</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Tab</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">V</span>: <span class="ident">AsValueIterator</span><span class="op">&lt;</span><span class="ident">Tab</span>, <span class="ident">Item</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span>: <span class="ident">InsertableQueryfragment</span><span class="op">&lt;</span><span class="ident">Tab</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>,
+    <span class="ident">ValuesClause</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">Tab</span><span class="op">&gt;</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>,
+    <span class="ident">V</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="ident">STATIC_QUERY_ID</span> {
             <span class="ident">out</span>.<span class="ident">unsafe_to_cache_prepared</span>();
         }
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">values</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">values</span>.<span class="ident">as_value_iter</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">values</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">values</span>.<span class="ident">iter</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>) <span class="op">=</span> <span class="ident">values</span>.<span class="ident">next</span>() {
-            <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">InsertableQueryfragment</span><span class="op">&lt;</span><span class="ident">Tab</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::walk_ast_helper_with_value_clause</span>(
-                <span class="ident">value</span>,
-                <span class="ident">out</span>.<span class="ident">reborrow</span>(),
-            )<span class="question-mark">?</span>;
+            <span class="ident">value</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         }
         <span class="kw">for</span> <span class="ident">value</span> <span class="kw">in</span> <span class="ident">values</span> {
             <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;, (&quot;</span>);
-            <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">InsertableQueryfragment</span><span class="op">&lt;</span><span class="ident">Tab</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::walk_ast_helper_without_value_clause</span>(
-                <span class="ident">value</span>,
-                <span class="ident">out</span>.<span class="ident">reborrow</span>(),
-            )<span class="question-mark">?</span>;
+            <span class="ident">value</span>.<span class="ident">values</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
             <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;)&quot;</span>);
         }
         <span class="prelude-val">Ok</span>(())
@@ -805,58 +696,16 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SqliteCanInsertInSingleQueryHelper</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">T</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="kw">const</span> <span class="ident">STATIC_QUERY_ID</span>: <span class="ident">bool</span><span class="op">&gt;</span> <span class="ident">CanInsertInSingleQuery</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>
-    <span class="kw">for</span> <span class="ident">SqliteBatchInsertWrapper</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">SqliteBatchInsertWrapper</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ValuesClause</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="comment">// We constrain that here on an internal helper type</span>
     <span class="comment">// to make sure that this does not accidently leak</span>
     <span class="comment">// so that noone does really implement normal batch</span>
     <span class="comment">// insert for inserts with default values here</span>
     <span class="ident">SqliteCanInsertInSingleQueryHelper</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>: <span class="ident">CanInsertInSingleQuery</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>,
-    <span class="ident">V</span>: <span class="ident">AsValueIterator</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="ident">V::Item</span>: <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="op">&lt;</span><span class="ident">V::Item</span> <span class="kw">as</span> <span class="ident">Insertable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Values</span>: <span class="ident">ContainsDefaultableValue</span><span class="op">&lt;</span><span class="ident">Out</span> <span class="op">=</span> <span class="ident">No</span><span class="op">&gt;</span>,
 {
     <span class="kw">fn</span> <span class="ident">rows_to_insert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">values</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">values</span>;
-        <span class="kw">let</span> <span class="ident">values</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-            <span class="comment">// This cast is safe as `SqliteCanInsertInSingleQueryHelper` is #[repr(transparent)]</span>
-            <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">values</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">V</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">SqliteCanInsertInSingleQueryHelper</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>)
-        };
-        <span class="ident">values</span>.<span class="ident">rows_to_insert</span>()
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span><span class="op">&gt;</span> <span class="ident">CanInsertInSingleQuery</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>
-    <span class="kw">for</span> <span class="ident">SqliteCanInsertInSingleQueryHelper</span><span class="op">&lt;</span>[<span class="ident">T</span>; <span class="ident">N</span>]<span class="op">&gt;</span>
-{
-    <span class="kw">fn</span> <span class="ident">rows_to_insert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Some</span>(<span class="ident">N</span>)
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span><span class="op">&gt;</span> <span class="ident">CanInsertInSingleQuery</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>
-    <span class="kw">for</span> <span class="ident">SqliteCanInsertInSingleQueryHelper</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span>[<span class="ident">T</span>; <span class="ident">N</span>]<span class="op">&gt;</span><span class="op">&gt;</span>
-{
-    <span class="kw">fn</span> <span class="ident">rows_to_insert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Some</span>(<span class="ident">N</span>)
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">CanInsertInSingleQuery</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SqliteCanInsertInSingleQueryHelper</span><span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">rows_to_insert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">len</span>())
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">CanInsertInSingleQuery</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SqliteCanInsertInSingleQueryHelper</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">T</span>]<span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">rows_to_insert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">len</span>())
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">CanInsertInSingleQuery</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SqliteCanInsertInSingleQueryHelper</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">rows_to_insert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">len</span>())
+        <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">values</span>.<span class="ident">len</span>())
     }
 }
 
@@ -887,7 +736,7 @@
     )
 <span class="kw">where</span>
     <span class="ident">C</span>: <span class="ident">Connection</span><span class="op">&lt;</span><span class="ident">Backend</span> <span class="op">=</span> <span class="ident">Sqlite</span><span class="op">&gt;</span>,
-    <span class="ident">T</span>: <span class="ident">Table</span> <span class="op">+</span> <span class="ident">QueryId</span>,
+    <span class="ident">T</span>: <span class="ident">Table</span> <span class="op">+</span> <span class="ident">QueryId</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     <span class="ident">T::FromClause</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span>,
     <span class="ident">Op</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">Sqlite</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">QueryId</span>,
     <span class="ident">SqliteBatchInsertWrapper</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">T</span>, <span class="ident">QId</span>, <span class="ident">STATIC_QUERY_ID</span><span class="op">&gt;</span>:
@@ -899,6 +748,7 @@
             <span class="ident">operator</span>: <span class="ident">query</span>.<span class="ident">operator</span>,
             <span class="ident">target</span>: <span class="ident">query</span>.<span class="ident">target</span>,
             <span class="ident">returning</span>: <span class="ident">query</span>.<span class="ident">returning</span>,
+            <span class="ident">into_clause</span>: <span class="ident">query</span>.<span class="ident">into_clause</span>,
         };
         <span class="ident">query</span>.<span class="ident">execute</span>(<span class="ident">conn</span>)
     }

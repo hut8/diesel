@@ -188,7 +188,19 @@
 <span id="188">188</span>
 <span id="189">189</span>
 <span id="190">190</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::from_clause::AsQuerySource</span>;
+<span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::backend::Backend</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::expression::grouped::Grouped</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::expression::operators</span>::{<span class="ident">And</span>, <span class="ident">Or</span>};
@@ -221,7 +233,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NoWhereClause</span>;
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">NoWhereClause</span> {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(())
     }
 }
@@ -265,7 +277,7 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">Expr</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot; WHERE &quot;</span>);
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
@@ -316,7 +328,17 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span> <span class="ident">ValidWhereClause</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">NoWhereClause</span> {}
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">QS</span>, <span class="ident">Expr</span><span class="op">&gt;</span> <span class="ident">ValidWhereClause</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">WhereClause</span><span class="op">&lt;</span><span class="ident">Expr</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Expr</span>: <span class="ident">AppearsOnTable</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span> {}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">QS</span>, <span class="ident">Expr</span><span class="op">&gt;</span> <span class="ident">ValidWhereClause</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">WhereClause</span><span class="op">&lt;</span><span class="ident">Expr</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">Expr</span>: <span class="ident">AppearsOnTable</span><span class="op">&lt;</span><span class="ident">QS::QuerySource</span><span class="op">&gt;</span>,
+    <span class="ident">QS</span>: <span class="ident">AsQuerySource</span>,
+{
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Expr</span><span class="op">&gt;</span> <span class="ident">ValidWhereClause</span><span class="op">&lt;</span><span class="ident">NoFromClause</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">WhereClause</span><span class="op">&lt;</span><span class="ident">Expr</span><span class="op">&gt;</span> <span class="kw">where</span>
+    <span class="ident">Expr</span>: <span class="ident">AppearsOnTable</span><span class="op">&lt;</span><span class="ident">NoFromClause</span><span class="op">&gt;</span>
+{
+}
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_debug_implementations</span>)]</span> <span class="comment">// We can&#39;t...</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span> {
@@ -328,7 +350,7 @@
 <span class="kw">where</span>
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">BoxedWhereClause::Where</span>(<span class="kw-2">ref</span> <span class="ident">where_clause</span>) =&gt; {
                 <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot; WHERE &quot;</span>);

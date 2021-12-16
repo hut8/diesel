@@ -266,17 +266,9 @@
 <span id="266">266</span>
 <span id="267">267</span>
 <span id="268">268</span>
-<span id="269">269</span>
-<span id="270">270</span>
-<span id="271">271</span>
-<span id="272">272</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Types which represent various database backends</span>
-
-<span class="kw">use</span> <span class="ident">byteorder::ByteOrder</span>;
-
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::bind_collector::BindCollector</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::QueryBuilder</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sql_types</span>::{<span class="self">self</span>, <span class="ident">HasSqlType</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sql_types</span>::{<span class="self">self</span>, <span class="ident">HasSqlType</span>, <span class="ident">TypeMetadata</span>};
 
 <span class="doccomment">/// A database backend</span>
 <span class="doccomment">///</span>
@@ -305,19 +297,24 @@
     <span class="self">Self</span>: <span class="ident">HasSqlType</span><span class="op">&lt;</span><span class="ident">sql_types::Time</span><span class="op">&gt;</span>,
     <span class="self">Self</span>: <span class="ident">HasSqlType</span><span class="op">&lt;</span><span class="ident">sql_types::Timestamp</span><span class="op">&gt;</span>,
     <span class="self">Self</span>: <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">HasRawValue</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+    <span class="self">Self</span>: <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">HasBindCollector</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
 {
     <span class="doccomment">/// The concrete `QueryBuilder` implementation for this backend.</span>
     <span class="kw">type</span> <span class="ident">QueryBuilder</span>: <span class="ident">QueryBuilder</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>;
+}
+
+<span class="doccomment">/// The bind collector type used to collect query binds for this backend</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This trait is separate from `Backend` to imitate `type BindCollector&lt;&#39;a&gt;`. It</span>
+<span class="doccomment">/// should only be referenced directly by implementors. Users of this type</span>
+<span class="doccomment">/// should instead use the [`BindCollector`] helper type instead.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">HasBindCollector</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>: <span class="ident">TypeMetadata</span> <span class="op">+</span> <span class="ident">Sized</span> {
     <span class="doccomment">/// The concrete `BindCollector` implementation for this backend.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Most backends should use [`RawBytesBindCollector`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`RawBytesBindCollector`]: crate::query_builder::bind_collector::RawBytesBindCollector</span>
-    <span class="kw">type</span> <span class="ident">BindCollector</span>: <span class="ident">BindCollector</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>;
-    <span class="doccomment">/// What byte order is used to transmit integers?</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This type is only used if `RawValue` is `[u8]`.</span>
-    <span class="kw">type</span> <span class="ident">ByteOrder</span>: <span class="ident">ByteOrder</span>;
+    <span class="kw">type</span> <span class="ident">BindCollector</span>: <span class="ident"><span class="kw">crate</span>::query_builder::bind_collector::BindCollector</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>;
 }
 
 <span class="doccomment">/// The raw representation of a database value given to `FromSql`.</span>
@@ -332,18 +329,13 @@
     <span class="kw">type</span> <span class="ident">RawValue</span>;
 }
 
-<span class="doccomment">/// A trait indicating that the provided raw value uses a binary representation internally</span>
-<span class="comment">// That&#39;s a false positive, `HasRawValue&lt;&#39;a&gt;` is essentially</span>
-<span class="comment">// a reference wrapper</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::wrong_self_convention</span>)]</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">BinaryRawValue</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>: <span class="ident">HasRawValue</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Get the underlying binary representation of the raw value</span>
-    <span class="kw">fn</span> <span class="ident">as_bytes</span>(<span class="ident">value</span>: <span class="ident"><span class="self">Self</span>::RawValue</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>];
-}
-
 <span class="doccomment">/// A helper type to get the raw representation of a database type given to</span>
 <span class="doccomment">/// `FromSql`. Equivalent to `&lt;DB as Backend&gt;::RawValue&lt;&#39;a&gt;`.</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">RawValue</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">DB</span> <span class="kw">as</span> <span class="ident">HasRawValue</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::RawValue</span>;
+
+<span class="doccomment">/// A helper type to get the bind collector for a database backend.</span>
+<span class="doccomment">/// Equivalent to `&lt;DB as HasBindCollector&lt;&#39;a&gt;&gt;::BindCollector&lt;&#39;a&gt;`j</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">BindCollector</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">DB</span> <span class="kw">as</span> <span class="ident">HasBindCollector</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::BindCollector</span>;
 
 <span class="doccomment">/// This trait provides various options to configure the</span>
 <span class="doccomment">/// generated SQL for a specific backend.</span>

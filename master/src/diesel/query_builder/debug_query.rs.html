@@ -92,16 +92,10 @@
 <span id="92">92</span>
 <span id="93">93</span>
 <span id="94">94</span>
-<span id="95">95</span>
-<span id="96">96</span>
-<span id="97">97</span>
-<span id="98">98</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::fmt</span>::{<span class="self">self</span>, <span class="ident">Debug</span>, <span class="ident">Display</span>};
-<span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
-<span class="kw">use</span> <span class="ident">std::mem</span>;
-
-<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">AstPass</span>, <span class="ident">QueryBuilder</span>, <span class="ident">QueryFragment</span>};
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">AstPass</span>, <span class="ident">QueryBuilder</span>, <span class="ident">QueryFragment</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::backend::Backend</span>;
+<span class="kw">use</span> <span class="ident">std::fmt</span>::{<span class="self">self</span>, <span class="ident">Debug</span>, <span class="ident">Display</span>};
+<span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
 
 <span class="doccomment">/// A struct that implements `fmt::Display` and `fmt::Debug` to show the SQL</span>
 <span class="doccomment">/// representation of a query.</span>
@@ -133,7 +127,7 @@
     <span class="ident">DB::QueryBuilder</span>: <span class="ident">Default</span>,
     <span class="ident">T</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span>) -&gt; <span class="ident">fmt::Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">query_builder</span> <span class="op">=</span> <span class="ident">DB::QueryBuilder::default</span>();
         <span class="ident">QueryFragment</span>::<span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span><span class="ident">::to_sql</span>(<span class="self">self</span>.<span class="ident">query</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">query_builder</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">fmt::Error</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">debug_binds</span> <span class="op">=</span> <span class="ident">DebugBinds</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">DB</span><span class="op">&gt;</span><span class="ident">::new</span>(<span class="self">self</span>.<span class="ident">query</span>);
@@ -147,7 +141,7 @@
     <span class="ident">DB::QueryBuilder</span>: <span class="ident">Default</span>,
     <span class="ident">T</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span>) -&gt; <span class="ident">fmt::Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">query_builder</span> <span class="op">=</span> <span class="ident">DB::QueryBuilder::default</span>();
         <span class="ident">QueryFragment</span>::<span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span><span class="ident">::to_sql</span>(<span class="self">self</span>.<span class="ident">query</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">query_builder</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">fmt::Error</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">debug_binds</span> <span class="op">=</span> <span class="ident">DebugBinds</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">DB</span><span class="op">&gt;</span><span class="ident">::new</span>(<span class="self">self</span>.<span class="ident">query</span>);
@@ -179,16 +173,14 @@
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">T</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="comment">// Clippy is wrong, this cannot be expressed with pointer casting</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::transmute_ptr_to_ptr</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span>) -&gt; <span class="ident">fmt::Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+        <span class="kw">let</span> <span class="ident">ast_pass</span> <span class="op">=</span> <span class="ident">AstPass::debug_binds</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>);
+        <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">walk_ast</span>(<span class="ident">ast_pass</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">fmt::Error</span>)<span class="question-mark">?</span>;
+
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">list</span> <span class="op">=</span> <span class="ident">f</span>.<span class="ident">debug_list</span>();
-        {
-            <span class="comment">// Safe because the lifetime is shortened to one smaller</span>
-            <span class="comment">// than the lifetime of the formatter.</span>
-            <span class="kw">let</span> <span class="ident">list_with_shorter_lifetime</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">mem::transmute</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">list</span>) };
-            <span class="kw">let</span> <span class="ident">ast_pass</span> <span class="op">=</span> <span class="ident">AstPass::debug_binds</span>(<span class="ident">list_with_shorter_lifetime</span>);
-            <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">walk_ast</span>(<span class="ident">ast_pass</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">fmt::Error</span>)<span class="question-mark">?</span>;
+        <span class="kw">for</span> <span class="ident">entry</span> <span class="kw">in</span> <span class="ident">buffer</span> {
+            <span class="ident">list</span>.<span class="ident">entry</span>(<span class="ident">entry</span>);
         }
         <span class="ident">list</span>.<span class="ident">finish</span>()<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())

@@ -35,6 +35,31 @@
 <span id="35">35</span>
 <span id="36">36</span>
 <span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::io::prelude</span>::<span class="kw-2">*</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::deserialize</span>::{<span class="self">self</span>, <span class="ident">FromSql</span>};
@@ -49,19 +74,44 @@
 }
 
 <span class="kw">impl</span> <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">sql_types::Bool</span>, <span class="ident">Pg</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">bool</span> {
-    <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="ident">W</span>, <span class="ident">Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span> {
+    <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="lifetime">&#39;_</span>, <span class="ident">Pg</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span> {
         <span class="ident">out</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span>[<span class="kw-2">*</span><span class="self">self</span> <span class="kw">as</span> <span class="ident">u8</span>])
             .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">IsNull::No</span>)
             .<span class="ident">map_err</span>(<span class="ident">Into::into</span>)
     }
 }
 
+<span class="doccomment">/// The returned pointer is *only* valid for the lifetime to the argument of</span>
+<span class="doccomment">/// `from_sql`. This impl is intended for uses where you want to write a new</span>
+<span class="doccomment">/// impl in terms of `String`, but don&#39;t want to allocate. We have to return a</span>
+<span class="doccomment">/// raw pointer instead of a reference with a lifetime due to the structure of</span>
+<span class="doccomment">/// `FromSql`</span>
+<span class="kw">impl</span> <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">sql_types::Text</span>, <span class="ident">Pg</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">str</span> {
+    <span class="kw">fn</span> <span class="ident">from_sql</span>(<span class="ident">value</span>: <span class="ident">PgValue</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="kw">use</span> <span class="ident">std::str</span>;
+        <span class="kw">let</span> <span class="ident">string</span> <span class="op">=</span> <span class="ident">str::from_utf8</span>(<span class="ident">value</span>.<span class="ident">as_bytes</span>())<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">string</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>)
+    }
+}
+
+<span class="doccomment">/// The returned pointer is *only* valid for the lifetime to the argument of</span>
+<span class="doccomment">/// `from_sql`. This impl is intended for uses where you want to write a new</span>
+<span class="doccomment">/// impl in terms of `Vec&lt;u8&gt;`, but don&#39;t want to allocate. We have to return a</span>
+<span class="doccomment">/// raw pointer instead of a reference with a lifetime due to the structure of</span>
+<span class="doccomment">/// `FromSql`</span>
+<span class="kw">impl</span> <span class="ident">FromSql</span><span class="op">&lt;</span><span class="ident">sql_types::Binary</span>, <span class="ident">Pg</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">*</span><span class="kw">const</span> [<span class="ident">u8</span>] {
+    <span class="kw">fn</span> <span class="ident">from_sql</span>(<span class="ident">value</span>: <span class="ident">PgValue</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">deserialize::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>.<span class="ident">as_bytes</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>)
+    }
+}
+
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">bool_to_sql</span>() {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">Output::test</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">Output::test</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>);
     <span class="ident">ToSql</span>::<span class="op">&lt;</span><span class="ident">sql_types::Bool</span>, <span class="ident">Pg</span><span class="op">&gt;</span><span class="ident">::to_sql</span>(<span class="kw-2">&amp;</span><span class="bool-val">true</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>).<span class="ident">unwrap</span>();
     <span class="ident">ToSql</span>::<span class="op">&lt;</span><span class="ident">sql_types::Bool</span>, <span class="ident">Pg</span><span class="op">&gt;</span><span class="ident">::to_sql</span>(<span class="kw-2">&amp;</span><span class="bool-val">false</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>).<span class="ident">unwrap</span>();
-    <span class="macro">assert_eq!</span>(<span class="ident">bytes</span>, <span class="macro">vec!</span>[<span class="number">1u8</span>, <span class="number">0u8</span>]);
+    <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>, <span class="macro">vec!</span>[<span class="number">1u8</span>, <span class="number">0u8</span>]);
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>

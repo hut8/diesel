@@ -468,6 +468,86 @@
 <span id="468">468</span>
 <span id="469">469</span>
 <span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::backend::Backend</span>;
@@ -477,6 +557,7 @@
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::insertable::Insertable</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::combination_clause</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::distinct_clause::DistinctClause</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::from_clause::FromClause</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::group_by_clause::ValidGroupByClause</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::having_clause::HavingClause</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder::insert_statement::InsertFromSelect</span>;
@@ -506,11 +587,11 @@
     <span class="ident">_marker</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">ST</span>, <span class="ident">GB</span>)<span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>: <span class="ident">QuerySource</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_arguments</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">G</span><span class="op">&gt;</span>(
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">G</span><span class="op">&gt;</span>(
         <span class="ident">select</span>: <span class="ident">S</span>,
-        <span class="ident">from</span>: <span class="ident">QS</span>,
+        <span class="ident">from</span>: <span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span>,
         <span class="ident">distinct</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
         <span class="ident">where_clause</span>: <span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
         <span class="ident">order</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
@@ -521,11 +602,49 @@
     <span class="kw">where</span>
         <span class="ident">DB</span>: <span class="ident">Backend</span>,
         <span class="ident">G</span>: <span class="ident">ValidGroupByClause</span><span class="op">&lt;</span><span class="ident">Expressions</span> <span class="op">=</span> <span class="ident">GB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>,
-        <span class="ident">S</span>: <span class="ident">IntoBoxedSelectClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span>, <span class="ident">QS</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">SelectClauseExpression</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span>,
+        <span class="ident">S</span>: <span class="ident">SelectClauseExpression</span><span class="op">&lt;</span><span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span>, <span class="ident">SelectClauseSqlType</span> <span class="op">=</span> <span class="ident">ST</span><span class="op">&gt;</span>
+            <span class="op">+</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>
+            <span class="op">+</span> <span class="ident">Send</span>
+            <span class="op">+</span> <span class="lifetime">&#39;a</span>,
         <span class="ident">S::Selection</span>: <span class="ident">ValidGrouping</span><span class="op">&lt;</span><span class="ident">GB</span><span class="op">&gt;</span>,
     {
         <span class="ident">BoxedSelectStatement</span> {
-            <span class="ident">select</span>: <span class="ident">select</span>.<span class="ident">into_boxed</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>),
+            <span class="ident">select</span>: <span class="ident">Box::new</span>(<span class="ident">select</span>),
+            <span class="ident">from</span>,
+            <span class="ident">distinct</span>,
+            <span class="ident">where_clause</span>,
+            <span class="ident">order</span>,
+            <span class="ident">limit_offset</span>,
+            <span class="ident">group_by</span>: <span class="ident">Box::new</span>(<span class="ident">group_by</span>),
+            <span class="ident">having</span>,
+            <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
+        }
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">NoFromClause</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_arguments</span>)]</span>
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new_no_from_clause</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">G</span><span class="op">&gt;</span>(
+        <span class="ident">select</span>: <span class="ident">S</span>,
+        <span class="ident">from</span>: <span class="ident">NoFromClause</span>,
+        <span class="ident">distinct</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+        <span class="ident">where_clause</span>: <span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
+        <span class="ident">order</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">limit_offset</span>: <span class="ident">BoxedLimitOffsetClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
+        <span class="ident">group_by</span>: <span class="ident">G</span>,
+        <span class="ident">having</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+    ) -&gt; <span class="self">Self</span>
+    <span class="kw">where</span>
+        <span class="ident">DB</span>: <span class="ident">Backend</span>,
+        <span class="ident">G</span>: <span class="ident">ValidGroupByClause</span><span class="op">&lt;</span><span class="ident">Expressions</span> <span class="op">=</span> <span class="ident">GB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>,
+        <span class="ident">S</span>: <span class="ident">SelectClauseExpression</span><span class="op">&lt;</span><span class="ident">NoFromClause</span>, <span class="ident">SelectClauseSqlType</span> <span class="op">=</span> <span class="ident">ST</span><span class="op">&gt;</span>
+            <span class="op">+</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>
+            <span class="op">+</span> <span class="ident">Send</span>
+            <span class="op">+</span> <span class="lifetime">&#39;a</span>,
+        <span class="ident">S::Selection</span>: <span class="ident">ValidGrouping</span><span class="op">&lt;</span><span class="ident">GB</span><span class="op">&gt;</span>,
+    {
+        <span class="ident">BoxedSelectStatement</span> {
+            <span class="ident">select</span>: <span class="ident">Box::new</span>(<span class="ident">select</span>),
             <span class="ident">from</span>,
             <span class="ident">distinct</span>,
             <span class="ident">where_clause</span>,
@@ -539,22 +658,24 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">build_query</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
-        <span class="ident">where_clause_handler</span>: <span class="kw">impl</span> <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>, <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">build_query</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="lifetime">&#39;c</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>,
+        <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;c</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
+        <span class="ident">where_clause_handler</span>: <span class="kw">impl</span> <span class="ident">Fn</span>(
+            <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
+            <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;c</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
     ) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">DB</span>: <span class="ident">Backend</span>,
-        <span class="ident">QS</span>: <span class="ident">QuerySource</span>,
-        <span class="ident">QS::FromClause</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
+        <span class="ident">QS</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
         <span class="ident">BoxedLimitOffsetClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
+        <span class="lifetime">&#39;b</span>: <span class="lifetime">&#39;c</span>,
     {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;SELECT &quot;</span>);
         <span class="self">self</span>.<span class="ident">distinct</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">select</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot; FROM &quot;</span>);
-        <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">from_clause</span>().<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="ident">where_clause_handler</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">where_clause</span>, <span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">group_by</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">having</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
@@ -590,32 +711,11 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
-    <span class="ident">QS</span>: <span class="ident">QuerySource</span>,
-    <span class="ident">QS::FromClause</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
+    <span class="ident">QS</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">BoxedLimitOffsetClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">build_query</span>(<span class="ident">out</span>, <span class="op">|</span><span class="ident">where_clause</span>, <span class="ident">out</span><span class="op">|</span> <span class="ident">where_clause</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>))
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">NoFromClause</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">DB</span>: <span class="ident">Backend</span>,
-    <span class="ident">NoFromClause</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span>, <span class="ident">DB::EmptyFromClauseSyntax</span><span class="op">&gt;</span>,
-    <span class="ident">BoxedLimitOffsetClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
-{
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;SELECT &quot;</span>);
-        <span class="self">self</span>.<span class="ident">distinct</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">select</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">where_clause</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">group_by</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">having</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">order</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">limit_offset</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(())
     }
 }
 
@@ -626,16 +726,19 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">Rhs</span>, <span class="ident">Kind</span>, <span class="ident">On</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">InternalJoinDsl</span><span class="op">&lt;</span><span class="ident">Rhs</span>, <span class="ident">Kind</span>, <span class="ident">On</span><span class="op">&gt;</span>
-    <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">JoinOn</span><span class="op">&lt;</span><span class="ident">Join</span><span class="op">&lt;</span><span class="ident">QS</span>, <span class="ident">Rhs</span>, <span class="ident">Kind</span><span class="op">&gt;</span>, <span class="ident">On</span><span class="op">&gt;</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>: <span class="ident">AsQuery</span>,
+    <span class="ident">QS</span>: <span class="ident">QuerySource</span>,
+    <span class="ident">Rhs</span>: <span class="ident">QuerySource</span>,
+    <span class="ident">JoinOn</span><span class="op">&lt;</span><span class="ident">Join</span><span class="op">&lt;</span><span class="ident">QS</span>, <span class="ident">Rhs</span>, <span class="ident">Kind</span><span class="op">&gt;</span>, <span class="ident">On</span><span class="op">&gt;</span>: <span class="ident">QuerySource</span>,
+    <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">JoinOn</span><span class="op">&lt;</span><span class="ident">Join</span><span class="op">&lt;</span><span class="ident">QS</span>, <span class="ident">Rhs</span>, <span class="ident">Kind</span><span class="op">&gt;</span>, <span class="ident">On</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>: <span class="ident">AsQuery</span>,
 {
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">JoinOn</span><span class="op">&lt;</span><span class="ident">Join</span><span class="op">&lt;</span><span class="ident">QS</span>, <span class="ident">Rhs</span>, <span class="ident">Kind</span><span class="op">&gt;</span>, <span class="ident">On</span><span class="op">&gt;</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">JoinOn</span><span class="op">&lt;</span><span class="ident">Join</span><span class="op">&lt;</span><span class="ident">QS</span>, <span class="ident">Rhs</span>, <span class="ident">Kind</span><span class="op">&gt;</span>, <span class="ident">On</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">join</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Rhs</span>, <span class="ident">kind</span>: <span class="ident">Kind</span>, <span class="ident">on</span>: <span class="ident">On</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="ident">BoxedSelectStatement</span> {
             <span class="ident">select</span>: <span class="self">self</span>.<span class="ident">select</span>,
-            <span class="ident">from</span>: <span class="ident">Join::new</span>(<span class="self">self</span>.<span class="ident">from</span>, <span class="ident">rhs</span>, <span class="ident">kind</span>).<span class="ident">on</span>(<span class="ident">on</span>),
+            <span class="ident">from</span>: <span class="ident">FromClause::new</span>(<span class="ident">Join::new</span>(<span class="self">self</span>.<span class="ident">from</span>.<span class="ident">source</span>, <span class="ident">rhs</span>, <span class="ident">kind</span>).<span class="ident">on</span>(<span class="ident">on</span>)),
             <span class="ident">distinct</span>: <span class="self">self</span>.<span class="ident">distinct</span>,
             <span class="ident">where_clause</span>: <span class="self">self</span>.<span class="ident">where_clause</span>,
             <span class="ident">order</span>: <span class="self">self</span>.<span class="ident">order</span>,
@@ -661,12 +764,37 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">Selection</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">SelectDsl</span><span class="op">&lt;</span><span class="ident">Selection</span><span class="op">&gt;</span>
-    <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
+    <span class="ident">QS</span>: <span class="ident">QuerySource</span>,
     <span class="ident">Selection</span>: <span class="ident">SelectableExpression</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">ValidGrouping</span><span class="op">&lt;</span><span class="ident">GB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>,
 {
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Selection::SqlType</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Selection::SqlType</span>, <span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>;
+
+    <span class="kw">fn</span> <span class="ident">select</span>(<span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
+        <span class="ident">BoxedSelectStatement</span> {
+            <span class="ident">select</span>: <span class="ident">Box::new</span>(<span class="ident">selection</span>),
+            <span class="ident">from</span>: <span class="self">self</span>.<span class="ident">from</span>,
+            <span class="ident">distinct</span>: <span class="self">self</span>.<span class="ident">distinct</span>,
+            <span class="ident">where_clause</span>: <span class="self">self</span>.<span class="ident">where_clause</span>,
+            <span class="ident">order</span>: <span class="self">self</span>.<span class="ident">order</span>,
+            <span class="ident">limit_offset</span>: <span class="self">self</span>.<span class="ident">limit_offset</span>,
+            <span class="ident">group_by</span>: <span class="self">self</span>.<span class="ident">group_by</span>,
+            <span class="ident">having</span>: <span class="self">self</span>.<span class="ident">having</span>,
+            <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
+        }
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">DB</span>, <span class="ident">Selection</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">SelectDsl</span><span class="op">&lt;</span><span class="ident">Selection</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">NoFromClause</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">DB</span>: <span class="ident">Backend</span>,
+    <span class="ident">Selection</span>:
+        <span class="ident">SelectableExpression</span><span class="op">&lt;</span><span class="ident">NoFromClause</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">ValidGrouping</span><span class="op">&lt;</span><span class="ident">GB</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>,
+{
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Selection::SqlType</span>, <span class="ident">NoFromClause</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">select</span>(<span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="ident">BoxedSelectStatement</span> {
@@ -684,8 +812,9 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">Predicate</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">FilterDsl</span><span class="op">&lt;</span><span class="ident">Predicate</span><span class="op">&gt;</span>
-    <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>
 <span class="kw">where</span>
+    <span class="ident">QS</span>: <span class="ident">QuerySource</span>,
     <span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>: <span class="ident">WhereAnd</span><span class="op">&lt;</span><span class="ident">Predicate</span>, <span class="ident">Output</span> <span class="op">=</span> <span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">Predicate</span>: <span class="ident">AppearsOnTable</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">NonAggregate</span>,
     <span class="ident">Predicate::SqlType</span>: <span class="ident">BoolOrNullableBool</span>,
@@ -698,11 +827,42 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">Predicate</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">OrFilterDsl</span><span class="op">&lt;</span><span class="ident">Predicate</span><span class="op">&gt;</span>
-    <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">DB</span>, <span class="ident">Predicate</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">FilterDsl</span><span class="op">&lt;</span><span class="ident">Predicate</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">NoFromClause</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>
 <span class="kw">where</span>
+    <span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>: <span class="ident">WhereAnd</span><span class="op">&lt;</span><span class="ident">Predicate</span>, <span class="ident">Output</span> <span class="op">=</span> <span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">Predicate</span>: <span class="ident">AppearsOnTable</span><span class="op">&lt;</span><span class="ident">NoFromClause</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">NonAggregate</span>,
+    <span class="ident">Predicate::SqlType</span>: <span class="ident">BoolOrNullableBool</span>,
+{
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
+
+    <span class="kw">fn</span> <span class="ident">filter</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">Predicate</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
+        <span class="self">self</span>.<span class="ident">where_clause</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">where_clause</span>.<span class="ident">and</span>(<span class="ident">predicate</span>);
+        <span class="self">self</span>
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">Predicate</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">OrFilterDsl</span><span class="op">&lt;</span><span class="ident">Predicate</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">QS</span>: <span class="ident">QuerySource</span>,
     <span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>: <span class="ident">WhereOr</span><span class="op">&lt;</span><span class="ident">Predicate</span>, <span class="ident">Output</span> <span class="op">=</span> <span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">Predicate</span>: <span class="ident">AppearsOnTable</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">NonAggregate</span>,
+    <span class="ident">Predicate::SqlType</span>: <span class="ident">BoolOrNullableBool</span>,
+{
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
+
+    <span class="kw">fn</span> <span class="ident">or_filter</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">predicate</span>: <span class="ident">Predicate</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
+        <span class="self">self</span>.<span class="ident">where_clause</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">where_clause</span>.<span class="ident">or</span>(<span class="ident">predicate</span>);
+        <span class="self">self</span>
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">DB</span>, <span class="ident">Predicate</span>, <span class="ident">GB</span><span class="op">&gt;</span> <span class="ident">OrFilterDsl</span><span class="op">&lt;</span><span class="ident">Predicate</span><span class="op">&gt;</span>
+    <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">NoFromClause</span>, <span class="ident">DB</span>, <span class="ident">GB</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>: <span class="ident">WhereOr</span><span class="op">&lt;</span><span class="ident">Predicate</span>, <span class="ident">Output</span> <span class="op">=</span> <span class="ident">BoxedWhereClause</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">Predicate</span>: <span class="ident">AppearsOnTable</span><span class="op">&lt;</span><span class="ident">NoFromClause</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">NonAggregate</span>,
     <span class="ident">Predicate::SqlType</span>: <span class="ident">BoolOrNullableBool</span>,
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
@@ -768,11 +928,11 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">Rhs</span><span class="op">&gt;</span> <span class="ident">JoinTo</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, ()<span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">QS</span>, <span class="ident">DB</span>, <span class="ident">Rhs</span><span class="op">&gt;</span> <span class="ident">JoinTo</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">BoxedSelectStatement</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ST</span>, <span class="ident">FromClause</span><span class="op">&lt;</span><span class="ident">QS</span><span class="op">&gt;</span>, <span class="ident">DB</span>, ()<span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">QS</span>: <span class="ident">JoinTo</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span>,
+    <span class="ident">QS</span>: <span class="ident">JoinTo</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">QuerySource</span>,
 {
-    <span class="kw">type</span> <span class="ident">FromClause</span> <span class="op">=</span> <span class="ident">QS::FromClause</span>;
+    <span class="kw">type</span> <span class="ident">FromClause</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">QS</span> <span class="kw">as</span> <span class="ident">JoinTo</span><span class="op">&lt;</span><span class="ident">Rhs</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::FromClause</span>;
     <span class="kw">type</span> <span class="ident">OnClause</span> <span class="op">=</span> <span class="ident">QS::OnClause</span>;
 
     <span class="kw">fn</span> <span class="ident">join_target</span>(<span class="ident">rhs</span>: <span class="ident">Rhs</span>) -&gt; (<span class="ident"><span class="self">Self</span>::FromClause</span>, <span class="ident"><span class="self">Self</span>::OnClause</span>) {

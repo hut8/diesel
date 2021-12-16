@@ -56,6 +56,7 @@
 <span id="56">56</span>
 <span id="57">57</span>
 <span id="58">58</span>
+<span id="59">59</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::backend::Backend</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::expression</span>::{<span class="ident">Expression</span>, <span class="ident">TypedExpressionType</span>, <span class="ident">ValidGrouping</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder</span>::<span class="kw-2">*</span>;
@@ -95,7 +96,8 @@
             <span class="ident">Lhs</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
             <span class="ident">Rhs</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
         {
-            <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">walk_ast</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+            {
                 <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot;(&quot;</span>);
                 <span class="self">self</span>.<span class="ident">lhs</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
                 <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>);

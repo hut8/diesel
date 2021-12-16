@@ -247,12 +247,9 @@
 <span id="247">247</span>
 <span id="248">248</span>
 <span id="249">249</span>
-<span id="250">250</span>
-<span id="251">251</span>
-<span id="252">252</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fmt</span>, <span class="ident">mem</span>};
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::fmt</span>;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::backend::Backend</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::backend</span>::{<span class="ident">Backend</span>, <span class="ident">HasBindCollector</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::query_builder</span>::{<span class="ident">BindCollector</span>, <span class="ident">QueryBuilder</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::result::QueryResult</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serialize::ToSql</span>;
@@ -273,19 +270,21 @@
 <span class="doccomment">/// you to find out what the current pass is. You should simply call the</span>
 <span class="doccomment">/// relevant methods and trust that they will be a no-op if they&#39;re not relevant</span>
 <span class="doccomment">/// to the current pass.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">DB::QueryBuilder</span>: <span class="lifetime">&#39;a</span>,
-    <span class="ident">DB::BindCollector</span>: <span class="lifetime">&#39;a</span>,
+    <span class="op">&lt;</span><span class="ident">DB</span> <span class="kw">as</span> <span class="ident">HasBindCollector</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::BindCollector</span>: <span class="lifetime">&#39;a</span>,
     <span class="ident">DB::MetadataLookup</span>: <span class="lifetime">&#39;a</span>,
+    <span class="lifetime">&#39;b</span>: <span class="lifetime">&#39;a</span>,
 {
-    <span class="ident">internals</span>: <span class="ident">AstPassInternals</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
+    <span class="ident">internals</span>: <span class="ident">AstPassInternals</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span> <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span> <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
+    <span class="lifetime">&#39;b</span>: <span class="lifetime">&#39;a</span>,
 {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::wrong_self_convention</span>)]</span>
@@ -297,7 +296,7 @@
 
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">collect_binds</span>(
-        <span class="ident">collector</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">DB::BindCollector</span>,
+        <span class="ident">collector</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="op">&lt;</span><span class="ident">DB</span> <span class="kw">as</span> <span class="ident">HasBindCollector</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::BindCollector</span>,
         <span class="ident">metadata_lookup</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">DB::MetadataLookup</span>,
     ) -&gt; <span class="self">Self</span> {
         <span class="ident">AstPass</span> {
@@ -316,7 +315,7 @@
     }
 
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">debug_binds</span>(<span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">fmt::DebugList</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">debug_binds</span>(<span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw">dyn</span> <span class="ident">fmt::Debug</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
         <span class="ident">AstPass</span> {
             <span class="ident">internals</span>: <span class="ident">AstPassInternals::DebugBinds</span>(<span class="ident">formatter</span>),
         }
@@ -341,9 +340,7 @@
     <span class="doccomment">/// done implicitly for references. For structs with lifetimes it must be</span>
     <span class="doccomment">/// done explicitly. This method matches the semantics of what Rust would do</span>
     <span class="doccomment">/// implicitly if you were passing a mutable reference</span>
-    <span class="comment">// Clippy is wrong, this cannot be expressed with pointer casting</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::transmute_ptr_to_ptr</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reborrow</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reborrow</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;_</span> <span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident">AstPass</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">internals</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">internals</span> {
             <span class="ident">AstPassInternals::ToSql</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">builder</span>) =&gt; <span class="ident">AstPassInternals::ToSql</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">builder</span>),
             <span class="ident">AstPassInternals::CollectBinds</span> {
@@ -356,11 +353,7 @@
             <span class="ident">AstPassInternals::IsSafeToCachePrepared</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">result</span>) =&gt; {
                 <span class="ident">AstPassInternals::IsSafeToCachePrepared</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">result</span>)
             }
-            <span class="ident">AstPassInternals::DebugBinds</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span>) =&gt; {
-                <span class="comment">// Safe because the lifetime is always being shortened.</span>
-                <span class="kw">let</span> <span class="ident">f_with_shorter_lifetime</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">mem::transmute</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">f</span>) };
-                <span class="ident">AstPassInternals::DebugBinds</span>(<span class="ident">f_with_shorter_lifetime</span>)
-            }
+            <span class="ident">AstPassInternals::DebugBinds</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span>) =&gt; <span class="ident">AstPassInternals::DebugBinds</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">f</span>),
             <span class="ident">AstPassInternals::IsNoop</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">result</span>) =&gt; <span class="ident">AstPassInternals::IsNoop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">result</span>),
         };
         <span class="ident">AstPass</span> { <span class="ident">internals</span> }
@@ -407,7 +400,7 @@
     <span class="doccomment">///     Left: QueryFragment&lt;DB&gt;,</span>
     <span class="doccomment">///     Right: QueryFragment&lt;DB&gt;,</span>
     <span class="doccomment">/// {</span>
-    <span class="doccomment">///     fn walk_ast(&amp;self, mut out: AstPass&lt;DB&gt;) -&gt; QueryResult&lt;()&gt; {</span>
+    <span class="doccomment">///     fn walk_ast&lt;&#39;b&gt;(&amp;&#39;b self, mut out: AstPass&lt;&#39;_, &#39;b, DB&gt;) -&gt; QueryResult&lt;()&gt; {</span>
     <span class="doccomment">///         self.left.walk_ast(out.reborrow())?;</span>
     <span class="doccomment">///         out.push_sql(&quot; AND &quot;);</span>
     <span class="doccomment">///         self.right.walk_ast(out.reborrow())?;</span>
@@ -442,7 +435,7 @@
     <span class="doccomment">/// This method affects multiple AST passes. It should be called at the</span>
     <span class="doccomment">/// point in the query where you&#39;d want the parameter placeholder (`$1` on</span>
     <span class="doccomment">/// PG, `?` on other backends) to be inserted.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">push_bind_param</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bind</span>: <span class="kw-2">&amp;</span><span class="ident">U</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">push_bind_param</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bind</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="ident">U</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">DB</span>: <span class="ident">HasSqlType</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
         <span class="ident">U</span>: <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
@@ -454,7 +447,7 @@
                 <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">metadata_lookup</span>,
             } =&gt; <span class="ident">collector</span>.<span class="ident">push_bound_value</span>(<span class="ident">bind</span>, <span class="ident">metadata_lookup</span>)<span class="question-mark">?</span>,
             <span class="ident">AstPassInternals::DebugBinds</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span>) =&gt; {
-                <span class="ident">f</span>.<span class="ident">entry</span>(<span class="ident">bind</span>);
+                <span class="ident">f</span>.<span class="ident">push</span>(<span class="ident">bind</span>);
             }
             <span class="ident">AstPassInternals::IsNoop</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">result</span>) =&gt; <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">result</span> <span class="op">=</span> <span class="bool-val">false</span>,
             <span class="kw">_</span> =&gt; {}
@@ -463,7 +456,7 @@
     }
 
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">push_bind_param_value_only</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bind</span>: <span class="kw-2">&amp;</span><span class="ident">U</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">push_bind_param_value_only</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bind</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="ident">U</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">DB</span>: <span class="ident">HasSqlType</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
         <span class="ident">U</span>: <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">DB</span><span class="op">&gt;</span>,
@@ -486,20 +479,21 @@
 <span class="doccomment">/// usage of the methods provided rather than matching on the enum directly.</span>
 <span class="doccomment">/// This essentially mimics the capabilities that would be available if</span>
 <span class="doccomment">/// `AstPass` were a trait.</span>
-<span class="kw">enum</span> <span class="ident">AstPassInternals</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span>
+<span class="kw">enum</span> <span class="ident">AstPassInternals</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="ident">DB</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">DB</span>: <span class="ident">Backend</span>,
     <span class="ident">DB::QueryBuilder</span>: <span class="lifetime">&#39;a</span>,
-    <span class="ident">DB::BindCollector</span>: <span class="lifetime">&#39;a</span>,
+    <span class="op">&lt;</span><span class="ident">DB</span> <span class="kw">as</span> <span class="ident">HasBindCollector</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::BindCollector</span>: <span class="lifetime">&#39;a</span>,
     <span class="ident">DB::MetadataLookup</span>: <span class="lifetime">&#39;a</span>,
+    <span class="lifetime">&#39;b</span>: <span class="lifetime">&#39;a</span>,
 {
     <span class="ident">ToSql</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">DB::QueryBuilder</span>),
     <span class="ident">CollectBinds</span> {
-        <span class="ident">collector</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">DB::BindCollector</span>,
+        <span class="ident">collector</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="op">&lt;</span><span class="ident">DB</span> <span class="kw">as</span> <span class="ident">HasBindCollector</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::BindCollector</span>,
         <span class="ident">metadata_lookup</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">DB::MetadataLookup</span>,
     },
     <span class="ident">IsSafeToCachePrepared</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">bool</span>),
-    <span class="ident">DebugBinds</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">fmt::DebugList</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span>),
+    <span class="ident">DebugBinds</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw">dyn</span> <span class="ident">fmt::Debug</span><span class="op">&gt;</span>),
     <span class="ident">IsNoop</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">bool</span>),
 }
 </code></pre></div>
