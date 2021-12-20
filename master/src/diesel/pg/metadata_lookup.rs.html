@@ -269,9 +269,9 @@
         <span class="comment">// and let postgres figure out the name resolution on it&#39;s own.</span>
         <span class="ident">metadata_query</span>
             .<span class="ident">filter</span>(
-                <span class="ident">pg_type::oid</span>.<span class="ident">eq</span>(<span class="ident"><span class="kw">crate</span>::dsl::sql</span>(<span class="string">&quot;&quot;</span>)
+                <span class="ident">pg_type::oid</span>.<span class="ident">eq</span>(<span class="ident"><span class="kw">crate</span>::dsl::sql</span>(<span class="string">&quot;quote_ident(&quot;</span>)
                     .<span class="ident">bind</span>::<span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::sql_types::Text</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">cache_key</span>.<span class="ident">type_name</span>)
-                    .<span class="ident">sql</span>(<span class="string">&quot;::regtype::oid&quot;</span>)),
+                    .<span class="ident">sql</span>(<span class="string">&quot;)::regtype::oid&quot;</span>)),
             )
             .<span class="ident">first</span>(<span class="ident">conn</span>)<span class="question-mark">?</span>
     };
