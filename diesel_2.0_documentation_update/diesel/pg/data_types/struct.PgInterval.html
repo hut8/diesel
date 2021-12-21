@@ -4,7 +4,7 @@
     pub microseconds: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i64.html">i64</a>,
     pub days: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>,
     pub months: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>,
-}</code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Intervals in Postgres are separated into 3 parts. A 64 bit integer representing time in
+}</code></pre></div><div class="item-info"><div class="stab portability">This is supported on <strong>crate feature <code>postgres_backend</code></strong> only.</div></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Intervals in Postgres are separated into 3 parts. A 64 bit integer representing time in
 microseconds, a 32 bit integer representing number of days, and a 32 bit integer
 representing number of months. This struct is a dumb wrapper type, meant only to indicate the
 meaning of these parts.</p>
