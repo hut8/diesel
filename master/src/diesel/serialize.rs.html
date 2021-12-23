@@ -247,6 +247,45 @@
 <span id="247">247</span>
 <span id="248">248</span>
 <span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Types and traits related to serializing values for the database</span>
 
 <span class="kw">use</span> <span class="ident">std::error::Error</span>;
@@ -301,8 +340,10 @@
         }
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;sqlite&quot;</span>)]</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">into_inner</span>(
+    <span class="doccomment">/// Consume the current `Output` structure to access the inner buffer type</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This function is only useful for people implementing their own Backend.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(
         <span class="self">self</span>,
     ) -&gt; <span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::backend::BindCollector</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">BindCollector</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Buffer</span> {
         <span class="self">self</span>.<span class="ident">out</span>
@@ -313,48 +354,16 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">metadata_lookup</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DB::MetadataLookup</span> {
         <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">metadata_lookup</span>.<span class="ident">as_mut</span>().<span class="ident">expect</span>(<span class="string">&quot;Lookup is there&quot;</span>)
     }
-}
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;sqlite&quot;</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="ident"><span class="kw">crate</span>::sqlite::Sqlite</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">set_small_int</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident">i16</span>) {
-        <span class="self">self</span>.<span class="ident">out</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::sqlite::SqliteBindValue::I32</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">i32</span>);
-    }
-
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">set_int</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident">i32</span>) {
-        <span class="self">self</span>.<span class="ident">out</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::sqlite::SqliteBindValue::I32</span>(<span class="ident">i</span>);
-    }
-
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">set_big_int</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident">i64</span>) {
-        <span class="self">self</span>.<span class="ident">out</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::sqlite::SqliteBindValue::I64</span>(<span class="ident">i</span>);
-    }
-
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">set_float</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident">f32</span>) {
-        <span class="self">self</span>.<span class="ident">out</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::sqlite::SqliteBindValue::F64</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">f64</span>);
-    }
-
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">set_double</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident">f64</span>) {
-        <span class="self">self</span>.<span class="ident">out</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::sqlite::SqliteBindValue::F64</span>(<span class="ident">i</span>);
-    }
-
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">set_borrowed_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) {
-        <span class="self">self</span>.<span class="ident">out</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::sqlite::SqliteBindValue::BorrowedString</span>(<span class="ident">s</span>);
-    }
-
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">set_borrowed_binary</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) {
-        <span class="self">self</span>.<span class="ident">out</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::sqlite::SqliteBindValue::BorrowedBinary</span>(<span class="ident">s</span>);
-    }
-
-    <span class="comment">// this can be unused depending on the enabled features</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">set_owned_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">s</span>: <span class="ident">String</span>) {
-        <span class="self">self</span>.<span class="ident">out</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::sqlite::SqliteBindValue::String</span>(<span class="ident">s</span>.<span class="ident">into_boxed_str</span>());
-    }
-
-    <span class="comment">// This can be unused depending on the enabled features</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">set_owned_binary</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">b</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) {
-        <span class="self">self</span>.<span class="ident">out</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::sqlite::SqliteBindValue::Binary</span>(<span class="ident">b</span>.<span class="ident">into_boxed_slice</span>());
+    <span class="doccomment">/// Set the inner buffer to a specific value</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Checkout the documentation of the type of `BindCollector::Buffer`</span>
+    <span class="doccomment">/// for your specific backend for supported types.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_value</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">V</span>)
+    <span class="kw">where</span>
+        <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::backend::BindCollector</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">BindCollector</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">DB</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Buffer</span><span class="op">&gt;</span>,
+    {
+        <span class="self">self</span>.<span class="ident">out</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">into</span>();
     }
 }
 
@@ -482,6 +491,75 @@
 <span class="doccomment">///     }</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Using temporary values as part of the `ToSql` implemenation requires additional</span>
+<span class="doccomment">/// work.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Backends using [`RawBytesBindCollector`] as [`BindCollector`] copy the serialized values as part</span>
+<span class="doccomment">/// of `Write` implementation. This includes the `Mysql` and the `Pg` backend provided by diesel.</span>
+<span class="doccomment">/// This means existing `ToSql` implemenations can be used even with</span>
+<span class="doccomment">/// temporary values. For these it is required to call</span>
+<span class="doccomment">/// [`Output::reborrow`] to shorten the lifetime of the `Output` type correspondenly.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// # use diesel::backend::Backend;</span>
+<span class="doccomment">/// # use diesel::expression::AsExpression;</span>
+<span class="doccomment">/// # use diesel::sql_types::*;</span>
+<span class="doccomment">/// # use diesel::serialize::{self, ToSql, Output};</span>
+<span class="doccomment">/// # use std::io::Write;</span>
+<span class="doccomment">/// #</span>
+<span class="doccomment">/// #[repr(i32)]</span>
+<span class="doccomment">/// #[derive(Debug, Clone, Copy, AsExpression)]</span>
+<span class="doccomment">/// #[diesel(sql_type = Integer)]</span>
+<span class="doccomment">/// pub enum MyEnum {</span>
+<span class="doccomment">///     A = 1,</span>
+<span class="doccomment">///     B = 2,</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # #[cfg(feature = &quot;postgres&quot;)]</span>
+<span class="doccomment">/// impl ToSql&lt;Integer, diesel::pg::Pg&gt; for MyEnum</span>
+<span class="doccomment">/// where</span>
+<span class="doccomment">///     i32: ToSql&lt;Integer, diesel::pg::Pg&gt;,</span>
+<span class="doccomment">/// {</span>
+<span class="doccomment">///     fn to_sql&lt;&#39;b&gt;(&amp;&#39;b self, out: &amp;mut Output&lt;&#39;b, &#39;_, diesel::pg::Pg&gt;) -&gt; serialize::Result {</span>
+<span class="doccomment">///         let v = *self as i32;</span>
+<span class="doccomment">///         &lt;i32 as ToSql&lt;Integer, diesel::pg::Pg&gt;&gt;::to_sql(&amp;v, &amp;mut out.reborrow())</span>
+<span class="doccomment">///     }</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// ````</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For any other backend the [`Output::set_value`] method provides a way to</span>
+<span class="doccomment">/// set the output value directly. Checkout the documentation of the corresponding</span>
+<span class="doccomment">/// `BindCollector::Buffer` type for provided `From&lt;T&gt;` implementations for a list</span>
+<span class="doccomment">/// of accepted types. For the `Sqlite` backend see `SqliteBindValue`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// # use diesel::backend::Backend;</span>
+<span class="doccomment">/// # use diesel::expression::AsExpression;</span>
+<span class="doccomment">/// # use diesel::sql_types::*;</span>
+<span class="doccomment">/// # use diesel::serialize::{self, ToSql, Output, IsNull};</span>
+<span class="doccomment">/// # use std::io::Write;</span>
+<span class="doccomment">/// #</span>
+<span class="doccomment">/// #[repr(i32)]</span>
+<span class="doccomment">/// #[derive(Debug, Clone, Copy, AsExpression)]</span>
+<span class="doccomment">/// #[diesel(sql_type = Integer)]</span>
+<span class="doccomment">/// pub enum MyEnum {</span>
+<span class="doccomment">///     A = 1,</span>
+<span class="doccomment">///     B = 2,</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # #[cfg(feature = &quot;sqlite&quot;)]</span>
+<span class="doccomment">/// impl ToSql&lt;Integer, diesel::sqlite::Sqlite&gt; for MyEnum</span>
+<span class="doccomment">/// where</span>
+<span class="doccomment">///     i32: ToSql&lt;Integer, diesel::sqlite::Sqlite&gt;,</span>
+<span class="doccomment">/// {</span>
+<span class="doccomment">///     fn to_sql&lt;&#39;b&gt;(&amp;&#39;b self, out: &amp;mut Output&lt;&#39;b, &#39;_, diesel::sqlite::Sqlite&gt;) -&gt; serialize::Result {</span>
+<span class="doccomment">///         out.set_value(*self as i32);</span>
+<span class="doccomment">///         Ok(IsNull::No)</span>
+<span class="doccomment">///     }</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// ````</span>
+
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span>: <span class="ident">fmt::Debug</span> {
     <span class="doccomment">/// See the trait documentation.</span>
     <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="lifetime">&#39;_</span>, <span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span>;

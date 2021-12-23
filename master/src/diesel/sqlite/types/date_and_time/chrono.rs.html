@@ -362,9 +362,6 @@
 <span id="362">362</span>
 <span id="363">363</span>
 <span id="364">364</span>
-<span id="365">365</span>
-<span id="366">366</span>
-<span id="367">367</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::backend</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::deserialize</span>::{<span class="self">self</span>, <span class="ident">FromSql</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serialize</span>::{<span class="self">self</span>, <span class="ident">IsNull</span>, <span class="ident">Output</span>, <span class="ident">ToSql</span>};
@@ -384,8 +381,7 @@
 
 <span class="kw">impl</span> <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">Date</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">NaiveDate</span> {
     <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="lifetime">&#39;_</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span> {
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">format</span>(<span class="ident">SQLITE_DATE_FORMAT</span>).<span class="ident">to_string</span>();
-        <span class="ident">out</span>.<span class="ident">set_owned_string</span>(<span class="ident">s</span>);
+        <span class="ident">out</span>.<span class="ident">set_value</span>(<span class="self">self</span>.<span class="ident">format</span>(<span class="ident">SQLITE_DATE_FORMAT</span>).<span class="ident">to_string</span>());
         <span class="prelude-val">Ok</span>(<span class="ident">IsNull::No</span>)
     }
 }
@@ -412,8 +408,7 @@
 
 <span class="kw">impl</span> <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">Time</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">NaiveTime</span> {
     <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="lifetime">&#39;_</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span> {
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">format</span>(<span class="string">&quot;%T%.f&quot;</span>).<span class="ident">to_string</span>();
-        <span class="ident">out</span>.<span class="ident">set_owned_string</span>(<span class="ident">s</span>);
+        <span class="ident">out</span>.<span class="ident">set_value</span>(<span class="self">self</span>.<span class="ident">format</span>(<span class="string">&quot;%T%.f&quot;</span>).<span class="ident">to_string</span>());
         <span class="prelude-val">Ok</span>(<span class="ident">IsNull::No</span>)
     }
 }
@@ -462,8 +457,7 @@
 
 <span class="kw">impl</span> <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">Timestamp</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">NaiveDateTime</span> {
     <span class="kw">fn</span> <span class="ident">to_sql</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="ident">out</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="lifetime">&#39;_</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>) -&gt; <span class="ident">serialize::Result</span> {
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">format</span>(<span class="string">&quot;%F %T%.f&quot;</span>).<span class="ident">to_string</span>();
-        <span class="ident">out</span>.<span class="ident">set_owned_string</span>(<span class="ident">s</span>);
+        <span class="ident">out</span>.<span class="ident">set_value</span>(<span class="self">self</span>.<span class="ident">format</span>(<span class="string">&quot;%F %T%.f&quot;</span>).<span class="ident">to_string</span>());
         <span class="prelude-val">Ok</span>(<span class="ident">IsNull::No</span>)
     }
 }

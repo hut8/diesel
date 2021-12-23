@@ -243,17 +243,20 @@
 <span id="243">243</span>
 <span id="244">244</span>
 <span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
 </pre><pre class="rust"><code><span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libsqlite3_sys</span> <span class="kw">as</span> <span class="ident">ffi</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::raw::RawConnection</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::row::PrivateSqliteRow</span>;
-<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Sqlite</span>, <span class="ident">SqliteAggregateFunction</span>};
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Sqlite</span>, <span class="ident">SqliteAggregateFunction</span>, <span class="ident">SqliteBindValue</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::deserialize</span>::{<span class="ident">FromSqlRow</span>, <span class="ident">StaticallySizedRow</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::result</span>::{<span class="ident">DatabaseErrorKind</span>, <span class="ident">Error</span>, <span class="ident">QueryResult</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::row</span>::{<span class="ident">Field</span>, <span class="ident">PartialRow</span>, <span class="ident">Row</span>, <span class="ident">RowGatWorkaround</span>, <span class="ident">RowIndex</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serialize</span>::{<span class="ident">IsNull</span>, <span class="ident">Output</span>, <span class="ident">ToSql</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sql_types::HasSqlType</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sqlite::connection::bind_collector::SqliteBindValue</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sqlite::connection::bind_collector::InternalSqliteBindValue</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sqlite::connection::sqlite_value::OwnedSqliteValue</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sqlite::SqliteValue</span>;
 <span class="kw">use</span> <span class="ident">std::cell</span>::{<span class="ident">Ref</span>, <span class="ident">RefCell</span>};
@@ -343,19 +346,22 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">process_sql_function_result</span><span class="op">&lt;</span><span class="ident">RetSqlType</span>, <span class="ident">Ret</span><span class="op">&gt;</span>(
     <span class="ident">result</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_</span> <span class="ident">Ret</span>,
-) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">SqliteBindValue</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">&gt;</span>
+) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span><span class="ident">InternalSqliteBindValue</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">Ret</span>: <span class="ident">ToSql</span><span class="op">&lt;</span><span class="ident">RetSqlType</span>, <span class="ident">Sqlite</span><span class="op">&gt;</span>,
     <span class="ident">Sqlite</span>: <span class="ident">HasSqlType</span><span class="op">&lt;</span><span class="ident">RetSqlType</span><span class="op">&gt;</span>,
 {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">metadata_lookup</span> <span class="op">=</span> ();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Output::new</span>(<span class="ident">SqliteBindValue::Null</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">metadata_lookup</span>);
+    <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">SqliteBindValue</span> {
+        <span class="ident">inner</span>: <span class="ident">InternalSqliteBindValue::Null</span>,
+    };
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Output::new</span>(<span class="ident">value</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">metadata_lookup</span>);
     <span class="kw">let</span> <span class="ident">is_null</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">to_sql</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">map_err</span>(<span class="ident">Error::SerializationError</span>)<span class="question-mark">?</span>;
 
     <span class="kw">if</span> <span class="kw">let</span> <span class="ident">IsNull::Yes</span> <span class="op">=</span> <span class="ident">is_null</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">SqliteBindValue::Null</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">InternalSqliteBindValue::Null</span>)
     } <span class="kw">else</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">buf</span>.<span class="ident">into_inner</span>())
+        <span class="prelude-val">Ok</span>(<span class="ident">buf</span>.<span class="ident">into_inner</span>().<span class="ident">inner</span>)
     }
 }
 
